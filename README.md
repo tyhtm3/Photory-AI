@@ -135,7 +135,7 @@ python ai_server.py
 
 ##### **최현우**  
 
-- 🐭Github: [@jilp1598](https://github.com/pica-git)
+- 🐭Github: [@pica-git](https://github.com/pica-git)
 
 ##### **황수현**
 
