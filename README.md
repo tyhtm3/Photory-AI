@@ -141,7 +141,7 @@ python ai_server.py
 
 - 🐹Github: 
 
-##### **SoYun Bang**
+##### **방소윤**
 
 - 🐰Github: [@bbangso](https://github.com/bbangso)
 
