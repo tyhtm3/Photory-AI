@@ -39,7 +39,7 @@ AI 기반 동화책 자동생성 서비스
         <li>Django</li>
 		<li>Flask</li>
         <li>Swagger</li>
-        <li>E2C</li>
+        <li>EC2</li>
     </ul>
 </details>
 
@@ -123,7 +123,7 @@ python ai_server.py
 
 <br>
 
-## 👨‍👧‍👧팀원
+## 👨‍👩‍👦‍👦팀원
 
 ##### **이다현**
 
