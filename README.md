@@ -1,5 +1,4 @@
-
-> A205 자율 PJ
+## Photory created by Stroygrahper 
 
 ## 목차
 - [개요](#개요)
