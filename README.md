@@ -131,7 +131,7 @@ python ai_server.py
 
 ##### **김선민**
 
-- 🐱Github:
+- 🐱Github:[@tyhtm3](https://github.com/tyhtm3)
 
 ##### **최현우**  
 
