@@ -1,6 +1,11 @@
 <template>
   <div id="Main">
-    <h1>This is an Main page</h1>
+    <div id="hill"  class="d-none d-sm-block">
+      <img src="@/assets/hill.png" style="max-width: -webkit-fill-available;">
+    </div>
+    <div id="hill" class="d-sm-none">
+      <img src="@/assets/hill_mini.png" style="max-width: -webkit-fill-available;">
+    </div>
   </div>
 </template>
 
@@ -11,7 +16,9 @@ export default {
 </script>
 
 <style>
-#Main {
- background-color: #f8f8f0;
+#hill{
+  height: 30vh;
+  
 }
+
 </style>
