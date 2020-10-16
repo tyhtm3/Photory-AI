@@ -1,5 +1,13 @@
 <template>
   <div >
-    <h1>This is an Main page</h1>
+    <Mainpage/>
   </div>
 </template>
+<script>
+import Mainpage from '@/components/Mainpage.vue'
+export default {
+  components:{
+   Mainpage,
+  }
+}
+</script>
