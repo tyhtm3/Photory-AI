@@ -113,7 +113,7 @@ python ai_server.py
 
 ## ERD
 
-- 추후 ERD 클라우드 링크 첨부
+- [ERD 클라우드 주소](https://www.erdcloud.com/d/XM57mdPw6JPgRRYFn)
 
 <br>
 
