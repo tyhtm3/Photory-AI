@@ -12,20 +12,23 @@
       <v-spacer></v-spacer>
 
       <v-btn text @click="()=>$router.push('ShareStory')">
-        <v-col style="color: black" >ShareStory</v-col>
+        <v-col style="color: black" >Share Story</v-col>
       </v-btn>
 
       <v-btn text @click="()=>$router.push('CreateStory')">
-        <v-col style="color: black">CreateStory</v-col>
+        <v-col style="color: black">Create Story</v-col>
       </v-btn>
       
       <v-btn text @click="()=>$router.push('MyStory')">
-        <v-col style="color: black">MyStory</v-col>
+        <v-col style="color: black">My Story</v-col>
       </v-btn>
-
+      
+      <!-- 로그인 하기전 -->
       <v-btn icon>
         <v-icon>mdi-account-circle</v-icon>
       </v-btn>
+      <!-- 로그인 한 후 -->
+      <!-- 사용자 정보 받아와서 유저 아이콘 해놓기 -->
     </v-app-bar>
 
     <!-- nav bar sm 보다 작을 때 -->
