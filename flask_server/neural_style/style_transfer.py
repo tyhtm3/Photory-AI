@@ -44,6 +44,18 @@ def imshow(image, title=None):
     if title:
         plt.title(title)
 
+# vgg 내에서 'layer_names'의 이름을 가진 layer의 중간결과물을 출력하는 모델을 반환
+def vgg_layers(layer_names):
+    vgg = tf.keras.applications.VGG19(include_top=False, weights='imagenet')
+    vgg.trainable = False
+
+    outputs = [vgg.get_layer(name).output for name in layer_names]
+    
+    
+    print(outputs)
+    model = tf.keras.Model([vgg.input], outputs)
+    return model
+
 # tensroflow 허브에서 네트워크 가져오기
 hub_module = hub.load('https://tfhub.dev/google/magenta/arbitrary-image-stylization-v1-256/1')
 
@@ -61,7 +73,16 @@ style_image = load_img(style_path)
 # pretrained VGG19 model load
 x = tf.keras.applications.vgg19.preprocess_input(content_image*255)
 x = tf.image.resize(x, (224,224))
-vgg = tf.keras.applications.VGG19(include_top=True, weights='imagenet')
-prediction_probabilities = vgg(x)
-predicted_top_5 = tf.keras.applications.vgg19.decode_predictions(prediction_probabilities.numpy())[0]
-[(class_name, prob) for (number, class_name, prob) in predicted_top_5]
+
+content_layers = ['block5_conv2']
+style_layers = ['block1_conv1',
+                'block2_conv1',
+                'block3_conv1',
+                'block4_conv1',
+                'block5_conv1']
+
+num_content_layers = len(content_layers)
+num_style_layers = len(style_layers)
+
+style_extractor = vgg_layers(style_layers)
+style_outputs = style_extractor(style_image*255)
