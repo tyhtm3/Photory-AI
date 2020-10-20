@@ -156,8 +156,16 @@ def train_step(image):
     opt.apply_gradients([(grad,image)])
     image.assign(clip_0_1(image))
 
-train_step(image)
-train_step(image)
-train_step(image)
+epochs = 10
+steps_per_epoch = 100
+
+step = 0
+for n in range(epochs):
+    for m in range(steps_per_epoch):
+        step += 1
+        train_step(image)
+        print(".", end='')
+
+
 tensor_to_image(image).save('test.png')
 
