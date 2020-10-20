@@ -44,20 +44,23 @@ def imshow(image, title=None):
     if title:
         plt.title(title)
 
+# tensroflow 허브에서 네트워크 가져오기
 hub_module = hub.load('https://tfhub.dev/google/magenta/arbitrary-image-stylization-v1-256/1')
 
+# 구글 스토리지에 있는 사진 가져와서 저장하고 path를 반환
 content_path = tf.keras.utils.get_file('YellowLabradorLooking_new.jpg', 'https://storage.googleapis.com/download.tensorflow.org/example_images/YellowLabradorLooking_new.jpg')
-
-# https://commons.wikimedia.org/wiki/File:Vassily_Kandinsky,_1913_-_Composition_7.jpg
 style_path = tf.keras.utils.get_file('kandinsky5.jpg','https://storage.googleapis.com/download.tensorflow.org/example_images/Vassily_Kandinsky%2C_1913_-_Composition_7.jpg')
+
 
 content_path = 'baby_dog.JPG'
 
+# image load
 content_image = load_img(content_path)
 style_image = load_img(style_path)
 
-stylized_image = hub_module(tf.constant(content_image), tf.constant(style_image))[0]
-img = tensor_to_image(stylized_image)
-
-plt.imshow(img)
-plt.show()
+# pretrained VGG19 model load
+x = tf.keras.applications.vgg19.preprocess_input(content_image*255)
+x = tf.image.resize(x, (224,224))
+vgg = tf.keras.applications.VGG19(include_top=True, weights='imagenet')
+prediction_probabilities = vgg(x)
+print(prediction_probabilities.shape)
