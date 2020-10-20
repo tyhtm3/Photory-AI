@@ -63,4 +63,5 @@ x = tf.keras.applications.vgg19.preprocess_input(content_image*255)
 x = tf.image.resize(x, (224,224))
 vgg = tf.keras.applications.VGG19(include_top=True, weights='imagenet')
 prediction_probabilities = vgg(x)
-print(prediction_probabilities.shape)
+predicted_top_5 = tf.keras.applications.vgg19.decode_predictions(prediction_probabilities.numpy())[0]
+[(class_name, prob) for (number, class_name, prob) in predicted_top_5]
