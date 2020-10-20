@@ -34,7 +34,7 @@ export default {
       pageData:
         '<img id="mainImg" src="/img/logo_name.334d3675.png" style="position:absolute;left:0px;top:0px;width:100px;height:100px;"/><div id="con1" style="position:absolute;left:0px;top:0px;"><p>로렌 입슘 달러 싯 기타 등등</p></div>',
       dragXY: [0, 0],
-      active:'',
+      active: "",
     };
   },
   created() {
@@ -44,18 +44,17 @@ export default {
   mounted() {
     let el = document.querySelector(".storyEdit");
     let pg = document.querySelector("#playground");
-    pg.addEventListener("click",(e)=> this.act(e));
-    pg.childNodes.forEach(item => {
+    pg.addEventListener("click", (e) => this.act(e));
+    pg.childNodes.forEach((item) => {
       item.addEventListener("dragstart", (e) => {
-      this.dragXY = [
-        el.offsetLeft + e.clientX - item.offsetLeft,
-        el.offsetTop + e.clientY - item.offsetTop - 50,
-      ];
+        this.dragXY = [
+          el.offsetLeft + e.clientX - item.offsetLeft,
+          el.offsetTop + e.clientY - item.offsetTop - 50,
+        ];
+      });
+      item.addEventListener("dragend", (e) => this.moveObj(e, el, item));
     });
-    item
-      .addEventListener("dragend", (e) => this.moveObj(e,el,item));
-    })
-    
+
     this.reposition();
   },
   beforeDestroy() {
@@ -88,7 +87,7 @@ export default {
     onEditor() {
       document.querySelector("#con1").innerHTML = this.con1;
     },
-    moveObj(e,el, target) {
+    moveObj(e, el, target) {
       console.log(target);
       target.style.left = `${Math.max(
         0,
@@ -98,23 +97,21 @@ export default {
         0,
         Math.min(95, ((e.clientY - this.dragXY[1]) / el.clientHeight) * 100)
       )}%`;
-      this.act({target})
+      this.act({ target });
     },
     act(e) {
       let tar;
-      if (e.target.id === ""){
-        tar = e.target.parentNode
+      if (e.target.id === "") {
+        tar = e.target.parentNode;
+      } else {
+        tar = e.target;
       }
-      else{
-        tar = e.target
-      }
-      if (this.active !==tar.id ){
-        if (this.active !==''){
-          document.querySelector(`#${this.active}`).classList.remove('active')
+      if (this.active !== tar.id) {
+        if (this.active !== "") {
+          document.querySelector(`#${this.active}`).classList.remove("active");
         }
-        this.active = tar.id
-        tar.classList.add('active')
-
+        this.active = tar.id;
+        tar.classList.add("active");
       }
     },
   },
@@ -145,7 +142,7 @@ export default {
     #mainImg.active:hover {
       cursor: move;
     }
-    .active{
+    .active {
       border: 1px solid black;
     }
   }
