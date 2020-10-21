@@ -39,8 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Django extensions
     'django_extensions',
-    # #DRF
-    # 'rest_framework',
+    
+    #DRF
+    'rest_framework',
     
     # #rest_auth
     # 'rest_auth',

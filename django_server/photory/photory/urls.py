@@ -21,6 +21,6 @@ urlpatterns = [
 
     #My apps
     path('storys/', include('storys.urls')),
-    path('board/', include('board.urls')),
+    path('board/api/v1/articles/', include('board.urls')),
 
 ]
