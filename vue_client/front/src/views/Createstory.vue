@@ -1,7 +1,7 @@
 <template>
   <div class="Createstory" :style="{ height: `${hei}px` }">
     <div id="filmForm">
-      <svg :height="hei-100" :width="wid">
+      <svg :height="Math.max(0,hei-100)" :width="wid">
         <path
           :d="`M 0 ${hei / 5} q ${wid / 2} ${hei / 5} ${wid} 0`"
           stroke="#000"
@@ -79,7 +79,7 @@ export default {
   methods: {
     reCalc() {
       this.wid = window.innerWidth;
-      this.hei = window.innerHeight - 100;
+      this.hei = Math.max(0,window.innerHeight - 100);
       let card = this.hei * 0.3 * 0.4;
       this.pics.forEach((item, index) => {
         item.x = -card + (this.wid / 6) * (index + 1);
