@@ -6,3 +6,6 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+
+# Neural network model
+fast_neural_style/
