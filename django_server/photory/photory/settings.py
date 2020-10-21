@@ -40,18 +40,38 @@ INSTALLED_APPS = [
     # Django extensions
     'django_extensions',
     
+    # 회원가입 setting
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+    'rest_auth.registration',
+
+    # include the providers you want to enable:
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook',
     #DRF
     'rest_framework',
+    'rest_framework.authtoken',
     
-    # #rest_auth
-    # 'rest_auth',
-    # 'allauth',
+    #rest_auth
+    'rest_auth',
+    
 
     #My apps
     'storys',
     'accounts',
     'board',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+
+    ]
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -135,8 +155,10 @@ STATIC_URL = '/static/'
 
 #Custom User settings
 AUTH_USER_MODEL = 'accounts.User'
-
+SITE_ID =1
 # REST_AUTH_REGISTER_SERIALIZERS = {
 #     'USER_DETAILS_SERIALIZER': 'accounts.serializers.UserSerializer',
 #     'REGISTER_SERIALIZER': 'accounts.serializers.RegistrationSerializer',
 # }
+ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_EMAIL_REQUIRED = (True)

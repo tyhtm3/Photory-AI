@@ -23,4 +23,9 @@ urlpatterns = [
     path('storys/', include('storys.urls')),
     path('board/api/v1/articles/', include('board.urls')),
 
+    ## django rest-auth API
+    path('rest-auth/', include('rest_auth.urls')),
+    path('rest-auth/signup/', include('rest_auth.registration.urls')),
+
+
 ]
