@@ -25,7 +25,7 @@ const routes = [{
         path: '/sharestory',
         name: 'Sharestory',
         component: Sharestory
-    },{
+    }, {
         path: '/Createstory/edit',
         name: 'storyEdit',
         component: storyEdit
