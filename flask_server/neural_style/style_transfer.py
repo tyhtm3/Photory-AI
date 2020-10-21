@@ -115,6 +115,7 @@ style_path = tf.keras.utils.get_file('kandinsky5.jpg','https://storage.googleapi
 
 
 content_path = 'baby_dog.JPG'
+style_path = 'style.JPG'
 
 # image load
 content_image = load_img(content_path)
