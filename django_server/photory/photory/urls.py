@@ -21,5 +21,6 @@ urlpatterns = [
 
     #My apps
     path('storys/', include('storys.urls')),
+    path('board/', include('board.urls')),
 
 ]
