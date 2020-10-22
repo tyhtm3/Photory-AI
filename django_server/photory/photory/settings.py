@@ -54,13 +54,8 @@ INSTALLED_APPS = [
     #DRF
     'rest_framework',
     'rest_framework.authtoken',
-    
-    #rest_auth
-    'rest_auth',
     #cors
     'corsheaders',
-
-
 
     #My apps
     'storys',
@@ -69,7 +64,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-     'corsheaders.middleware.CorsMiddleware',  # CORS
+    'corsheaders.middleware.CorsMiddleware',  # CORS
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
