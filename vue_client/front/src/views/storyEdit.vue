@@ -8,6 +8,7 @@
       <li @click="toolSelect(1)">글 수정</li>
       <li @click="toolSelect(2)">글 상자 추가</li>
       <li @click="toolSelect(3)">스티커</li>
+      <li @click="save()">저장</li>
       <!-- <li @click="toolSelect(4)">색상 변경</li> -->
     </ul>
     <div id="playground" v-html="pageData"></div>
@@ -201,7 +202,7 @@ export default {
         ];
         this.resizerMove(resizer, item);
         let pg = document.querySelector("#playground");
-        const pgWH = [pg.clientWidth/100,pg.clientHeight/100]
+        const pgWH = [pg.clientWidth / 100, pg.clientHeight / 100];
         // LT
         resizer[0].onmousedown = (e) => {
           const resizeXY = [e.screenX, e.screenY];
@@ -209,10 +210,10 @@ export default {
           const originLT = [item.offsetLeft, item.offsetTop];
           document.onmousemove = (e) => {
             const move = [e.screenX - resizeXY[0], e.screenY - resizeXY[1]];
-            item.style.width = `${(originWH[0] - move[0])/pgWH[0]}%`;
-            item.style.left = `${(originLT[0] + move[0])/pgWH[0]}%`;
-            item.style.top = `${(originLT[1] + move[1])/pgWH[1]}%`;
-            item.style.height = `${(originWH[1] - move[1])/pgWH[1]}%`;
+            item.style.width = `${(originWH[0] - move[0]) / pgWH[0]}%`;
+            item.style.left = `${(originLT[0] + move[0]) / pgWH[0]}%`;
+            item.style.top = `${(originLT[1] + move[1]) / pgWH[1]}%`;
+            item.style.height = `${(originWH[1] - move[1]) / pgWH[1]}%`;
             this.resizerMove(resizer, item);
           };
           document.onmouseup = () => {
@@ -226,9 +227,9 @@ export default {
           const originLT = [item.offsetLeft, item.offsetTop];
           document.onmousemove = (e) => {
             const move = [e.screenX - resizeXY[0], e.screenY - resizeXY[1]];
-            item.style.width = `${(originWH[0] + move[0])/pgWH[0]}%`;
-            item.style.top = `${(originLT[1] + move[1])/pgWH[1]}%`;
-            item.style.height = `${(originWH[1] - move[1])/pgWH[1]}%`;
+            item.style.width = `${(originWH[0] + move[0]) / pgWH[0]}%`;
+            item.style.top = `${(originLT[1] + move[1]) / pgWH[1]}%`;
+            item.style.height = `${(originWH[1] - move[1]) / pgWH[1]}%`;
             this.resizerMove(resizer, item);
           };
           document.onmouseup = () => {
@@ -241,8 +242,8 @@ export default {
           const originWH = [item.clientWidth, item.clientHeight];
           document.onmousemove = (e) => {
             const move = [e.screenX - resizeXY[0], e.screenY - resizeXY[1]];
-            item.style.width = `${(originWH[0] + move[0])/pgWH[0]}%`;
-            item.style.height = `${(originWH[1] + move[1])/pgWH[1]}%`;
+            item.style.width = `${(originWH[0] + move[0]) / pgWH[0]}%`;
+            item.style.height = `${(originWH[1] + move[1]) / pgWH[1]}%`;
             this.resizerMove(resizer, item);
           };
           document.onmouseup = () => {
@@ -256,9 +257,9 @@ export default {
           const originLT = [item.offsetLeft, item.offsetTop];
           document.onmousemove = (e) => {
             const move = [e.screenX - resizeXY[0], e.screenY - resizeXY[1]];
-            item.style.width = `${(originWH[0] - move[0])/pgWH[0]}%`;
-            item.style.left = `${(originLT[0] + move[0])/pgWH[0]}%`;
-            item.style.height = `${(originWH[1] + move[1])/pgWH[1]}%`;
+            item.style.width = `${(originWH[0] - move[0]) / pgWH[0]}%`;
+            item.style.left = `${(originLT[0] + move[0]) / pgWH[0]}%`;
+            item.style.height = `${(originWH[1] + move[1]) / pgWH[1]}%`;
             this.resizerMove(resizer, item);
           };
           document.onmouseup = () => {
@@ -305,6 +306,10 @@ export default {
       document.querySelector("#" + id).innerHTML = this.editor.con;
       this.editText = "";
       document.querySelector("#playground").onclick = null;
+    },
+    save() {
+      let pg = document.querySelector("#playground");
+      console.log(pg.innerHTML);
     },
   },
 };
