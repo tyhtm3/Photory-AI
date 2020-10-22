@@ -25,7 +25,7 @@ SECRET_KEY = 'j2h#co&lv7af2!$b%r4^p!p-w+=nf(i!1r#65*@^o=_$b91_nd'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -40,13 +40,13 @@ INSTALLED_APPS = [
     # Django extensions
     'django_extensions',
     
-    # 회원가입 setting
+    # rest_auth + allauth
+    'rest_auth', # login,logout
     'django.contrib.sites',
-    'allauth',
-    'allauth.account',
+    'allauth', # signup
+    'allauth.account',  # signup
     'allauth.socialaccount',
-
-    'rest_auth.registration',
+    'rest_auth.registration',  # signup
 
     # include the providers you want to enable:
     'allauth.socialaccount.providers.google',
@@ -57,7 +57,10 @@ INSTALLED_APPS = [
     
     #rest_auth
     'rest_auth',
-    
+    #cors
+    'corsheaders',
+
+
 
     #My apps
     'storys',
@@ -65,15 +68,8 @@ INSTALLED_APPS = [
     'board',
 ]
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
-
-    ]
-}
-
 MIDDLEWARE = [
+     'corsheaders.middleware.CorsMiddleware',  # CORS
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -155,10 +151,25 @@ STATIC_URL = '/static/'
 
 #Custom User settings
 AUTH_USER_MODEL = 'accounts.User'
+
+# django sites app setting
 SITE_ID =1
+
+# DRF auth settings
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+
+    ]
+}
+
 # REST_AUTH_REGISTER_SERIALIZERS = {
 #     'USER_DETAILS_SERIALIZER': 'accounts.serializers.UserSerializer',
 #     'REGISTER_SERIALIZER': 'accounts.serializers.RegistrationSerializer',
 # }
 ACCOUNT_EMAIL_VERIFICATION = "none"
 ACCOUNT_EMAIL_REQUIRED = (True)
+
+# CORS Allow
+CORS_ORIGIN_ALLOW_ALL = True
