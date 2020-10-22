@@ -1,7 +1,7 @@
 <template>
   <v-row justify="center">
     <v-dialog
-      v-model="logindialog"
+      v-model="signupdialog"
       persistent
       max-width="1000px"
     >
@@ -24,12 +24,13 @@
                 <v-system-bar
                 color="#FFFFFF">
                   <v-spacer></v-spacer>
-                  <v-icon @click="closeLogin">mdi-close</v-icon>
+                  <v-icon @click="closeSignup">mdi-close</v-icon>
                 </v-system-bar>
                 <v-card-title>
                  <v-row>
+                 
                   <v-col cols="12">
-                    <span class="text-h3">Sign in Now!</span>
+                    <span class="text-h3">Sign Up Now!</span>
                   </v-col>
                 </v-row>
                 </v-card-title>
@@ -39,7 +40,7 @@
                     style="justify-content: center;">
                       <v-col 
                       cols="10"
-                      id = "signin"
+                      id = "signup"
                       >
                         <v-text-field
                           prepend-inner-icon="mdi-email"
@@ -48,8 +49,8 @@
                         >
                         </v-text-field>
                       </v-col>
-                      <v-col cols="10"
-                      id = "signin">
+                      <v-col cols="10" 
+                      id = "signup">
                         <v-text-field
                           prepend-inner-icon="mdi-shield-lock-outline"
                           label="Password"
@@ -57,29 +58,38 @@
                           required
                         ></v-text-field>
                       </v-col>
-                       <v-col cols="10" id = "signupbtn">
-                        <v-btn
-                          color="#87c7c6"
-                          dark
-                          rounded
-                          @click="closeLogin"
-                        >
-                          Sign in  
-                          <v-icon>
-                           mdi-arrow-right-thick
-                          </v-icon>
-                       </v-btn>
+                      <v-col cols="10"
+                       id = "signup">
+                        <v-text-field
+                          prepend-inner-icon="mdi-baby-face-outline"
+                          label="Nickname"
+                          required
+                        ></v-text-field>
                       </v-col>
+                        <v-col cols="10"
+                        id = "signup">
+                        <v-btn
+                            color="#87c7c6"
+                            dark
+                            rounded
+                            @click="closeSignup"
+                        >
+                            Sign Up  
+                            <v-icon>
+                            mdi-arrow-right-thick
+                            </v-icon>
+                            </v-btn>
+                        </v-col>
                     </v-row>
                   </v-container>
-                  <small>아이디가 없으세요? </small>
+                  <small>이미 아이디가 있으신가요? </small>
                   <v-btn
                     color="#ff4747"
                     text
                     rounded
-                    @click="openSignup"
+                    @click="openLogin"
                   >
-                    Sign Up  
+                    Sing in 
                   </v-btn>
                 </v-card-text>
               </v-card>
@@ -88,44 +98,30 @@
         </v-container>
       </v-card>
     </v-dialog>
-    <!-- 회원가입 -->
-    <Signup v-bind:signupdialog="signupdialog" v-on:close-signup="closeSignup" v-on:open-login="openLogin"/>
   </v-row>
 </template>
 
 <script>
-import Signup from '../components/Signup.vue'
   export default {
-    components:{
-      Signup
-    },
-    props:['logindialog'],
+    props:['signupdialog'],
     data: () => ({
-       signupdialog : false,
+       
     }),
     methods : {
-      closeLogin (){
-        this.$emit('close-login');
+      closeSignup (){
+        this.$emit('close-signup');
       },
       openLogin(){
         this.$emit('open-login');
+        this.$emit('close-signup');
       },
-      openSignup(){
-        this.signupdialog = true;
-        this.$emit('close-login');
-      },
-      closeSignup(){
-        this.signupdialog = false;
-      }
     },
   }
 </script>
 
 <style>
-#signin{
-  padding-bottom: 0px;
-}
-#signupbtn{
-  padding-top: 20px;
+#signup{
+   padding-top: 0px;
+   padding-bottom: 0px;
 }
 </style>
