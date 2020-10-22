@@ -206,7 +206,7 @@ export default {
         resizer[0].onmousedown = (e) => {
           const resizeXY = [e.screenX, e.screenY];
           const originWH = [item.clientWidth, item.clientHeight];
-          const originLT = [item.offsetLeft - pg.offsetLeft, item.offsetTop];
+          const originLT = [item.offsetLeft, item.offsetTop];
           document.onmousemove = (e) => {
             const move = [e.screenX - resizeXY[0], e.screenY - resizeXY[1]];
             item.style.width = `${(originWH[0] - move[0])/pgWH[0]}%`;
@@ -223,7 +223,7 @@ export default {
         resizer[1].onmousedown = (e) => {
           const resizeXY = [e.screenX, e.screenY];
           const originWH = [item.clientWidth, item.clientHeight];
-          const originLT = [item.offsetLeft - pg.offsetLeft, item.offsetTop];
+          const originLT = [item.offsetLeft, item.offsetTop];
           document.onmousemove = (e) => {
             const move = [e.screenX - resizeXY[0], e.screenY - resizeXY[1]];
             item.style.width = `${(originWH[0] + move[0])/pgWH[0]}%`;
@@ -253,7 +253,7 @@ export default {
         resizer[3].onmousedown = (e) => {
           const resizeXY = [e.screenX, e.screenY];
           const originWH = [item.clientWidth, item.clientHeight];
-          const originLT = [item.offsetLeft - pg.offsetLeft, item.offsetTop];
+          const originLT = [item.offsetLeft, item.offsetTop];
           document.onmousemove = (e) => {
             const move = [e.screenX - resizeXY[0], e.screenY - resizeXY[1]];
             item.style.width = `${(originWH[0] - move[0])/pgWH[0]}%`;
