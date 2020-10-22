@@ -120,7 +120,7 @@ export default {
           pg.childNodes.forEach((item) => {
             item.onmousedown = (e) => {
               this.dragXY = [
-                pg.offsetLeft + (e.screenX - item.offsetLeft),
+                +(e.screenX - item.offsetLeft),
                 pg.offsetTop + (e.screenY - item.offsetTop - 50),
               ];
               document.onmousemove = (e) => this.moveObj(e, pg, item);
@@ -199,23 +199,21 @@ export default {
           document.querySelector("#dotRB"),
           document.querySelector("#dotLB"),
         ];
-        resizer[0].style.left = `${item.offsetLeft - 2}px`;
-        resizer[0].style.top = `${item.offsetTop + 50 - 2}px`;
-        resizer[1].style.left = `${item.offsetLeft + item.clientWidth - 2}px`;
-        resizer[1].style.top = `${item.offsetTop + 50 - 2}px`;
-        resizer[2].style.left = `${item.offsetLeft + item.clientWidth - 2}px`;
-        resizer[2].style.top = `${
-          item.offsetTop + 50 + item.clientHeight - 2
-        }px`;
-        resizer[3].style.left = `${item.offsetLeft - 2}px`;
-        resizer[3].style.top = `${
-          item.offsetTop + 50 + item.clientHeight - 2
-        }px`;
+        this.resizerMove(resizer, item);
+        let pg = document.querySelector("#playground");
+        const pgWH = [pg.clientWidth/100,pg.clientHeight/100]
         // LT
         resizer[0].onmousedown = (e) => {
-          this.dragXY = [e.screenX, e.screenY];
+          const resizeXY = [e.screenX, e.screenY];
+          const originWH = [item.clientWidth, item.clientHeight];
+          const originLT = [item.offsetLeft - pg.offsetLeft, item.offsetTop];
           document.onmousemove = (e) => {
-            console.log("LT", e);
+            const move = [e.screenX - resizeXY[0], e.screenY - resizeXY[1]];
+            item.style.width = `${(originWH[0] - move[0])/pgWH[0]}%`;
+            item.style.left = `${(originLT[0] + move[0])/pgWH[0]}%`;
+            item.style.top = `${(originLT[1] + move[1])/pgWH[1]}%`;
+            item.style.height = `${(originWH[1] - move[1])/pgWH[1]}%`;
+            this.resizerMove(resizer, item);
           };
           document.onmouseup = () => {
             document.onmousemove = null;
@@ -223,9 +221,15 @@ export default {
         };
         // RT
         resizer[1].onmousedown = (e) => {
-          this.dragXY = [e.screenX, e.screenY];
+          const resizeXY = [e.screenX, e.screenY];
+          const originWH = [item.clientWidth, item.clientHeight];
+          const originLT = [item.offsetLeft - pg.offsetLeft, item.offsetTop];
           document.onmousemove = (e) => {
-            console.log("RT", e);
+            const move = [e.screenX - resizeXY[0], e.screenY - resizeXY[1]];
+            item.style.width = `${(originWH[0] + move[0])/pgWH[0]}%`;
+            item.style.top = `${(originLT[1] + move[1])/pgWH[1]}%`;
+            item.style.height = `${(originWH[1] - move[1])/pgWH[1]}%`;
+            this.resizerMove(resizer, item);
           };
           document.onmouseup = () => {
             document.onmousemove = null;
@@ -233,9 +237,13 @@ export default {
         };
         // RB
         resizer[2].onmousedown = (e) => {
-          this.dragXY = [e.screenX, e.screenY];
+          const resizeXY = [e.screenX, e.screenY];
+          const originWH = [item.clientWidth, item.clientHeight];
           document.onmousemove = (e) => {
-            console.log("RB", e);
+            const move = [e.screenX - resizeXY[0], e.screenY - resizeXY[1]];
+            item.style.width = `${(originWH[0] + move[0])/pgWH[0]}%`;
+            item.style.height = `${(originWH[1] + move[1])/pgWH[1]}%`;
+            this.resizerMove(resizer, item);
           };
           document.onmouseup = () => {
             document.onmousemove = null;
@@ -243,15 +251,36 @@ export default {
         };
         // LB
         resizer[3].onmousedown = (e) => {
-          this.dragXY = [e.screenX, e.screenY];
+          const resizeXY = [e.screenX, e.screenY];
+          const originWH = [item.clientWidth, item.clientHeight];
+          const originLT = [item.offsetLeft - pg.offsetLeft, item.offsetTop];
           document.onmousemove = (e) => {
-            console.log("LB", e);
+            const move = [e.screenX - resizeXY[0], e.screenY - resizeXY[1]];
+            item.style.width = `${(originWH[0] - move[0])/pgWH[0]}%`;
+            item.style.left = `${(originLT[0] + move[0])/pgWH[0]}%`;
+            item.style.height = `${(originWH[1] + move[1])/pgWH[1]}%`;
+            this.resizerMove(resizer, item);
           };
           document.onmouseup = () => {
             document.onmousemove = null;
           };
         };
       });
+    },
+    resizerMove(resizer, item) {
+      let pg = document.querySelector("#playground");
+      resizer[0].style.left = `${pg.offsetLeft + item.offsetLeft - 2}px`;
+      resizer[0].style.top = `${item.offsetTop + 50 - 2}px`;
+      resizer[1].style.left = `${
+        pg.offsetLeft + item.offsetLeft + item.clientWidth - 2
+      }px`;
+      resizer[1].style.top = `${item.offsetTop + 50 - 2}px`;
+      resizer[2].style.left = `${
+        pg.offsetLeft + item.offsetLeft + item.clientWidth - 2
+      }px`;
+      resizer[2].style.top = `${item.offsetTop + 50 + item.clientHeight - 2}px`;
+      resizer[3].style.left = `${pg.offsetLeft + item.offsetLeft - 2}px`;
+      resizer[3].style.top = `${item.offsetTop + 50 + item.clientHeight - 2}px`;
     },
     onEditText(item) {
       this.editor.con = item.innerHTML;
@@ -316,7 +345,7 @@ export default {
     position: relative;
     background-color: rosybrown;
     flex-grow: 1;
-    #mainImg.active:hover {
+    .active:hover {
       cursor: move;
     }
     .active {
