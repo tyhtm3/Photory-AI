@@ -1,3 +1,5 @@
+***
+
 # Default Deployment Setting
 
 ## Dev
@@ -6,6 +8,8 @@ AWS
 
 #### FrontEnd
 Vue
+
+***
 
 ## Install
 ###### 1. 기본적으로 npm, nodejs 설치가 필요. nodejs를 설치하면 npm는 자동으로 설치된다. 여기서는 nvm을 이용해 npm 최신버전을 다룬다.
@@ -25,13 +29,13 @@ npm 버전 확인
 nvm ls-remote
 ```
 
-npm 설치
+npm 설치 <!-- 2020.10.22일자 LTS 최신 버전-->
 
 ```bash
-nvm install 12.19.0 <!-- 2020.10.22일자 LTS 최신 버전-->
+nvm install 12.19.0 
 ```
 
-nodejs 버전 확인[^1]
+nodejs 버전 확인<sup id="a1">[1](#f1)</sup>
 ```bash
 node -v
 ```
@@ -40,7 +44,7 @@ npm 버전 확인
 npm -v
 ```
 
-\[^1]: 최신 버전인지 확인하는 것은 중요하다. 프로젝트는 최신 버전에서 정상 작동한다.
+><b id="f1"><sup>1</sup></b> 최신 버전인지 확인하는 것은 중요하다. 프로젝트는 최신 버전에서 정상 작동한다.[↩](#a1)<br>
 
 
 ###### 2. nginx 설치
@@ -67,6 +71,7 @@ npm install
 npm run build
 ```
 
+***
 
 ## Deploy
 ###### 1. 빌드 파일 경로 확인. build를 실행시킨 폴더에 dist 폴더가 npm run build한 결과이다.
