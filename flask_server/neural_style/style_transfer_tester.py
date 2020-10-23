@@ -1,5 +1,5 @@
 import tensorflow as tf
-import transform
+from neural_style import transform
 
 class StyleTransferTester:
 
