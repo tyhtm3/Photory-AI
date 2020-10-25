@@ -11,12 +11,13 @@
       <li @click="save()">저장</li>
       <!-- <li @click="toolSelect(4)">색상 변경</li> -->
     </ul>
+
     <div id="playground" v-html="pageData"></div>
     <vue-editor
       id="ed0"
       v-model="editor.con"
       v-show="editText"
-      style="position: fixed"
+      style="position: fixed;z-index:101;"
       :style="{
         left: editor.left,
         top: editor.top,
@@ -30,6 +31,24 @@
       <div id="dotRT"></div>
       <div id="dotLB"></div>
       <div id="dotRB"></div>
+    </div>
+    <div id="sPanel" v-if="sPanelOn">
+      <h3>스티커 추가하기</h3>
+      <img src="@/assets/stickers/s0.png" alt="" />
+      <img src="@/assets/stickers/s1.png" alt="" />
+      <img src="@/assets/stickers/s2.png" alt="" />
+      <img src="@/assets/stickers/s3.png" alt="" />
+      <img src="@/assets/stickers/s4.png" alt="" />
+      <img src="@/assets/stickers/s5.png" alt="" />
+      <img src="@/assets/stickers/s6.png" alt="" />
+      <img src="@/assets/stickers/s7.png" alt="" />
+      <img src="@/assets/stickers/s8.png" alt="" />
+      <img src="@/assets/stickers/s9.png" alt="" />
+      <img src="@/assets/stickers/s10.png" alt="" />
+      <img src="@/assets/stickers/s11.png" alt="" />
+      <img src="@/assets/stickers/s12.png" alt="" />
+      <img src="@/assets/stickers/s13.png" alt="" />
+      <img src="@/assets/stickers/s14.png" alt="" />
     </div>
   </div>
 </template>
@@ -60,7 +79,7 @@ export default {
       mainDir: "row",
       toolDir: "column",
       pageData:
-        '<img id="mainImg" draggable="false" src="/img/logo_name.334d3675.png" style="position:absolute;left:0px;top:0px;width:100px;height:100px;"/><div id="con1" class="content ql-editor" draggable="false" style="position:absolute;left:0px;top:0px;width:400px;height:400px"><h1><span style="color: rgb(0, 102, 204);">로렌 입슘 달러 싯</span></h1><p class="ql-align-right"><span style="color: rgb(255, 255, 255); background-color: rgb(255, 153, 0);">기타 등등</span></p><p class="ql-align-center"><span style="background-color: rgb(187, 187, 187); color: rgb(68, 68, 68);">배경색이 이상한건 레이아웃을 잡기 위해서입니다</span></p><p><br></p></div>',
+        '<img id="mainImg" draggable="false" src="/img/logo_name.334d3675.png" style="position:absolute;left:0px;top:0px;width:100px;height:100px;"/><div id="con1" class="content ql-editor" draggable="false" style="position:absolute;left:0px;top:0px;width:400px;height:400px;z-index:100"><h1><span style="color: rgb(0, 102, 204);">로렌 입슘 달러 싯</span></h1><p class="ql-align-right"><span style="color: rgb(255, 255, 255); background-color: rgb(255, 153, 0);">기타 등등</span></p><p class="ql-align-center"><span style="background-color: rgb(187, 187, 187); color: rgb(68, 68, 68);">배경색이 이상한건 레이아웃을 잡기 위해서입니다</span></p><p><br></p></div>',
       dragXY: [0, 0],
       active: "",
       editText: false,
@@ -72,6 +91,7 @@ export default {
         wid: "500px",
       },
       toolStatus: 1,
+      sPanelOn: false,
     };
   },
   created() {
@@ -99,6 +119,7 @@ export default {
   methods: {
     toolSelect(tool) {
       if (tool !== this.toolStatus) {
+        this.sPanelOn = false;
         document
           .querySelector(`#tools li:nth-child(${this.toolStatus + 1})`)
           .classList.remove("select");
@@ -142,7 +163,33 @@ export default {
         } else if (tool === 2) {
           // 글상자 추가
         } else if (tool === 3) {
-          // 아이콘 추가
+          // 스티커 추가
+          this.sPanelOn = true;
+          pg.onclick = () => {
+            this.toolSelect(0);
+            pg.onclick = null;
+          };
+          this.$nextTick(() => {
+            document.querySelectorAll("#sPanel img").forEach((item) => {
+              item.onclick = () => {
+                let stkrCnt = Array.prototype.slice
+                  .call(pg.childNodes)
+                  .filter((item) => item.classList[0] === "sticker").length;
+                if (stkrCnt >= 5) {
+                  alert("스티커는 5개 까지만 생성 가능합니다.");
+                } else {
+                  let newImg = item.cloneNode();
+                  pg.appendChild(newImg);
+                  newImg.draggable = false;
+                  newImg.classList.add("sticker");
+                  newImg.id = `stkr${stkrCnt}`;
+                  newImg.style.cssText =
+                    "position:absolute;left:0px;top:0px;width:100px;height:100px;";
+                  this.toolSelect(0);
+                }
+              };
+            });
+          });
         }
       }
     },
@@ -156,7 +203,6 @@ export default {
       }
     },
     moveObj(e, pg, target) {
-      // console.log(e.screenX, el.clientWidth);
       target.style.left = `${Math.max(
         0,
         Math.min(90, ((e.screenX - this.dragXY[0]) / pg.clientWidth) * 100)
@@ -171,7 +217,7 @@ export default {
     act(e) {
       // 타겟 찾기
       let tar;
-      if (e.target.id === "") {
+      if (e.target.classList[0] !== "sticker" && e.target.id === "") {
         tar = e.target.parentNode;
         if (e.target.id === "") {
           tar = tar.parentNode;
@@ -179,6 +225,7 @@ export default {
       } else {
         tar = e.target;
       }
+
       // 만약 타겟이 달라졌다면
       if (this.active !== tar.id) {
         // 이전 타겟을 지워줌
@@ -284,23 +331,25 @@ export default {
       resizer[3].style.top = `${item.offsetTop + 50 + item.clientHeight - 2}px`;
     },
     onEditText(item) {
-      this.editor.con = item.innerHTML;
-      item.innerHTML = "";
-      this.editor.left = `${
-        item.offsetLeft + document.querySelector("#playground").offsetLeft
-      }px`;
-      this.editor.top = `${Math.max(
-        document.querySelector("#playground").offsetTop,
-        item.offsetTop
-      )}px`;
-      this.editor.wid = `${item.clientWidth}px`;
-      this.editor.hei = `${item.clientHeight}px`;
-      this.editText = item.id;
-      document.querySelector("#playground").onclick = (e) => {
-        if (e.target.classList[0] !== "content") {
-          this.saveEditor(this.editText);
-        }
-      };
+      if (this.editText !== item.id) {
+        this.editor.con = item.innerHTML;
+        item.innerHTML = "";
+        this.editor.left = `${
+          item.offsetLeft + document.querySelector("#playground").offsetLeft
+        }px`;
+        this.editor.top = `${Math.max(
+          document.querySelector("#playground").offsetTop,
+          item.offsetTop
+        )}px`;
+        this.editor.wid = `${item.clientWidth}px`;
+        this.editor.hei = `${item.clientHeight}px`;
+        this.editText = item.id;
+        document.querySelector("#playground").onclick = (e) => {
+          if (e.target.classList[0] !== "content") {
+            this.saveEditor(this.editText);
+          }
+        };
+      }
     },
     saveEditor(id) {
       document.querySelector("#" + id).innerHTML = this.editor.con;
@@ -345,6 +394,36 @@ export default {
       }
     }
   }
+  #sPanel {
+    background-color: ivory;
+    border: #555 2px solid;
+    border-radius: 15px;
+    box-shadow: black 2px 2px 5px;
+    width: 90vw;
+    height: 80vh;
+    position: fixed;
+    top: 16vh;
+    left: 5vw;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    padding: 30px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 102;
+    h3 {
+      width: 100%;
+    }
+    img {
+      margin: 10px;
+      height: 150px;
+      &:hover {
+        cursor: pointer;
+        border: 1px black solid;
+        background-color: #ccc;
+      }
+    }
+  }
   #playground {
     display: flex;
     position: relative;
@@ -358,6 +437,7 @@ export default {
     }
     .content {
       min-height: 200px;
+      overflow:visible;
     }
   }
   #resizer {
