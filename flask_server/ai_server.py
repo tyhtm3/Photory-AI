@@ -7,11 +7,13 @@ app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 CORS(app)
 
+graph = tf.get_default_graph()
+
 # 임시
 content_path = 'neural_style/content/female_knight.jpg'
 content_image = utils.load_image(content_path,max_size=None)
 
-style_model = 'neural_stlye/models.wave.ckpt'
+style_model = 'neural_stlye/fast_neural_style/wave.ckpt'
 
 # session setting
 soft_config = tf.ConfigProto(allow_soft_placement=True)
@@ -23,8 +25,6 @@ transformer = style_transfer_tester.StyleTransferTester(session=sess,
                                                     content_image=content_image,
                                                     )
 
-output_image = transformer.test()
-
 @app.route('/')
 def index_page():
     return "AI server!"
@@ -33,6 +33,8 @@ def index_page():
 def test_path():
     # load image and style model
 
+
+    output_image = transformer.test()
 
     return 'good!'
 
