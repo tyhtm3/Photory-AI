@@ -1,7 +1,7 @@
 <template>
   <div class="Createstory" :style="{ height: `${hei}px` }">
     <div id="filmForm">
-      <svg :height="Math.max(0,hei-100)" :width="wid">
+      <svg :height="Math.max(0, hei -100)" :width="wid">
         <path
           :d="`M 0 ${hei / 5} q ${wid / 2} ${hei / 5} ${wid} 0`"
           stroke="#000"
@@ -9,9 +9,17 @@
           fill="none"
         />
       </svg>
+      <ul v-show="wid<hei" id="filmSelector">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+      </ul>
       <div id="films" v-for="pic in pics" :key="pic.id">
         <div
           class="film"
+          :id="`pic${pic.id}`"
           :style="{ top: `${pic.y + 50}px`, left: `${pic.x}px` }"
         >
           <img src="@/assets/film.png" />
@@ -19,8 +27,9 @@
           <input type="file" :id="`file${pic.id}`" />
         </div>
       </div>
+      
     </div>
-    <router-link to="/CreateStory/edit">다음</router-link>
+    <router-link id="next" to="/CreateStory/edit">다음</router-link>
   </div>
 </template>
 
@@ -67,7 +76,6 @@ export default {
     };
   },
   created() {
-    console.log(window.innerHeight);
     window.addEventListener("resize", this.reCalc);
   },
   beforeDestroy() {
@@ -79,11 +87,23 @@ export default {
   methods: {
     reCalc() {
       this.wid = window.innerWidth;
-      this.hei = Math.max(0,window.innerHeight - 100);
+      this.hei = Math.max(0, window.innerHeight - 100);
       let card = this.hei * 0.3 * 0.4;
       this.pics.forEach((item, index) => {
         item.x = -card + (this.wid / 6) * (index + 1);
-        item.y = this.hei / 4 - (index - 2) * (index - 2) * 13;
+        item.y = this.hei / 5 - (index - 2) * (index - 2) * 8;
+        // const fForm = document.querySelector("#filmForm");
+        const itemDiv = document.querySelector(`#pic${item.id}`);
+        itemDiv.childNodes.forEach((i) => {
+          i.onmouseenter = () => {
+            itemDiv.querySelector("img").style.height = "40vh";
+            itemDiv.style.zIndex = "9";
+          };
+          i.onmouseout = () => {
+            itemDiv.querySelector("img").style.height = "30vh";
+            itemDiv.style.zIndex = `${item.id}`;
+          };
+        });
       });
     },
     debug() {
@@ -98,7 +118,6 @@ export default {
 .Createstory {
   margin: 0;
   padding: 0;
-  padding-top: 50px;
   box-sizing: border-box;
   overflow: hidden;
   position: relative;
@@ -109,8 +128,6 @@ export default {
   #films {
     .film {
       position: absolute;
-      top: 100px;
-      left: 0;
       display: flex;
       flex-flow: column;
       align-items: center;
@@ -128,13 +145,41 @@ export default {
       }
       label {
         position: relative;
-        top: -5vh;
+        top: -6vh;
+        font-size: 2vh;
+        line-height: 2vh;
         border: 1px solid green;
         background-color: greenyellow;
         border-radius: 7px;
-        padding: 2px;
+        padding: 3px;
       }
     }
+  }
+  #filmSelector {
+    position: fixed;
+    bottom: 20vh;
+    left: 0;
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    list-style: none;
+    li {
+      border: 2px solid blue;
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      font-size: 20px;
+      line-height: 20px;
+      text-align: center;
+      padding: 10px;
+    }
+  }
+  #next{
+    position: fixed;
+    bottom: 10vh;
+    left: 0;
+    width: 100vw;
   }
 }
 </style>
