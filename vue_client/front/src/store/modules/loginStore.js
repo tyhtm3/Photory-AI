@@ -1,5 +1,4 @@
-// restAPI 설계후 수정하기
-// import axios from 'axios'
+import axios from 'axios'
 // import router from '../../router/index.js'
 // import store from '../index.js'
 
@@ -8,9 +7,10 @@ const loginStore = {
     state: {
         isUser: false,
         userInfo: {},
-        isLogin: false,
+        isLogin: '',
     },
     getters: {
+        isLogin: (state) => { return state.isLogin; },
         userInfo: (state) => state.userInfo,
     },
     mutations: {
@@ -25,22 +25,34 @@ const loginStore = {
         },
     },
     actions: {
-        // login(context, { id, pw }) {
-        //     axios.post('우리 서버 주소넣기')
-        //         .then(res => {
-        //             context.commit('mutateIsLogin', true)
-        //             context.commit('mutateUserInfo', res)
+        login(context, signInfo) {
+            context.commit('MUTATEISLOGIN', '');
+            axios.post(`http://127.0.0.1:8000/rest-auth/login/`, signInfo)
+                .then(res => {
+                    context.commit('MUTATEISLOGIN', '성공')
+                    context.commit('MUTATEUSERINFO', signInfo.email)
+                    alert("로그인 되었습니다.");
+                    console.log(res.data);
+                })
+                .catch(err => {
+                    console.log(err);
+                    context.commit('MUTATEISLOGIN', '실패');
+                    alert("아이디 또는 비밀번호 실패입니다.");
+                })
+        },
+        signup(context, { email, password }) {
+            axios.post(`http://127.0.0.1:8000/rest-auth/signup/?email=${email}&password1=${password}&password2=${password}&username=user2`)
+                .then(res => {
+                    alert(res.data);
+                    context.commit('SIGNUP');
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        },
 
-        //             router.go(0);
-        //             alert("로그인 성공");
-        //         })
-        //         .catch(err => {
-        //             alert("아이디 또는 비밀번호 실패입니다.");
-        //             router.push("/errorPage");
-        //         })
-        // },
         // logout(context) {
-        //     context.commit('mutateIsLogin', false)
+        //     context.commit('mutateIsLogin', '')
         //     context.commit('mutateUserInfo', {})
         // },
 

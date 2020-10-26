@@ -33,8 +33,23 @@
         <v-col style="color: black">My Story</v-col>
       </v-btn>
       
+      <!-- 로그인 한 후 -->
+      <!-- 사용자 정보 받아와서 유저 아이콘 해놓기 -->
+      <v-tooltip bottom v-if="isLogin=='성공'">
+        <template v-slot:activator="{ on, attrs }">
+          <v-icon
+            v-bind="attrs"
+            v-on="on"
+            @click="logout"
+          >
+            mdi-account-circle
+          </v-icon>
+        </template>
+        <span>Logout</span>
+      </v-tooltip>
+      
       <!-- 로그인 하기전 -->
-      <v-tooltip bottom >
+      <v-tooltip bottom v-else>
         <template v-slot:activator="{ on, attrs }">
           <v-icon
             v-bind="attrs"
@@ -46,9 +61,9 @@
         </template>
         <span>Sign In</span>
       </v-tooltip>
-
-      <!-- 로그인 한 후 -->
-      <!-- 사용자 정보 받아와서 유저 아이콘 해놓기 -->
+      
+     
+      
     </v-app-bar>
 
     <!-- nav bar sm 보다 작을 때 -->
@@ -97,6 +112,8 @@
 
 <script>
 import Login from '../components/Login.vue'
+import { mapActions, mapGetters } from 'vuex'
+const loginStore = 'loginStore'
 export default {
   name: 'Navbar',
   components:{
@@ -107,7 +124,13 @@ export default {
       group: null,
       logindialog : false,
     }),
-
+  // 로그인 확인하기
+  computed:{
+      ...mapGetters(loginStore, [
+      'isLogin',
+      'userInfo'
+      ]),
+  },
   watch: {
     group () {
       this.drawer = false
@@ -115,12 +138,18 @@ export default {
   },
   
   methods : {
+    ...mapActions(loginStore, [
+      'logout'
+    ]),
     openLogin(){
       this.logindialog = true
     },
     closeLogin(){
       this.logindialog = false
-    }
+    },
+    logout(){
+      this.logout()
+    },
   }
 }
 </script>
