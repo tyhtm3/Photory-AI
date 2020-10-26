@@ -127,8 +127,7 @@ python ai_server.py
 
 ##### **이다현**
 
-- 🐶Github: [@DahyeonL]
-(https://github.com/DahyeonL)
+- 🐶Github: [@DahyeonL](https://github.com/DahyeonL)
 
 ##### **김선민**
 
