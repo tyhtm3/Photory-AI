@@ -42,6 +42,7 @@
                       id = "signin"
                       >
                         <v-text-field
+                          v-model="email"
                           prepend-inner-icon="mdi-email"
                           label="Email"
                           required
@@ -51,6 +52,7 @@
                       <v-col cols="10"
                       id = "signin">
                         <v-text-field
+                          v-model="password"
                           prepend-inner-icon="mdi-shield-lock-outline"
                           label="Password"
                           type="password"
@@ -62,7 +64,7 @@
                           color="#87c7c6"
                           dark
                           rounded
-                          @click="closeLogin"
+                          @click="onLogin"
                         >
                           Sign in  
                           <v-icon>
@@ -95,6 +97,8 @@
 
 <script>
 import Signup from '../components/Signup.vue'
+import { mapActions, mapGetters } from 'vuex'
+const loginStore = 'loginStore'
   export default {
     components:{
       Signup
@@ -102,8 +106,21 @@ import Signup from '../components/Signup.vue'
     props:['logindialog'],
     data: () => ({
        signupdialog : false,
+       password: '',
+       email:'',
     }),
+    computed:{
+      ...mapGetters(loginStore, [
+      'isLogin'
+      ]),
+    },
+    // watch:{
+    //   isLogin(val){if(val) this.$emit}
+    // },
     methods : {
+      ...mapActions(loginStore, [
+      'login'
+      ]),
       closeLogin (){
         this.$emit('close-login');
       },
@@ -116,7 +133,23 @@ import Signup from '../components/Signup.vue'
       },
       closeSignup(){
         this.signupdialog = false;
-      }
+      },
+      onLogin(){
+        const signinInfo = {
+          'username': 'user',
+          'password': this.password,
+          'email': this.email
+        }
+        this.login(signinInfo)
+        let a = setInterval( ()=> {
+          if(this.isLogin=='실패'){
+            clearInterval(a);
+          }else if(this.isLogin=='성공'){
+            this.$emit('close-login');
+            clearInterval(a);
+          }
+        },50)
+      },
     },
   }
 </script>
