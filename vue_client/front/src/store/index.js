@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import router from "../router"
 
 // import loginStore from './modules/loginStore'
 import axios from 'axios'
@@ -32,8 +33,9 @@ const store = new Vuex.Store({
                         context.commit('MUTATEISLOGIN', true)
                         context.commit('MUTATEUSERINFO', res.data)
                         alert("로그인 되었습니다.");
+                        router.go(0);
                     } else {
-                        alert(res.data.message)
+                        alert(res.data)
                     }
                 })
                 .catch(err => {
@@ -44,6 +46,7 @@ const store = new Vuex.Store({
         logout(context) {
             context.commit('MUTATEISLOGIN', false)
             context.commit('MUTATEUSERINFO', {})
+            router.go(0);
         },
 
         // signup(context, { email, password }) {
