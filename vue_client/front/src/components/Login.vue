@@ -97,8 +97,7 @@
 
 <script>
 import Signup from '../components/Signup.vue'
-import { mapActions, mapGetters } from 'vuex'
-const loginStore = 'loginStore'
+import store  from '../store/index'
   export default {
     components:{
       Signup
@@ -109,18 +108,7 @@ const loginStore = 'loginStore'
        password: '',
        email:'',
     }),
-    computed:{
-      ...mapGetters(loginStore, [
-      'isLogin'
-      ]),
-    },
-    // watch:{
-    //   isLogin(val){if(val) this.$emit}
-    // },
     methods : {
-      ...mapActions(loginStore, [
-      'login'
-      ]),
       closeLogin (){
         this.$emit('close-login');
       },
@@ -140,15 +128,9 @@ const loginStore = 'loginStore'
           'password': this.password,
           'email': this.email
         }
-        this.login(signinInfo)
-        let a = setInterval( ()=> {
-          if(this.isLogin=='실패'){
-            clearInterval(a);
-          }else if(this.isLogin=='성공'){
-            this.$emit('close-login');
-            clearInterval(a);
-          }
-        },50)
+        store.dispatch('login', signinInfo);
+        console.log(this.$store.state.isLogin);
+        if(this.$store.state.isLogin) this.$emit('close-login');
       },
     },
   }
