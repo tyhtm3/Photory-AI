@@ -5,6 +5,9 @@ from neural_style import style_transfer_tester, utils
 from io import BytesIO
 import requests
 import json
+from PIL import Image
+from io import BytesIO
+import numpy as np
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
@@ -16,9 +19,7 @@ content_image = utils.load_image(content_path,max_size=None)
 
 style_model = 'neural_style/fast_neural_style/wave.ckpt'
 
-transformer = style_transfer_tester.StyleTransferTester(
-    content_image, style_model
-)
+
 
 g = tf.get_default_graph()
 
@@ -32,11 +33,22 @@ def style():
     # Get image url from json
     path = json.loads(request.get_data(), encoding='utf-8')
     image_url = path['url']
-    print(image_url)
+    
+    # Image load from url
+    res = requests.get(image_url)
+    img = Image.open(BytesIO(res.content))
+    img = np.asarray(img)
 
-    #with g.as_default():
-    #    output = transformer.test()
-    return 'good!'
+    # run neural network
+    transformer = style_transfer_tester.StyleTransferTester(
+        img, style_model
+    )
+    output = transformer.test()
+
+    # save result
+    result_path = 'asdf.jpg'
+    utils.save_image(output, 'static/'+result_path)
+    return result_path
 
 @app.route('/image/<filename>')
 def image(filename):
