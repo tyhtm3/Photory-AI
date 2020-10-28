@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 from flask_cors import CORS
 import tensorflow as tf
 from neural_style import style_transfer_tester, utils
@@ -29,6 +29,10 @@ def test_path():
     with g.as_default():
         output = transformer.test()
     return 'good!'
+
+@app.route('/image/<filename>')
+def image(filename):
+    return render_template('static.html')
 
 if __name__=='__main__':
     #app.run(host='0.0.0.0')
