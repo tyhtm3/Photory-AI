@@ -143,11 +143,22 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 #Custom User settings
 AUTH_USER_MODEL = 'accounts.User'
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'accounts.serializers.UserSerializer',
+    'REGISTER_SERIALIZER': 'accounts.serializers.RegistrationSerializer',
+}
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 
-# django sites app setting
+# django sites app setting  
 SITE_ID =1
 
 # DRF auth settings
@@ -159,17 +170,6 @@ REST_FRAMEWORK = {
     ]
 }
 
-# REST_AUTH_REGISTER_SERIALIZERS = {
-#     'USER_DETAILS_SERIALIZER': 'accounts.serializers.UserSerializer',
-#     'REGISTER_SERIALIZER': 'accounts.serializers.RegistrationSerializer',
-# }
-
-# ACCOUNT_EMAIL_VERIFICATION = "none"
-
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_USERNAME_REQUIRED = False
 
 # CORS Allow
 CORS_ORIGIN_ALLOW_ALL = True

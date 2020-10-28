@@ -15,7 +15,6 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields=['id','email','nickname','profile']
 
-
 class RegistrationSerializer(RegisterSerializer):
     nickname = serializers.CharField(required=True)
     profile = serializers.ImageField(required=False)
@@ -26,6 +25,5 @@ class RegistrationSerializer(RegisterSerializer):
             'email' : self.validated_data.get('email', ''),
             'password1' : self.validated_data.get('password1', ''),
             'password2' : self.validated_data.get('password2', ''),
-            'gender' : self.validated_data.get('gender', ''),
             'profile' : self.validated_data.get('profile', ''),
         }
