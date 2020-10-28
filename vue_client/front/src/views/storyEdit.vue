@@ -11,13 +11,12 @@
       <li @click="save()">저장</li>
       <!-- <li @click="toolSelect(4)">색상 변경</li> -->
     </ul>
-
     <div id="playground" v-html="pageData"></div>
     <vue-editor
       id="ed0"
       v-model="editor.con"
       v-show="editText"
-      style="position: fixed;z-index:101;"
+      style="position: fixed; z-index: 101"
       :style="{
         left: editor.left,
         top: editor.top,
@@ -32,6 +31,18 @@
       <div id="dotLB"></div>
       <div id="dotRB"></div>
     </div>
+    <img
+      id="remover"
+      v-if="
+        !(
+          active === '' ||
+          active === 'playground' ||
+          active === 'con1' ||
+          active === 'mainImg'
+        )
+      "
+      src="@/assets/remove.png"
+    />
     <div id="sPanel" v-if="sPanelOn">
       <h3>스티커 추가하기</h3>
       <img src="@/assets/stickers/s0.png" alt="" />
@@ -71,8 +82,8 @@ export default {
           { align: "right" },
           { align: "justify" },
         ],
-        [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
-        [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+        [{ indent: "-1" }, { indent: "+1" }], 
+        [{ color: [] }, { background: [] }], 
       ],
       hei: 0,
       screenHorizontal: 0,
@@ -96,10 +107,11 @@ export default {
   },
   created() {
     window.addEventListener("resize", this.reposition);
-    this.hei = window.innerHeight - 50;
   },
   mounted() {
     this.reposition();
+    this.$nextTick(() => this.reposition());
+
     this.toolSelect(0);
   },
   beforeDestroy() {
@@ -143,7 +155,7 @@ export default {
             item.onmousedown = (e) => {
               this.dragXY = [
                 +(e.screenX - item.offsetLeft),
-                pg.offsetTop + (e.screenY - item.offsetTop - 50),
+                e.screenY - item.offsetTop,
               ];
               document.onmousemove = (e) => this.moveObj(e, pg, item);
               document.onmouseup = () => {
@@ -162,6 +174,11 @@ export default {
           });
         } else if (tool === 2) {
           // 글상자 추가
+          if (document.querySelectorAll(".content").length < 2) {
+            this.addContent();
+          } else {
+            alert("더이상 글 상자를 늘릴 수 없습니다.");
+          }
         } else if (tool === 3) {
           // 스티커 추가
           this.sPanelOn = true;
@@ -175,8 +192,8 @@ export default {
                 let stkrCnt = Array.prototype.slice
                   .call(pg.childNodes)
                   .filter((item) => item.classList[0] === "sticker").length;
-                if (stkrCnt >= 5) {
-                  alert("스티커는 5개 까지만 생성 가능합니다.");
+                if (stkrCnt >= 20) {
+                  alert("스티커는 20개 까지만 생성 가능합니다.");
                 } else {
                   let newImg = item.cloneNode();
                   pg.appendChild(newImg);
@@ -193,8 +210,36 @@ export default {
         }
       }
     },
+    removerMove(item) {
+      let remover = document.querySelector("#remover");
+      let pg = document.querySelector("#playground");
+      remover.onclick = () => {
+        this.act({ target: pg });
+        item.parentNode.removeChild(item);
+      };
+      remover.style.left = `${
+        item.offsetLeft + pg.offsetLeft + item.clientWidth + 10
+      }px`;
+      remover.style.top = `${
+        item.offsetTop + pg.offsetTop + item.clientHeight + 10
+      }px`;
+    },
+    addContent() {
+      // <div id="con1" class="content ql-editor" draggable="false" style="position:absolute;left:0px;top:0px;width:400px;height:400px;z-index:100"><h1><span style="color: rgb(0, 102, 204);">로렌 입슘 달러 싯</span></h1><p class="ql-align-right"><span style="color: rgb(255, 255, 255); background-color: rgb(255, 153, 0);">기타 등등</span></p><p class="ql-align-center"><span style="background-color: rgb(187, 187, 187); color: rgb(68, 68, 68);">배경색이 이상한건 레이아웃을 잡기 위해서입니다</span></p><p><br></p></div>
+      //class 가 콘텐트인게 한개라면 div 추가
+      let cont = document.createElement("div");
+      cont.id = "con2";
+      cont.className = "content";
+      cont.classList.add("ql-editor");
+      cont.draggable = false;
+      cont.style.cssText =
+        "position:absolute;left:0px;top:0px;width:400px;height:400px;z-index:100";
+      document.querySelector("#playground").appendChild(cont);
+      this.onEditText(cont);
+    },
     reposition() {
-      this.hei = window.innerHeight - 50;
+      let pg = document.querySelector("#playground");
+      this.hei = window.innerHeight - pg.offsetTop;
       let el = document.querySelector(".storyEdit");
       if (el.clientWidth >= el.clientHeight) {
         this.screenHorizontal = true;
@@ -213,6 +258,9 @@ export default {
       )}%`;
       this.act({ target });
       this.resizerFunc(target);
+      if (!(this.active === "con1" || this.active === "mainImg")) {
+        this.removerMove(target);
+      }
     },
     act(e) {
       // 타겟 찾기
@@ -235,6 +283,9 @@ export default {
         this.active = tar.id;
         if (!(this.active === "" || this.active === "playground")) {
           this.resizerFunc(tar);
+          if (!(this.active === "con1" || this.active === "mainImg")) {
+            this.$nextTick(() => this.removerMove(tar));
+          }
         }
         tar.classList.add("active");
       }
@@ -265,7 +316,6 @@ export default {
           };
           document.onmouseup = () => {
             document.onmousemove = null;
-            
           };
         };
         // RT
@@ -319,17 +369,21 @@ export default {
     resizerMove(resizer, item) {
       let pg = document.querySelector("#playground");
       resizer[0].style.left = `${pg.offsetLeft + item.offsetLeft - 2}px`;
-      resizer[0].style.top = `${item.offsetTop + 50 - 2}px`;
+      resizer[0].style.top = `${item.offsetTop + pg.offsetTop - 2}px`;
       resizer[1].style.left = `${
         pg.offsetLeft + item.offsetLeft + item.clientWidth - 2
       }px`;
-      resizer[1].style.top = `${item.offsetTop + 50 - 2}px`;
+      resizer[1].style.top = `${item.offsetTop + pg.offsetTop - 2}px`;
       resizer[2].style.left = `${
         pg.offsetLeft + item.offsetLeft + item.clientWidth - 2
       }px`;
-      resizer[2].style.top = `${item.offsetTop + 50 + item.clientHeight - 2}px`;
+      resizer[2].style.top = `${
+        item.offsetTop + pg.offsetTop + item.clientHeight - 2
+      }px`;
       resizer[3].style.left = `${pg.offsetLeft + item.offsetLeft - 2}px`;
-      resizer[3].style.top = `${item.offsetTop + 50 + item.clientHeight - 2}px`;
+      resizer[3].style.top = `${
+        item.offsetTop + pg.offsetTop + item.clientHeight - 2
+      }px`;
     },
     onEditText(item) {
       if (this.editText !== item.id) {
@@ -424,6 +478,9 @@ export default {
       }
     }
   }
+  #con {
+    display: flex;
+  }
   #playground {
     display: flex;
     position: relative;
@@ -436,8 +493,17 @@ export default {
       border: 1px solid black;
     }
     .content {
-      min-height: 200px;
-      overflow:visible;
+      overflow: visible;
+    }
+  }
+  #remover {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    position: fixed;
+    z-index: 105;
+    &:hover {
+      cursor: pointer;
     }
   }
   #resizer {

@@ -98,13 +98,39 @@ export default {
           i.onmouseenter = () => {
             itemDiv.querySelector("img").style.height = "40vh";
             itemDiv.style.zIndex = "9";
+            if (window.innerWidth<itemDiv.clientWidth+itemDiv.offsetLeft){
+              itemDiv.style.left = `${window.innerWidth - itemDiv.clientWidth}px`
+            }
           };
           i.onmouseout = () => {
             itemDiv.querySelector("img").style.height = "30vh";
             itemDiv.style.zIndex = `${item.id}`;
+            itemDiv.style.left = `${-card + (this.wid / 6) * (index + 1)}px`;
           };
         });
       });
+      if (this.wid<this.hei){
+        document.querySelectorAll('#filmSelector li').forEach((item,index)=>{
+          item.onclick = ()=>{
+            for (let i = 0;i<5;i++){
+              let itemDiv = document.querySelector(`#pic${i}`);
+              if (index === i){
+                itemDiv.querySelector("img").style.height = "40vh";
+                itemDiv.style.zIndex = "9";
+                if (window.innerWidth<itemDiv.clientWidth+itemDiv.offsetLeft){
+                  itemDiv.style.left = `${window.innerWidth - itemDiv.clientWidth}px`
+                }
+              }
+              else{
+                itemDiv.querySelector("img").style.height = "30vh";
+                itemDiv.style.zIndex = `${i}`;
+                itemDiv.style.left = `${-card + (this.wid / 6) * (i + 1)}px`;
+              }
+
+            }
+          }
+        })
+      }
     },
     debug() {
       this.editMode = !this.editMode;
@@ -131,6 +157,7 @@ export default {
       display: flex;
       flex-flow: column;
       align-items: center;
+      height: 30vh;
       img {
         height: 30vh;
         width: auto;
@@ -173,6 +200,9 @@ export default {
       line-height: 20px;
       text-align: center;
       padding: 10px;
+      &:hover{
+        cursor: pointer;
+      }
     }
   }
   #next{
