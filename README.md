@@ -123,6 +123,50 @@ python ai_server.py
 
 <br>
 
+## 🕛Gantt
+
+```mermaid
+gantt
+    dateFormat  YYYY-MM-DD
+    title       Photory 일정
+
+    section 기획
+    기획            :done,    des1, 2020-10-12,3d
+    기술 학습(AI)         :done,  des2, after des1, 6d
+    목업         :done,  des2, after des1, 3d
+
+    section 프론트엔드
+    Vue 기본세팅 :  done, 2020-10-19,1d
+    메인페이지   :  done, 2020-10-20, 3d
+    로그인 구현  :  done, 2020-10-20, 4d
+    Createstory        :active,2020-10-26, 6d
+    Mystory          :active,2020-10-26, 6d
+    Sharestory    :active,2020-10-26, 6d
+    StoryEdit     :active,2020-10-26, 6d
+
+    section 백엔드
+    Django 기본세팅               :done, 2020-10-19, 1d
+    Login API      :     done, 2020-10-24, 3d
+    Story API      :     active, 2020-10-26, 6d
+    Member API      :     active, 2020-10-26, 6d
+    AI server API      :     active, 2020-11-2, 6d
+
+    section AI서버
+    Flask 기본세팅               :done, 2020-10-19, 1d
+    AI기술 research      :     done, 2020-10-20, 3d
+    AI 구현:      active, 2020-10-23, 10d
+    
+    section 기타
+    통합 점검: active, 2020-11-2, 10d
+    UCC제작 : active, 2020-11-9, 7d
+    발표준비 :active, 2020-11-9, 7d
+```
+
+
+
+
+
+
 ## 👨‍👩‍👦‍👦팀원
 
 ##### **이다현**
