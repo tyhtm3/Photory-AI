@@ -265,6 +265,7 @@ export default {
           };
           document.onmouseup = () => {
             document.onmousemove = null;
+            
           };
         };
         // RT
@@ -385,7 +386,6 @@ export default {
       border: 2px solid black;
       flex-grow: 1;
       border-radius: 10px;
-      background-color: #ddd;
       &:hover {
         cursor: pointer;
       }
@@ -448,6 +448,7 @@ export default {
       border: 1px solid black;
       // border-radius: 50%;
       position: fixed;
+      z-index: 105;
     }
     #dotLT,
     #dotRB:hover {
