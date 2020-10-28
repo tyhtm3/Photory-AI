@@ -149,7 +149,7 @@ gantt
     Login API      :     done, 2020-10-24, 3d
     Story API      :     active, 2020-10-26, 6d
     Member API      :     active, 2020-10-26, 6d
-    AI server API      :     active, 2020-11-2, 6d
+    AI server API      :     active, 2020-11-02, 6d
 
     section AI서버
     Flask 기본세팅               :done, 2020-10-19, 1d
@@ -157,13 +157,10 @@ gantt
     AI 구현:      active, 2020-10-23, 10d
     
     section 기타
-    통합 점검: active, 2020-11-2, 10d
-    UCC제작 : active, 2020-11-9, 7d
-    발표준비 :active, 2020-11-9, 7d
+    통합 점검: active, 2020-11-02, 10d
+    UCC제작 : active, 2020-11-09, 7d
+    발표준비 :active, 2020-11-09, 7d
 ```
-
-
-
 
 
 
