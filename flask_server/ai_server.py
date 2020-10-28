@@ -2,6 +2,9 @@ from flask import Flask, request, render_template
 from flask_cors import CORS
 import tensorflow as tf
 from neural_style import style_transfer_tester, utils
+from io import BytesIO
+import requests
+import json
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
@@ -24,10 +27,15 @@ def index_page():
     
     return "AI server!"
 
-@app.route('/test')
-def test_path():
-    with g.as_default():
-        output = transformer.test()
+@app.route('/style', methods=['POST'])
+def style():
+    # Get image url from json
+    path = json.loads(request.get_data(), encoding='utf-8')
+    image_url = path['url']
+    print(image_url)
+
+    #with g.as_default():
+    #    output = transformer.test()
     return 'good!'
 
 @app.route('/image/<filename>')
