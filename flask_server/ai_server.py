@@ -32,7 +32,7 @@ def test_path():
 
 @app.route('/image/<filename>')
 def image(filename):
-    return render_template('static.html')
+    return render_template('static.html', filename=filename)
 
 if __name__=='__main__':
     #app.run(host='0.0.0.0')
