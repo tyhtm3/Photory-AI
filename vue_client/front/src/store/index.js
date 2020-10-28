@@ -28,7 +28,6 @@ const store = new Vuex.Store({
         login(context, signInfo) {
             axios.post(`http://127.0.0.1:8000/rest-auth/login/`, signInfo, { "Content-Type": "application-json" })
                 .then(res => {
-                    console.log(res.data)
                     if (res.data.key) {
                         context.commit('MUTATEISLOGIN', true)
                         context.commit('MUTATEUSERINFO', res.data)
@@ -49,16 +48,19 @@ const store = new Vuex.Store({
             router.go(0);
         },
 
-        // signup(context, { email, password }) {
-        //     axios.post(`http://127.0.0.1:8000/rest-auth/signup/?email=${email}&password1=${password}&password2=${password}&username=user2`)
-        //         .then(res => {
-        //             alert(res.data);
-        //             context.commit('SIGNUP');
-        //         })
-        //         .catch(err => {
-        //             console.log(err)
-        //         })
-        // },
+        signup(context,signupInfo) {
+            axios.post(`http://127.0.0.1:8000/rest-auth/signup/`, signupInfo, { "Content-Type": "application-json" })
+                .then(res => {
+                    context.commit('SignUP');
+                    alert("회원가입되었습니다.");
+                    console.log(res.data);
+                    router.go(0);
+                })
+                .catch(err => {
+                    alert("회원가입에 실패하셨습니다.");
+                    console.log(err);
+                })
+        },
     },
     plugins: [
         createPersistedState({
