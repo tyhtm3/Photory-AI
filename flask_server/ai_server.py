@@ -46,7 +46,7 @@ def style():
     output = transformer.test()
 
     # save result
-    result_path = 'asdf.jpg'
+    result_path = 'asdf3.jpg'
     utils.save_image(output, 'static/'+result_path)
     return result_path
 
