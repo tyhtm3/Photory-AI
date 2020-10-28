@@ -30,7 +30,6 @@ const routes = [{
         name: 'storyEdit',
         component: storyEdit
     },
-
 ]
 
 const router = new VueRouter({

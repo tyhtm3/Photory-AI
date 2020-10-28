@@ -31,7 +31,7 @@
                 <v-card-title>
                  <v-row>
                   <v-col cols="12">
-                    <span class="text-h3">Sign in Now!</span>
+                    <span class="text-h3" style="font-family: 'UhBeeSeulvely';">Sign in Now!</span>
                   </v-col>
                 </v-row>
                 </v-card-title>
@@ -216,5 +216,6 @@ import store  from '../store/index'
 #signupbtn{
   padding-top: 20px;
 }
+
 </style>
 
