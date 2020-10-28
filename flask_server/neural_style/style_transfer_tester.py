@@ -4,22 +4,19 @@ from neural_style import transform
 class StyleTransferTester:
 
     def __init__(self, content_image, model_path):
-        # session
-        soft_config = tf.ConfigProto(allow_soft_placement=True)
-        soft_config.gpu_options.allow_growth = True # to deal with large image
-        self.sess = tf.Session(config=soft_config)
-        
-        # input images
-        self.x0 = content_image
-
         # input model
         self.model_path = model_path
+
+        # input images
+        self.x0 = content_image
 
         # image transform network
         self.transform = transform.Transform()
 
         # build graph for style transfer
         self._build_graph()
+
+
 
     def _build_graph(self):
 
@@ -33,16 +30,15 @@ class StyleTransferTester:
         self.y_hat = tf.clip_by_value(self.y_hat, 0., 255.)
 
     def test(self):
+        
+        with tf.Session() as sess:
 
-        # initialize parameters
-        self.sess.run(tf.global_variables_initializer())
+            # load pre-trained model
+            saver = tf.compat.v1.train.Saver()
+            saver.restore(sess, self.model_path)
 
-        # load pre-trained model
-        saver = tf.train.Saver()
-        saver.restore(self.sess, self.model_path)
-
-        # get transformed image
-        output = self.sess.run(self.y_hat, feed_dict={self.x: self.x0})
+            # get transformed image
+            output = sess.run(self.y_hat, feed_dict={self.x: self.x0})
 
         return output
 
