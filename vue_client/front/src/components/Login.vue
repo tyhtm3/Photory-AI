@@ -204,8 +204,6 @@ import store  from '../store/index'
           'email': this.email
         }
         store.dispatch('login', signinInfo);
-        console.log(this.$store.state.isLogin);
-        if(this.$store.state.isLogin) this.$emit('close-login');
       },
     },
   }

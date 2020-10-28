@@ -45,6 +45,7 @@
                       id = "signup"
                       >
                         <v-text-field
+                          v-model="email"
                           prepend-inner-icon="mdi-email"
                           label="Email"
                           required
@@ -54,6 +55,7 @@
                       <v-col cols="10" 
                       id = "signup">
                         <v-text-field
+                          v-model="password"
                           prepend-inner-icon="mdi-shield-lock-outline"
                           label="Password"
                           type="password"
@@ -63,6 +65,7 @@
                       <v-col cols="10"
                        id = "signup">
                         <v-text-field
+                          v-model="nickname"
                           prepend-inner-icon="mdi-baby-face-outline"
                           label="Nickname"
                           required
@@ -74,7 +77,7 @@
                             color="#87c7c6"
                             dark
                             rounded
-                            @click="closeSignup"
+                            @click="onSignup"
                         >
                             Sign Up  
                             <v-icon>
@@ -126,6 +129,7 @@
                       id = "signup"
                       >
                         <v-text-field
+                          v-model="email"
                           prepend-inner-icon="mdi-email"
                           label="Email"
                           required
@@ -135,6 +139,7 @@
                       <v-col cols="10" 
                       id = "signup">
                         <v-text-field
+                          v-model="password"
                           prepend-inner-icon="mdi-shield-lock-outline"
                           label="Password"
                           type="password"
@@ -144,6 +149,7 @@
                       <v-col cols="10"
                        id = "signup">
                         <v-text-field
+                          v-model="nickname"
                           prepend-inner-icon="mdi-baby-face-outline"
                           label="Nickname"
                           required
@@ -155,7 +161,7 @@
                             color="#87c7c6"
                             dark
                             rounded
-                            @click="closeSignup"
+                            @click="onSignup"
                         >
                             Sign Up  
                             <v-icon>
@@ -185,10 +191,13 @@
 </template>
 
 <script>
+import store  from '../store/index'
   export default {
     props:['signupdialog'],
     data: () => ({
-       
+       password: '',
+       email:'',
+       nickname:'',
     }),
     methods : {
       closeSignup (){
@@ -198,6 +207,15 @@
         this.$emit('open-login');
         this.$emit('close-signup');
       },
+      onSignup(){
+        const signupInfo = {
+          'username': this.nickname,
+          'email': this.email,
+          'password1': this.password,
+          'password2' : this.password,
+        }
+        store.dispatch('signup', signupInfo);
+      }
     },
   }
 </script>
