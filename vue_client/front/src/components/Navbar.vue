@@ -55,13 +55,12 @@
           <v-list-item
             @click="logout"
           >
-            <v-list-item-title>LOGOUT</v-list-item-title>
+            <v-list-item-title style="font-family: 'UhBeeSeulvely';">LOGOUT</v-list-item-title>
           </v-list-item>
-          <!-- 마이페이지로 바꾸기 -->
           <v-list-item
-            @click="()=>$router.push('/').catch(()=>{})"
+            @click="openMypage"
           >
-            <v-list-item-title>MYPAGE</v-list-item-title>
+            <v-list-item-title style="font-family: 'UhBeeSeulvely';">MYPAGE</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -105,17 +104,16 @@
           </v-btn>
         </template>
 
-        <v-list>
+         <v-list>
           <v-list-item
             @click="logout"
           >
-            <v-list-item-title>Logout</v-list-item-title>
+            <v-list-item-title style="font-family: 'UhBeeSeulvely';">LOGOUT</v-list-item-title>
           </v-list-item>
-          <!-- 마이페이지로 바꾸기 -->
           <v-list-item
-            @click="()=>$router.push('/').catch(()=>{})"
+            @click="openMypage"
           >
-            <v-list-item-title>Mypage</v-list-item-title>
+            <v-list-item-title style="font-family: 'UhBeeSeulvely';">MYPAGE</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -166,22 +164,25 @@
 
     <!-- 로그인 Popup -->
     <Login v-bind:logindialog="logindialog" v-on:close-login="closeLogin" v-on:open-login="openLogin"/>
+    <Mypage v-bind:mypagedialog="mypagedialog" v-on:close-mypage="closeMypage" v-on:open-mypage="openMypage"/>
   </div>
 </template>
 <script>
 import Login from '../components/Login.vue'
+import Mypage from '../components/Mypage.vue'
 import store  from '../store/index'
 export default {
   name: 'Navbar',
   components:{
-    Login
+    Login,
+    Mypage
   },
   data: () => ({
       drawer: false,
       drawer2: false,
       group: null,
       logindialog : false,
-      
+      mypagedialog : false,      
     }),
   watch: {
     group () {
@@ -199,6 +200,12 @@ export default {
     logout(){
       store.dispatch('logout');
     },
+    openMypage(){
+      this.mypagedialog = true
+    },
+    closeMypage(){
+      this.mypagedialog = false
+    },
   }
 }
 </script>
@@ -208,6 +215,7 @@ export default {
   .v-app-bar {
     float: none;
     display: block;
+    
   }
 }
 #userimg{
