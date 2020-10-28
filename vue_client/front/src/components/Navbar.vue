@@ -5,7 +5,7 @@
       color="#FFFFFF" dense flat fixed
       class="d-none d-sm-block"
     >
-      <v-toolbar-title style="cursor: pointer;padding-top: 10px;" @click="()=>$router.push('/')">
+      <v-toolbar-title style="cursor: pointer;padding-top: 10px;" @click="()=>$router.push('/').catch(()=>{})">
          <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <span
@@ -21,50 +21,44 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn text @click="()=>$router.push('/ShareStory')">
+      <v-btn text @click="()=>$router.push('/ShareStory').catch(()=>{})">
         <v-col style="color: black" >Share Story</v-col>
       </v-btn>
 
-      <v-btn text @click="()=>$router.push('/CreateStory')">
+      <v-btn text @click="()=>$router.push('/CreateStory').catch(()=>{})">
         <v-col style="color: black">Create Story</v-col>
       </v-btn>
       
-      <v-btn text @click="()=>$router.push('/MyStory')">
+      <v-btn text @click="()=>$router.push('/MyStory').catch(()=>{})">
         <v-col style="color: black">My Story</v-col>
       </v-btn>
       
+     
+      
+
       <!-- 로그인 한 후 -->
       <!-- 사용자 정보 받아와서 유저 아이콘 해놓기 -->
-      <v-tooltip bottom v-if="isLogin=='성공'">
+      <v-tooltip bottom v-if="this.$store.state.isLogin">
         <template v-slot:activator="{ on, attrs }">
-          <v-icon
-            v-bind="attrs"
-            v-on="on"
-            @click="logout"
-          >
-            mdi-account-circle
-          </v-icon>
+           <img id = "userimg" v-bind="attrs" v-on="on"  @click="logout" src="@/assets/user_bear.png" alt=""> 
         </template>
         <span>Logout</span>
       </v-tooltip>
-      
+
       <!-- 로그인 하기전 -->
-      <v-tooltip bottom v-else>
+      <v-tooltip bottom  v-else>
         <template v-slot:activator="{ on, attrs }">
           <v-icon
             v-bind="attrs"
             v-on="on"
             @click="openLogin"
           >
-            mdi-account-circle
+           mdi-account-circle
           </v-icon>
         </template>
         <span>Sign In</span>
       </v-tooltip>
-      
-     
-      
-    </v-app-bar>
+     </v-app-bar>
 
     <!-- nav bar sm 보다 작을 때 -->
      <v-app-bar
@@ -73,9 +67,28 @@
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-spacer></v-spacer>
-      <v-btn icon>
-        <v-icon>mdi-account-circle</v-icon>
-      </v-btn>
+      <!-- 로그인 한 후 -->
+      <!-- 사용자 정보 받아와서 유저 아이콘 해놓기 -->
+      <v-tooltip bottom v-if="this.$store.state.isLogin">
+        <template v-slot:activator="{ on, attrs }">
+           <img id = "userimg" v-bind="attrs" v-on="on"  @click="logout" src="@/assets/user_bear.png" alt=""> 
+        </template>
+        <span>Logout</span>
+      </v-tooltip>
+
+      <!-- 로그인 하기전 -->
+      <v-tooltip bottom  v-else>
+        <template v-slot:activator="{ on, attrs }">
+          <v-icon
+            v-bind="attrs"
+            v-on="on"
+            @click="openLoginM"
+          >
+           mdi-account-circle
+          </v-icon>
+        </template>
+        <span>Sign In</span>
+      </v-tooltip>
     </v-app-bar>
     <v-navigation-drawer
       v-model="drawer"
@@ -106,14 +119,13 @@
     </v-navigation-drawer>
 
     <!-- 로그인 Popup -->
-    <Login v-bind:logindialog="logindialog" v-on:close-login="closeLogin" v-on:open-login="openLogin"/>
+    <Login v-bind:logindialog="logindialog" v-bind:logindialogM="logindialogM" v-on:close-login="closeLogin" v-on:open-login="openLogin" v-on:close-login-m="closeLoginM" v-on:open-login-m="openLoginM"/>
   </div>
 </template>
 
 <script>
 import Login from '../components/Login.vue'
-import { mapActions, mapGetters } from 'vuex'
-const loginStore = 'loginStore'
+import store  from '../store/index'
 export default {
   name: 'Navbar',
   components:{
@@ -123,14 +135,9 @@ export default {
       drawer: false,
       group: null,
       logindialog : false,
+      logindialogM : false,
+      
     }),
-  // 로그인 확인하기
-  computed:{
-      ...mapGetters(loginStore, [
-      'isLogin',
-      'userInfo'
-      ]),
-  },
   watch: {
     group () {
       this.drawer = false
@@ -138,17 +145,21 @@ export default {
   },
   
   methods : {
-    ...mapActions(loginStore, [
-      'logout'
-    ]),
     openLogin(){
       this.logindialog = true
     },
     closeLogin(){
       this.logindialog = false
+      console.log(this.logindialog)
+    },
+    openLoginM(){
+      this.logindialogM = true
+    },
+    closeLoginM(){
+      this.logindialogM = false
     },
     logout(){
-      this.logout()
+      store.dispatch('logout');
     },
   }
 }
@@ -160,5 +171,9 @@ export default {
     float: none;
     display: block;
   }
+}
+#userimg{
+  height: 30px;
+  widows: 30px;
 }
 </style>
