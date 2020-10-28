@@ -3,10 +3,12 @@ from neural_style import transform
 
 class StyleTransferTester:
 
-    def __init__(self, session, content_image, model_path):
+    def __init__(self, content_image, model_path):
         # session
-        self.sess = session
-
+        soft_config = tf.ConfigProto(allow_soft_placement=True)
+        soft_config.gpu_options.allow_growth = True # to deal with large image
+        self.sess = tf.Session(config=soft_config)
+        
         # input images
         self.x0 = content_image
 
