@@ -32,41 +32,20 @@
       <v-btn text @click="()=>$router.push('/MyStory').catch(()=>{})">
         <v-col style="color: black">My Story</v-col>
       </v-btn>
-  
+      
+     
+      
+
       <!-- 로그인 한 후 -->
       <!-- 사용자 정보 받아와서 유저 아이콘 해놓기 -->
-      <v-menu
-        left
-        bottom
-        offset-y
-        v-if="this.$store.state.isLogin"
-      >
+     <v-tooltip bottom v-if="this.$store.state.isLogin">
         <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            icon
-            v-bind="attrs"
-            v-on="on"
-          >
-            <img id = "userimg" src="@/assets/user_bear.png" alt=""> 
-          </v-btn>
+           <img id = "userimg" v-bind="attrs" v-on="on"  @click="logout" src="@/assets/user_bear.png" alt=""> 
         </template>
-
-        <v-list>
-          <v-list-item
-            @click="logout"
-          >
-            <v-list-item-title>LOGOUT</v-list-item-title>
-          </v-list-item>
-          <!-- 마이페이지로 바꾸기 -->
-          <v-list-item
-            @click="()=>$router.push('/').catch(()=>{})"
-          >
-            <v-list-item-title>MYPAGE</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
+        <span>Logout</span>
+      </v-tooltip>
      <!-- 로그인 하기전 -->
-      <v-tooltip bottom  v-if="!this.$store.state.isLogin">
+          <v-tooltip bottom  v-else>
         <template v-slot:activator="{ on, attrs }">
           <v-icon
             v-bind="attrs"
@@ -89,39 +68,15 @@
       <v-spacer></v-spacer>
       <!-- 로그인 한 후 -->
       <!-- 사용자 정보 받아와서 유저 아이콘 해놓기 -->
-      <v-menu
-        left
-        bottom
-        offset-y
-        v-if="this.$store.state.isLogin"
-        >
+     <v-tooltip bottom v-if="this.$store.state.isLogin">
         <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            icon
-            v-bind="attrs"
-            v-on="on"
-          >
-            <img id = "userimg" src="@/assets/user_bear.png" alt=""> 
-          </v-btn>
+           <img id = "userimg" v-bind="attrs" v-on="on"  @click="logout" src="@/assets/user_bear.png" alt=""> 
         </template>
-
-        <v-list>
-          <v-list-item
-            @click="logout"
-          >
-            <v-list-item-title>Logout</v-list-item-title>
-          </v-list-item>
-          <!-- 마이페이지로 바꾸기 -->
-          <v-list-item
-            @click="()=>$router.push('/').catch(()=>{})"
-          >
-            <v-list-item-title>Mypage</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
+        <span>Logout</span>
+      </v-tooltip>
      
      <!-- 로그인 하기전 -->
-        <v-tooltip bottom  v-if="!this.$store.state.isLogin">
+          <v-tooltip bottom  v-else>
         <template v-slot:activator="{ on, attrs }">
           <v-icon
             v-bind="attrs"
@@ -178,7 +133,6 @@ export default {
   },
   data: () => ({
       drawer: false,
-      drawer2: false,
       group: null,
       logindialog : false,
       
