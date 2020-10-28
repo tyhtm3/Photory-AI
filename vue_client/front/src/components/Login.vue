@@ -1,10 +1,9 @@
 <template>
   <v-row justify="center">
     <v-dialog
-      content-class = "d-none d-md-block"
       v-model="logindialog"
-      persistent
       max-width="1000px"
+      persistent
     >
        <v-card
         class="mx-auto"
@@ -12,12 +11,14 @@
         <v-container>
           <v-row dense>
             <v-col
+            class = "d-none d-md-block"
             cols="6"
             >
-              <img src="@/assets/loginbackground.png" style="max-width: -webkit-fill-available;" >
+            <img src="@/assets/loginbackground.png" style="max-width: -webkit-fill-available;" >
             </v-col>
             <v-col
               cols="6"
+              class = "d-none d-md-block"
             >
               <v-card
               flat
@@ -87,25 +88,10 @@
                 </v-card-text>
               </v-card>
             </v-col>
-          </v-row>
-        </v-container>
-      </v-card>
-    </v-dialog>
-
-    <!-- 모바일 버전 -->
-    <v-dialog
-      content-class ="d-md-none"
-      v-model="logindialogM"
-      persistent
-      max-width="1000px"
-    >
-       <v-card
-        class="mx-auto"
-        >
-        <v-container>
-          <v-row dense>
-            <v-col
+            <!-- 모바일버전 -->
+             <v-col
               cols="12"
+              class ="d-md-none"
             >
               <v-card
               flat
@@ -113,7 +99,7 @@
                 <v-system-bar
                 color="#FFFFFF">
                   <v-spacer></v-spacer>
-                  <v-icon @click="closeLoginM">mdi-close</v-icon>
+                  <v-icon @click="closeLogin">mdi-close</v-icon>
                 </v-system-bar>
                 <v-card-title>
                  <v-row>
@@ -168,7 +154,7 @@
                     color="#ff4747"
                     text
                     rounded
-                    @click="openSignupM"
+                    @click="openSignup"
                   >
                     Sign Up  
                   </v-btn>
@@ -179,38 +165,30 @@
         </v-container>
       </v-card>
     </v-dialog>
-
     <!-- 회원가입 -->
-    <Signup v-bind:signupdialog="signupdialog" v-bind:signupdialogM="signupdialogM" v-on:close-signup="closeSignup" v-on:open-login="openLogin" v-on:close-signup-m="closeSignupM" v-on:open-login-m="openLoginM"/>
+    <Signup v-bind:signupdialog="signupdialog" v-on:close-signup="closeSignup" v-on:open-login="openLogin"/>
   </v-row>
 </template>
-
 <script>
 import Signup from '../components/Signup.vue'
 import store  from '../store/index'
   export default {
-    components:{
+   components:{
       Signup
     },
-    props:['logindialog','logindialogM'],
+    props:['logindialog'],
     data: () => ({
        signupdialog : false,
-       signupdialogM : false,
        password: '',
        email:'',
     }),
+
     methods : {
-      closeLogin (){
+    closeLogin (){
         this.$emit('close-login');
       },
       openLogin(){
         this.$emit('open-login');
-      },
-      closeLoginM (){
-        this.$emit('close-login-m');
-      },
-      openLoginM(){
-        this.$emit('open-login-m');
       },
       openSignup(){
         this.signupdialog = true;
@@ -218,13 +196,6 @@ import store  from '../store/index'
       },
       closeSignup(){
         this.signupdialog = false;
-      },
-      openSignupM(){
-        this.signupdialogM = true;
-        this.$emit('close-login-m');
-      },
-      closeSignupM(){
-        this.signupdialogM = false;
       },
       onLogin(){
         const signinInfo = {
@@ -248,3 +219,4 @@ import store  from '../store/index'
   padding-top: 20px;
 }
 </style>
+
