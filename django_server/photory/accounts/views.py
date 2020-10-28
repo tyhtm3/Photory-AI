@@ -23,7 +23,6 @@ from .serializers import UserSerializer
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
 def update_profile(request):

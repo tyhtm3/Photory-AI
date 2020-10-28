@@ -24,8 +24,13 @@ urlpatterns = [
     path('board/', include('board.urls')),
 
     ## django rest-auth API
-    path('rest-auth/', include('rest_auth.urls')),
-    path('rest-auth/signup/', include('rest_auth.registration.urls')),
+    path('rest-auth/', include('rest_auth.urls')), # login&logout
+    path('rest-auth/signup/', include('rest_auth.registration.urls')),# signup
+
+    #Email 인증
+    path('accounts/', include('allauth.urls')),
+        
+
 
 
 ]

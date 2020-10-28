@@ -26,4 +26,6 @@ class RegistrationSerializer(RegisterSerializer):
             'password1' : self.validated_data.get('password1', ''),
             'password2' : self.validated_data.get('password2', ''),
             'profile' : self.validated_data.get('profile', ''),
+            'nickname' : self.validated_data.get('nickname','')
+            
         }
