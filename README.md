@@ -190,7 +190,7 @@ gantt
 <br>
 <br>
 
-## Coding Convention
+## 🤙Coding Convention
 ### Front End
 * 언어는 javascript를, 프레임워크로 Vue를 사용하기 때문에 기본적으로 javascript와 Vue의 style guide를 따릅니다.
 
