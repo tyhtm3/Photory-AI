@@ -1,145 +1,113 @@
 ***
-# Default Deployment Setting
+# Default Jenkins Setting
 
 ## Dev
-#### Deployment Server
-AWS 
+#### Flatform
+AWS(ubuntu18.04)
 
-#### FrontEnd
-Vue
+#### VM
+Docker
+
 
 ***
-## Install
-###### 1. 기본적으로 npm, nodejs 설치가 필요. nodejs를 설치하면 npm는 자동으로 설치된다. 여기서는 nvm을 이용해 npm 최신버전을 다룬다.
+## Docker 설치 <sup id="a1">[1](#f1)</sup>
+###### 1. 이번 버전의 도커 관련 패키지들을 삭제한다
 
-nvm(노드 버전 관리자)를 설치
 ```bash
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.0/install.sh | bash
+sudo apt-get remove docker docker-engine docker.io containerd runc
 ```
 
-nvm 활성화
+
+><b id="f1"><sup>1</sup></b> 참고 : https://docs.docker.com/engine/install/ubuntu/[↩](#a1)<br>
+
+
+###### 2. 도커 엔진 설치
+
+최신 버전 설치
 ```bash
-. ~/.nvm/nvm.sh
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io
 ```
 
-npm 버전 확인
+특정 버전 설치
 ```bash
-nvm ls-remote
-```
+apt-cache madison docker-ce
 
-npm 설치 <!-- 2020.10.22일자 LTS 최신 버전-->
-
-```bash
-nvm install 12.19.0 
-```
-
-nodejs 버전 확인<sup id="a1">[1](#f1)</sup>
-```bash
-node -v
-```
-npm 버전 확인
-```bash
-npm -v
-```
-
-><b id="f1"><sup>1</sup></b> 최신 버전인지 확인하는 것은 중요하다. 프로젝트는 최신 버전에서 정상 작동한다.[↩](#a1)<br>
-
-
-###### 2. nginx 설치
-
-```bash
-sudo apt-get install nginx
-```
-
-###### 3. 프론트 가져오기 및 빌드
-
-git에서 배포하고자할 프로젝트 clone
-```bash
-git clone https://lab.ssafy.com/s03-final/s03p31a205.git
-```
-
-폴더 이동
-```bash
-cd s03p31a205/vue_client/front
-```
-
-패키지 설치 및 빌드
-```bash
-npm install
-npm run build
+  docker-ce | 5:18.09.1~3-0~ubuntu-xenial | https://download.docker.com/linux/ubuntu  xenial/stable amd64 Packages
+  docker-ce | 5:18.09.0~3-0~ubuntu-xenial | https://download.docker.com/linux/ubuntu  xenial/stable amd64 Packages
+  docker-ce | 18.06.1~ce~3-0~ubuntu       | https://download.docker.com/linux/ubuntu  xenial/stable amd64 Packages
+  docker-ce | 18.06.0~ce~3-0~ubuntu       | https://download.docker.com/linux/ubuntu  xenial/stable amd64 Packages
+  ...
+sudo apt-get install docker-ce=<VERSION_STRING> docker-ce-cli=<VERSION_STRING> containerd.io
 ```
 
 ***
 
-## Deploy
-###### 1. 빌드 파일 경로 확인. build를 실행시킨 폴더에 dist 폴더가 npm run build한 결과이다.
+## Jenkins 설치
+###### 1. Docker를 통한 Jenkins 이미지 받기
 
-__/home/ubuntu/Server/s03p31a205/vue_client/front/dist/__
-
-###### 2. /etc/nginx/ 폴더로 이동. sites-available 폴더로 이동하여 설정 파일을 생성한다.
-
-#### 설정 파일 폴더 구조
 ```bash
-**sites-available**  : 가상 서버 환경들에 대한 설정 파일들이 위치하는 부분. 가상 서버를 사용하거나 사용하지 않던간에 그에 대한 설정 파일들이 위치하는 곳
-**sites-enabled** : sites-available에 있는 가상 서버 파일들중에서 실행시키고 싶은 파일을 symlink로 연결한 폴더. 실제로 이 폴더에 위치한 가상서버 환경 파일들을 읽어서 서버를 세팅한다.
-**nginx.conf** : Nginx에 관한 설정파일로 Nginx 설정에 관한 블록들이 작성되어 있으며 이 파일에서 sites-enabled 폴더에 있는 파일들을 가져온다. (include 명령어를 사용).
+docker pull jenkins/jenkins:lts
 ```
 
 
-```bash
-cd /etc/nginx/
-cd ./sites-available
-touch A205_server.web
-vim A205_server.web
-```
 
-sites-available 폴더에는 기본적으로 default 파일이 있을 것이다. 그 파일을 수정해도 되지만 여기서는 다른 설정 파일을 생성해서 사용한다.
-
-![image1](./image/sites_available.JPG)
+###### 2. Jenkins 이미지를 컨테이너로 실행
 
 
-root 에는 빌드한 파일의 경로를 설정
-index는 index 파일의 파일명을 지정
-server_name은 서버이름을 지정하는 곳으로 기본적으로 {도메인 네임 혹은 아이피} 형식을 따른다. 여기서 _로 지정한 이유는 서버 기본 도메인으로 접속하는 모든 호스트에게 제공한다는 뜻이다. 도메인 네임을 지정하게 되면 지정한 도메인으로 접속하는 호스트에게 지정된 페이지를 제공할 수 있다.
-
-location /robots.txt - 크롤링을 막아준다. 검색 엔진에 노출되지 않는 설정
-
-location / - 모든 사용자들에게 먼저 index.html을 제공해준다.
-
-
-
-###### 3. /etc/nginx/sites-enabled 폴더로 이동하여 심볼릭 링크를 생성한다. 이 심볼릭 링크가 있어야만 sites-available에 있는 설정파일을 사용유무가 결정되는 것이다.
 
 ```bash
-cd ../sites-enabled
-ln -s ../sites-available/A205_server.web A205_server.web
+docker run -d -p 8181:8080 -v /jenkins:/var/jenkins_home --name jm_jenkins -u root jenkins/jenkins:lts
+// 위 명령어 옵션설명 
+-d	detached mode 흔히 말하는 백그라운드 모드
+-p	호스트와 컨테이너의 포트를 연결 (포워딩)
+-v	호스트와 컨테이너의 디렉토리를 연결 (마운트)
+–name	컨테이너 이름 설정
+-u 실행할 사용자 지정
+
+맨 마지막 jenkins/jenkins:lts 는 실행할 이미지의 레포지토리 이름이며 만약 이미지가 없을 경우 이미지를 docker hub 에서 땡겨오므로 주의한다.
 ```
 
-###### 4. nginx.conf를 열어 생성한 설정 파일을 이용하여 배포할 수 있도록 수정한다.
 
-![image2](./image/nginx_conf.JPG)
 
-Virtual Host Configs 부분의 include를 통해 배포할 설정파일을 선택할 수 있다.
-site-enabled 폴더의 심볼릭링크 파일을 포함시켜야 sites-available 폴더에 있는 설정 파일을 읽는다.
+
+
+
+
+###### 3. k3a205.p.ssafy.io:8181로 접속해서 추가설치를 한다.
+
+처음에 접속하면 Admin password를 요구한다. __/var/jenkins_home/secrets/initialAdminPassword__를 통해 확인한다.
+혹은
+```bash
+sudo docker logs [컨테이너 이름]
+```
+을 통해서도 확인가능하다.
+
+######![image1](./image/jenkins_admin_password.JPG)
+sudo docker logs의 내용
+
+
+패스워드를 페이지에서 입력하면 플러그인 설치 창이 나온다.
+######![image2](./image/jenkins_plugin_install.JPG)
+
+Install suggested plugins를 선택하면 기본적인 플러그인들을 설치한다.
+
+플러그인 설치 후 초기 계정을 생성하고 접속한다.
+
+
+###### 4. Jenkins에 접속하여 두 가지 플러그인(gitlab, publish over SSH)를 더 설치한다. 설치는 Jenkins 관리 - 플러그인 관리 에서 할 수 있다.
+######![image3](./image/jenkins_plogin_manage.JPG)
+
+######![image4](./image/jenkins_plogin_manage_gitlab.JPG)
+
+######![image5](./image/jenkins_plogin_manage_ssh.JPG)
+
+검색은 설치 가능 탭에서 검색하여 설치한다.
+
 
 
 ###### 5. nginx를 시작하거나 재시작한다.
 
-nginx 시작
-```bash
-sudo systemctl start nginx
-```
 
-nginx 재시작
-```bash
-sudo systemctl restart nginx
-```
-
-++ nginx 중지
-```bash
-sudo nginx -s stop
-```
 
 ###### 6. 도메인에 접속하여 확인한다.
-
-http://k3a205.p.ssafy.io/
