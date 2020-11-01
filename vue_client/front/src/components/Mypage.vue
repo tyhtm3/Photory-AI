@@ -53,7 +53,7 @@
                   </v-col>
                 </v-row>
               </v-col>
-              <v-col cols="12">
+              <v-col cols="12" id="height50">
                 <v-row>
                   <v-col cols="4"
                   class="d-none d-sm-block">
@@ -91,23 +91,7 @@
                 </v-row>
                 
               </v-col>
-              <v-col cols="12"
-              class="d-none d-sm-block">
-              <v-row>
-                  <v-col cols="5">
-                   <v-banner></v-banner>
-                  </v-col>
-                  <v-col cols="2">
-                    <v-img :src="require('@/assets/animal_foot.png')" />
-                  </v-col>
-                
-                  <v-col cols="5">
-                  
-              <v-banner></v-banner>
-                  </v-col>
-                </v-row>
-              </v-col>
-              <v-col cols="12">
+              <v-col cols="12"  id="height50">
                  <v-row>
                   <v-col cols="4"
                    class="d-none d-sm-block">
@@ -194,6 +178,9 @@ div.v-image__image.v-image__image--cover{
   border-radius: 50%;
   border: 5px solid #9bd3d0;
 }
+#anifoot{
+  border-style: none;
+}
 
 @media screen and (max-width: 500px) {
   div.col-sm-6.col-md-8.col-12{
@@ -204,6 +191,9 @@ div.v-image__image.v-image__image--cover{
   div.col.col-12{
     padding-top: 0px;
     padding-bottom: 0px;
+    /* height: 50px; */
+  }
+  #height50{
     height: 50px;
   }
 }
