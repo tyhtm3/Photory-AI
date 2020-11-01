@@ -173,7 +173,7 @@
 import Signup from '../components/Signup.vue'
 import store  from '../store/index'
   export default {
-   components:{
+    components:{
       Signup
     },
     props:['logindialog'],
