@@ -215,7 +215,6 @@ export default {
   .v-app-bar {
     float: none;
     display: block;
-    
   }
 }
 #userimg{
