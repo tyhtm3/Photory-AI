@@ -4,8 +4,8 @@
       <Navbar/>
     </div>
     <!-- 스크롤 없이 윗 공간 주기 위한 div -->
-    <div id="padding">
-    </div>
+    <!-- <div id="padding">
+    </div> -->
     <router-view/>
   </v-app>
 </template>
