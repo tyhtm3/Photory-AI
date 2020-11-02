@@ -23,6 +23,23 @@ from .serializers import UserSerializer
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+
+# secret_file = os.path.join(BASE_DIR,'Back', 'secrets.json')
+# class GoogleLogin(SocialLoginView):
+#     adapter_class = GoogleOAuth2Adapter
+    
+# with open(secret_file) as f:
+#     secrets = json.loads(f.read())
+
+# def get_secret(setting, secrets=secrets):
+#     """비밀 변수를 가져오거나 명시적 예외를 반환한다."""
+#     try:
+#         return secrets[setting]
+#     except KeyError:
+#         error_msg = "Set the {} environment variable".format(setting)
+#         raise ImproperlyConfigured(error_msg)
+
+
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
 def update_profile(request):

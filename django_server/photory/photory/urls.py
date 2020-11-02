@@ -16,6 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 
+#JWT
+from rest_framework_jwt.views import obtain_jwt_token
+
+from allauth.account.views import confirm_email
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 
@@ -30,7 +36,9 @@ urlpatterns = [
     #Email 인증
     path('accounts/', include('allauth.urls')),
         
-
-
+    #Google 로그인
+    path('auth/',include('accounts.urls')),
+    #JWT
+    path('api-token-auth/', obtain_jwt_token),
 
 ]

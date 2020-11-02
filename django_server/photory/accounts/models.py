@@ -11,7 +11,7 @@ class User(AbstractUser):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
-    profile = models.ImageField(blank=True)
+    profile = models.PositiveIntegerField(blank=True, null=True)
     nickname = models.CharField(max_length=100) 
     object = CustomUserManager()
 

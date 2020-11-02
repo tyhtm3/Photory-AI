@@ -17,7 +17,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class RegistrationSerializer(RegisterSerializer):
     nickname = serializers.CharField(required=True)
-    profile = serializers.ImageField(required=False)
+    profile = serializers.IntegerField(required=False)
 
     def get_cleaned_data(self):
         

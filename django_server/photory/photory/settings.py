@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'board',
 ]
 
+
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',  # CORS
     'django.middleware.security.SecurityMiddleware',
@@ -152,11 +153,12 @@ REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'accounts.serializers.RegistrationSerializer',
 }
 
-# custom user detail 가져오기d
+# custom user detail 가져오기
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'accounts.serializers.UserSerializer',
 }
 
+ACCOUNT_ADAPTER = 'accounts.adapter.CustomAccountAdapter'
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None  # 사용자 지정 모델에 username 필드가 없을 경우
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
@@ -208,3 +210,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',  # <- 디폴트 모델 백엔드
     'allauth.account.auth_backends.AuthenticationBackend', # <- 추가
 )
+
+# Django Extensions
+SHELL_PLUS = "ipython"
+
