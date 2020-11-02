@@ -1,19 +1,88 @@
 <template>
-<div id="storysharelist">
-  <div id="gallery_layout">
-    <div class="gallery_content" v-for="index in num"  v-bind:key="index">
-      <div id ="imgbox" style="float: left; position: relative;">
-        <div class="front"><img src="@/assets/book.png" alt="travel_img"></div>
-        <div id="back" style="position: absolute;  left: 58px;  top: 33px;  width: 55%; height: 63%;"><img src="@/assets/book_cover.png" alt="travel_img"></div>
-      </div>
-      <div class="content">
-            <h1>book {{index}}</h1>
-            <p>{{index}}</p>
-      </div>
-      <div class="overlay darkBlue"></div>
-    </div>
-  </div>
-</div>
+    <v-row no-gutters id="storysharelist" align="center" style="width: 100vw; height: 100vh;">
+        <v-col id="iconright" cols="3">
+            <v-btn
+                class="mx-2"
+                fab
+                color="#57bcc4"
+                height="100"
+                width="100"
+                depressed
+            >
+                <v-icon
+                    color="#c4e86b"
+                    size=80
+                >
+                    mdi-arrow-collapse-left
+                </v-icon>
+            </v-btn>
+            <v-btn
+                class="mx-2"
+                fab
+                color="#57bcc4"
+                small
+                depressed
+                height="100"
+                width="100"
+            >
+                <v-icon
+                    color="#c4e86b"
+                    size=80
+                >
+                    mdi-arrow-left
+                </v-icon>
+            </v-btn>
+        </v-col>
+        <v-col style="padding-left: 0px;padding-right: 0px;" cols="6">
+            <div id="gallery_layout">
+                <div class="gallery_content" v-for="index in num"  v-bind:key="index">
+                <div id ="imgbox" style="float: left; position: relative;">
+                    <div class="front"><img src="@/assets/book.png" alt="travel_img"></div>
+                    <div id="back" style="position: absolute;  left: 50px;  top: 28px;  width: 55%; height: 63%;"><img src="@/assets/book_cover.png" alt="travel_img"></div>
+                </div>
+                <div class="content">
+                        <h1>book {{index}}</h1>
+                        <p>{{index}}</p>
+                </div>
+                <div class="overlay darkBlue"></div>
+                </div>
+            </div>
+        </v-col>
+        <v-col id="iconleft" cols="3">
+            <v-btn
+                class="mx-2"
+                fab
+                color="#57bcc4"
+                small
+                depressed
+                height="100"
+                width="100"
+            >
+                <v-icon
+                    color="#c4e86b"
+                    size =80
+                >
+                    mdi-arrow-right
+                </v-icon>
+            </v-btn>
+            <v-btn
+                class="mx-2"
+                fab
+                color="#57bcc4"
+                small
+                depressed
+                height="100"
+                width="100"
+            >
+                <v-icon
+                    color="#c4e86b"
+                    size =80
+                >
+                    mdi-arrow-collapse-right
+                </v-icon>
+            </v-btn>
+        </v-col>
+    </v-row>
 </template>
 
 <script>
@@ -28,12 +97,12 @@ export default {
 
 @import url(https://cdn.rawgit.com/openhiun/hangul/14c0f6faa2941116bb53001d6a7dcd5e82300c3f/nanumbarungothic.css); 
 
-* {
+/* * {
       -webkit-box-sizing: border-box;
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-  }
+  } */
 
   body {
       font-family: "Nanum Barun Gothic", "Ubuntu Condensed", "Noto Sans Korean";;
@@ -42,12 +111,12 @@ export default {
   .gallery_content:hover .overlay.right {
       top: 0;
   }
-   #storysharelist{
+    #storysharelist{
     background-image:url("../assets/hill.png");
 		background-size : cover;
   }
   #gallery_layout {
-      width: 1200px;
+      width: 1000px;
       margin: 0 auto;
   }
 
@@ -139,16 +208,16 @@ export default {
       transition: all 0.5s ease-in-out;
   }
 
-  @media all and (min-width: 1200px) {
-      #gallery_layout {
+  @media all and (min-width: 1000px) {
+      /* #gallery_layout {
           position: absolute;
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-      }  
+      }   */
   }
 
-  @media all and (max-width: 1200px) {
+  @media all and (max-width: 1000px) {
   #gallery_layout {
       width: 100%;
   }
@@ -164,15 +233,7 @@ export default {
   .gallery_content {
       width: 100%;
   }
-  /* #imgbox {
-    float: left;
-    position: relative;
-  }
-  #back {
-    position: absolute;
-    top:10%;
-    left: 0;
-  } */
+
 
 }
 </style>
