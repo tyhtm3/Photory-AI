@@ -5,6 +5,7 @@ import router from "../router"
 // import loginStore from './modules/loginStore'
 import axios from 'axios'
 import createPersistedState from 'vuex-persistedstate';
+import storyStore from './modules/storyStore'
 
 Vue.use(Vuex)
 const store = new Vuex.Store({
@@ -70,6 +71,7 @@ const store = new Vuex.Store({
     ],
     modules: {
         // loginStore
+        storyStore
     },
 })
 
