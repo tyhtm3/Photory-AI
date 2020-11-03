@@ -8,7 +8,8 @@
       <li @click="toolSelect(1)">글 수정</li>
       <li @click="toolSelect(2)">글 상자 추가</li>
       <li @click="toolSelect(3)">스티커</li>
-      <li @click="save()">저장</li>
+      <li @click="toolSelect(4)">페이지</li>
+      <!-- <li @click="save()">저장</li> -->
       <!-- <li @click="toolSelect(4)">색상 변경</li> -->
     </ul>
     <div id="playground" v-html="pageData"></div>
@@ -82,8 +83,8 @@ export default {
           { align: "right" },
           { align: "justify" },
         ],
-        [{ indent: "-1" }, { indent: "+1" }], 
-        [{ color: [] }, { background: [] }], 
+        [{ indent: "-1" }, { indent: "+1" }],
+        [{ color: [] }, { background: [] }],
       ],
       hei: 0,
       screenHorizontal: 0,
@@ -238,13 +239,28 @@ export default {
       this.onEditText(cont);
     },
     reposition() {
+      // 화면 비율을 감지, 가로와 세로를 비교했을 때 가장
       let pg = document.querySelector("#playground");
+      let tls = document.querySelector("#tools");
       this.hei = window.innerHeight - pg.offsetTop;
       let el = document.querySelector(".storyEdit");
-      if (el.clientWidth >= el.clientHeight) {
+      let ratio = this.hei / el.clientWidth;
+      if (ratio <= 1.333) {
         this.screenHorizontal = true;
+        tls.style.height = `${el.clientHeight}px`;
+        tls.style.width = "200px";
       } else {
         this.screenHorizontal = false;
+        tls.style.width = `${el.clientWidth}px`;
+        tls.style.height = "200px";
+      }
+      /////////////////////////////////
+      if (pg.clientHeight * 3 > pg.clientWidth * 4) {
+        pg.style.width = `${el.clienWidth}px`;
+        pg.style.height = `${(el.clientWidth * 4) / 3}px`;
+      } else {
+        pg.style.height = `${el.clientHeight}px`;
+        pg.style.width = `${(el.clientHeight * 3) / 4}px`;
       }
     },
     moveObj(e, pg, target) {
@@ -428,16 +444,18 @@ export default {
   height: 100%;
   display: flex;
   overflow: hidden;
+  background-color: #777;
   #tools {
     padding: 0;
     margin: 0;
     list-style: none;
     display: flex;
     justify-content: space-between;
-    background-color: aquamarine;
+    background-color: white;
+    border-right: 2px black solid;
     li {
       padding: 5px;
-      border: 2px solid black;
+      // border: 1px solid gray;
       flex-grow: 1;
       border-radius: 10px;
       &:hover {
@@ -484,7 +502,7 @@ export default {
   #playground {
     display: flex;
     position: relative;
-    background-color: rosybrown;
+    background-color: white;
     flex-grow: 1;
     .active:hover {
       cursor: move;
