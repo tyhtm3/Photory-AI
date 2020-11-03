@@ -1,6 +1,7 @@
 # Most code in this file was borrowed from https://github.com/lengstrom/fast-style-transfer/blob/master/src/transform.py
 
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 
 class Transform:
     def __init__(self, mode='train'):
@@ -75,5 +76,5 @@ class Transform:
         else:
             weights_shape = [filter_size, filter_size, out_channels, in_channels]
         with tf.variable_scope(name, reuse=self.reuse):
-            weights_init = tf.get_variable('weight', shape=weights_shape, initializer=tf.contrib.layers.variance_scaling_initializer(), dtype=tf.float32)
+            weights_init = tf.get_variable('weight', shape=weights_shape, initializer=tf.compat.v1.initializers.he_normal(), dtype=tf.float32)
         return weights_init

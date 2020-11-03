@@ -16,6 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 
+#JWT
+from rest_framework_jwt.views import obtain_jwt_token
+
+from allauth.account.views import confirm_email
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 
@@ -24,8 +30,15 @@ urlpatterns = [
     path('board/', include('board.urls')),
 
     ## django rest-auth API
-    path('rest-auth/', include('rest_auth.urls')),
-    path('rest-auth/signup/', include('rest_auth.registration.urls')),
+    path('rest-auth/', include('rest_auth.urls')), # login&logout
+    path('rest-auth/signup/', include('rest_auth.registration.urls')),# signup
 
+    #Email 인증
+    path('accounts/', include('allauth.urls')),
+        
+    #Google 로그인
+    path('auth/',include('accounts.urls')),
+    #JWT
+    path('api-token-auth/', obtain_jwt_token),
 
 ]

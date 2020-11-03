@@ -1,23 +1,23 @@
-import tensorflow as tf
-import transform
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
+from neural_style import transform
 
 class StyleTransferTester:
 
-    def __init__(self, session, content_image, model_path):
-        # session
-        self.sess = session
+    def __init__(self, content_image, model_path):
+        # input model
+        self.model_path = model_path
 
         # input images
         self.x0 = content_image
-
-        # input model
-        self.model_path = model_path
 
         # image transform network
         self.transform = transform.Transform()
 
         # build graph for style transfer
         self._build_graph()
+
+
 
     def _build_graph(self):
 
@@ -31,16 +31,15 @@ class StyleTransferTester:
         self.y_hat = tf.clip_by_value(self.y_hat, 0., 255.)
 
     def test(self):
+        
+        with tf.Session() as sess:
 
-        # initialize parameters
-        self.sess.run(tf.global_variables_initializer())
+            # load pre-trained model
+            saver = tf.compat.v1.train.Saver()
+            saver.restore(sess, self.model_path)
 
-        # load pre-trained model
-        saver = tf.train.Saver()
-        saver.restore(self.sess, self.model_path)
-
-        # get transformed image
-        output = self.sess.run(self.y_hat, feed_dict={self.x: self.x0})
+            # get transformed image
+            output = sess.run(self.y_hat, feed_dict={self.x: self.x0})
 
         return output
 

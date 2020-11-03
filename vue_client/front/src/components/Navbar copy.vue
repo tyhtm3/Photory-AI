@@ -32,40 +32,20 @@
       <v-btn text @click="()=>$router.push('/MyStory').catch(()=>{})">
         <v-col style="color: black">My Story</v-col>
       </v-btn>
-  
+      
+     
+      
+
       <!-- 로그인 한 후 -->
       <!-- 사용자 정보 받아와서 유저 아이콘 해놓기 -->
-      <v-menu
-        left
-        bottom
-        offset-y
-        v-if="this.$store.state.isLogin"
-      >
+     <v-tooltip bottom v-if="this.$store.state.isLogin">
         <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            icon
-            v-bind="attrs"
-            v-on="on"
-          >
-            <img id = "userimg" src="@/assets/user_bear.png" alt=""> 
-          </v-btn>
+           <img id = "userimg" v-bind="attrs" v-on="on"  @click="logout" src="@/assets/user_bear.png" alt=""> 
         </template>
-
-        <v-list>
-          <v-list-item
-            @click="logout"
-          >
-            <v-list-item-title style="font-family: 'UhBeeSeulvely';">LOGOUT</v-list-item-title>
-          </v-list-item>
-          <v-list-item
-            @click="openMypage"
-          >
-            <v-list-item-title style="font-family: 'UhBeeSeulvely';">MYPAGE</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
+        <span>Logout</span>
+      </v-tooltip>
      <!-- 로그인 하기전 -->
-      <v-tooltip bottom  v-if="!this.$store.state.isLogin">
+          <v-tooltip bottom  v-else>
         <template v-slot:activator="{ on, attrs }">
           <v-icon
             v-bind="attrs"
@@ -88,38 +68,15 @@
       <v-spacer></v-spacer>
       <!-- 로그인 한 후 -->
       <!-- 사용자 정보 받아와서 유저 아이콘 해놓기 -->
-      <v-menu
-        left
-        bottom
-        offset-y
-        v-if="this.$store.state.isLogin"
-        >
+     <v-tooltip bottom v-if="this.$store.state.isLogin">
         <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            icon
-            v-bind="attrs"
-            v-on="on"
-          >
-            <img id = "userimg" src="@/assets/user_bear.png" alt=""> 
-          </v-btn>
+           <img id = "userimg" v-bind="attrs" v-on="on"  @click="logout" src="@/assets/user_bear.png" alt=""> 
         </template>
-
-         <v-list>
-          <v-list-item
-            @click="logout"
-          >
-            <v-list-item-title style="font-family: 'UhBeeSeulvely';">LOGOUT</v-list-item-title>
-          </v-list-item>
-          <v-list-item
-            @click="openMypage"
-          >
-            <v-list-item-title style="font-family: 'UhBeeSeulvely';">MYPAGE</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
+        <span>Logout</span>
+      </v-tooltip>
      
      <!-- 로그인 하기전 -->
-        <v-tooltip bottom  v-if="!this.$store.state.isLogin">
+          <v-tooltip bottom  v-else>
         <template v-slot:activator="{ on, attrs }">
           <v-icon
             v-bind="attrs"
@@ -164,25 +121,21 @@
 
     <!-- 로그인 Popup -->
     <Login v-bind:logindialog="logindialog" v-on:close-login="closeLogin" v-on:open-login="openLogin"/>
-    <Mypage v-bind:mypagedialog="mypagedialog" v-on:close-mypage="closeMypage" v-on:open-mypage="openMypage"/>
   </div>
 </template>
 <script>
 import Login from '../components/Login.vue'
-import Mypage from '../components/Mypage.vue'
 import store  from '../store/index'
 export default {
   name: 'Navbar',
   components:{
-    Login,
-    Mypage
+    Login
   },
   data: () => ({
       drawer: false,
-      drawer2: false,
       group: null,
       logindialog : false,
-      mypagedialog : false,      
+      
     }),
   watch: {
     group () {
@@ -199,12 +152,6 @@ export default {
     },
     logout(){
       store.dispatch('logout');
-    },
-    openMypage(){
-      this.mypagedialog = true
-    },
-    closeMypage(){
-      this.mypagedialog = false
     },
   }
 }
