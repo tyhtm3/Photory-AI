@@ -1,7 +1,11 @@
 <template>
   <div class="Createstory" :style="{ height: `${hei}px` }">
+    <div id="debug">
+      <div id="debugForm"></div>
+      <button @click="debug">디버그</button>
+    </div>
     <div id="filmForm">
-      <svg :height="Math.max(0, hei -100)" :width="wid">
+      <svg :height="Math.max(0, hei - 100)" :width="wid">
         <path
           :d="`M 0 ${hei / 5} q ${wid / 2} ${hei / 5} ${wid} 0`"
           stroke="#000"
@@ -9,7 +13,7 @@
           fill="none"
         />
       </svg>
-      <ul v-show="wid<hei" id="filmSelector">
+      <ul v-show="wid < hei" id="filmSelector">
         <li>1</li>
         <li>2</li>
         <li>3</li>
@@ -27,13 +31,15 @@
           <input type="file" :id="`file${pic.id}`" />
         </div>
       </div>
-      
     </div>
-    <router-link id="next" to="/CreateStory/edit">다음</router-link>
+    <button id="next" @click="story_init">다음</button>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+const url = "http://127.0.0.1:8000/";
+
 export default {
   name: "Createstory",
   data() {
@@ -98,16 +104,57 @@ export default {
           i.onmouseenter = () => {
             itemDiv.querySelector("img").style.height = "40vh";
             itemDiv.style.zIndex = "9";
+            if (window.innerWidth < itemDiv.clientWidth + itemDiv.offsetLeft) {
+              itemDiv.style.left = `${
+                window.innerWidth - itemDiv.clientWidth
+              }px`;
+            }
           };
           i.onmouseout = () => {
             itemDiv.querySelector("img").style.height = "30vh";
             itemDiv.style.zIndex = `${item.id}`;
+            itemDiv.style.left = `${-card + (this.wid / 6) * (index + 1)}px`;
           };
         });
       });
+      if (this.wid < this.hei) {
+        document.querySelectorAll("#filmSelector li").forEach((item, index) => {
+          item.onclick = () => {
+            for (let i = 0; i < 5; i++) {
+              let itemDiv = document.querySelector(`#pic${i}`);
+              if (index === i) {
+                itemDiv.querySelector("img").style.height = "40vh";
+                itemDiv.style.zIndex = "9";
+                if (
+                  window.innerWidth <
+                  itemDiv.clientWidth + itemDiv.offsetLeft
+                ) {
+                  itemDiv.style.left = `${
+                    window.innerWidth - itemDiv.clientWidth
+                  }px`;
+                }
+              } else {
+                itemDiv.querySelector("img").style.height = "30vh";
+                itemDiv.style.zIndex = `${i}`;
+                itemDiv.style.left = `${-card + (this.wid / 6) * (i + 1)}px`;
+              }
+            }
+          };
+        });
+      }
+    },
+    story_init(){
+      axios.post(url + "storys/init/").then((res) => {
+        document.querySelector("#debugForm").innerHTML = res.data;
+        console.log(res.data);
+      });
+      this.$router.push("/CreateStory/edit")
     },
     debug() {
-      this.editMode = !this.editMode;
+      // axios.post(url + "storys/init/").then((res) => {
+      //   document.querySelector("#debugForm").innerHTML = res.data;
+      //   console.log(res.data);
+      // });
     },
   },
 };
@@ -131,6 +178,7 @@ export default {
       display: flex;
       flex-flow: column;
       align-items: center;
+      height: 30vh;
       img {
         height: 30vh;
         width: auto;
@@ -173,9 +221,12 @@ export default {
       line-height: 20px;
       text-align: center;
       padding: 10px;
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
-  #next{
+  #next {
     position: fixed;
     bottom: 10vh;
     left: 0;
