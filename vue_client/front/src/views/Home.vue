@@ -1,13 +1,16 @@
 <template>
   <div >
-    <Mainpage/>
+    <testpage/>
+    <!-- <Mainpage/> -->
   </div>
 </template>
 <script>
-import Mainpage from '@/components/Mainpage.vue'
+import testpage from '@/components/testpage.vue'
+// import Mainpage from '@/components/Mainpage.vue'
 export default {
   components:{
-   Mainpage,
+  //  Mainpage,
+  testpage
   }
 }
 </script>

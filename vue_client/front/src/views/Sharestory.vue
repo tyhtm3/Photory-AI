@@ -12,8 +12,5 @@ export default {
 }
 </script>
 <style>
-  #storysharelist{
-    background-image:url("../assets/hill.png");
-		background-size : cover;
-  }
+  
 </style>

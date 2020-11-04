@@ -2,7 +2,7 @@
   <v-row justify="center">
     <v-dialog
       v-model="signupdialog"
-      max-width="1000px"
+      max-width="900px"
       persistent
     >
        <v-card
@@ -14,7 +14,7 @@
             cols="6"
             class = "d-none d-md-block"
             >
-              <img src="@/assets/loginbackground.png" style="max-width: -webkit-fill-available;" >
+               <img src="@/assets/loginbackground.svg" style="position: absolute;top: 0;left: 0; height: 100%;" >
             </v-col>
             <v-col
               cols="6"
@@ -209,7 +209,7 @@ import store  from '../store/index'
       },
       onSignup(){
         const signupInfo = {
-          'username': this.nickname,
+          'nickname': this.nickname,
           'email': this.email,
           'password1': this.password,
           'password2' : this.password,

@@ -108,12 +108,12 @@ export default {
       font-family: "Nanum Barun Gothic", "Ubuntu Condensed", "Noto Sans Korean";;
   }
 
+ #storysharelist{
+    background-image:url("../assets/storysharehill.png");
+	background-size : contain;
+  }
   .gallery_content:hover .overlay.right {
       top: 0;
-  }
-    #storysharelist{
-    background-image:url("../assets/hill.png");
-		background-size : cover;
   }
   #gallery_layout {
       width: 1000px;
@@ -140,6 +140,10 @@ export default {
       margin: 0 auto;
       transition: all 1s ease-in-out;
   }
+  .overlay.darkBlue {
+      background-color:rgba(48, 97, 129, 0.6);
+  }
+
 
   .content {
       z-index: 1;
@@ -183,26 +187,6 @@ export default {
       transition: top 0.3s, right 0.3s, bottom 0.3s, left 0.3s;
   }
 
-  /* overlay color */
-  .overlay.darkBlue {
-      background-color:rgba(31, 50, 99, 0.6);
-  }
-  .overlay.gold {
-      background-color:rgba(216, 177, 126, 0.5);
-  }  
-  .overlay.pink {
-      background-color:rgba(255, 113, 181, 0.7);
-  }  
-  .overlay.black {
-      background-color: rgba(0, 0, 0, 0.5);
-  }  
-  .overlay.yellow {
-      background-color: rgba(103, 58, 183, 0.5);
-  }
-  .overlay.red {
-      background-color: rgba(244, 67, 54, 0.5);
-  }      
-
   .gallery_content:hover .overlay {
       display: block;
       transition: all 0.5s ease-in-out;
@@ -217,6 +201,14 @@ export default {
       }   */
   }
 
+  /* @media all and (max-width: 1800px) {
+  #gallery_layout {
+      width: 100%;
+  }
+  .gallery_content {
+      width: 33%;
+  }
+  } */
   @media all and (max-width: 1000px) {
   #gallery_layout {
       width: 100%;
@@ -233,7 +225,5 @@ export default {
   .gallery_content {
       width: 100%;
   }
-
-
-}
+ }
 </style>
