@@ -24,10 +24,10 @@ from allauth.account.views import confirm_email
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
     #My apps
     path('storys/', include('storys.urls')),
     path('board/', include('board.urls')),
+    path('accounts/', include('accounts.urls')),
 
     ## django rest-auth API
     path('rest-auth/', include('rest_auth.urls')), # login&logout

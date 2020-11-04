@@ -42,10 +42,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
-def update_profile(request):
+def update_userinfo(request):
     try:
         user = User.objects.get(email = request.user)
         user.profile = request.data['profile']
+        user.nickname = request.data['nickname']
         user.save()
         serializer = UserSerializer(user)
         return Response(serializer.data, status =200)
