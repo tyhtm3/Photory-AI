@@ -3,5 +3,5 @@ from . import views
 
 urlpatterns = [
 
-    path('userinfo/', views.update_userinfo), # 유저정보 nickname,profile 수정
+    path('userinfo/', views.update_userinfo), # 유저정보 nickname,profile 수정, 유저 삭제
 ]
