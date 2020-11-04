@@ -60,7 +60,7 @@ def style():
         utils.save_image(output, 'static/'+str(i)+'_2'+result_path)
     
     with tf.Graph().as_default():
-        caption_model = Image_caption()
+        
         result_cap , plot = caption_model(img_extension_path)
     return result_cap
 
