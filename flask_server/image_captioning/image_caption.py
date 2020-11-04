@@ -1,5 +1,6 @@
 import pickle
 import tensorflow as tf
+import numpy as np
 
 class BahdanauAttention(tf.keras.Model):
     def __init__(self, units):
@@ -122,7 +123,7 @@ class Image_caption():
         self.new_input = self.image_model.input
         self.hidden_layer = self.image_model.layers[-1].output
 
-        self.image_features_extract_model = tf.keras.Model(new_input, hidden_layer)
+        self.image_features_extract_model = tf.keras.Model(self.new_input, self.hidden_layer)
 
         self.tokenizer = tf.keras.preprocessing.text.Tokenizer(
             num_words= self.top_k,
@@ -134,5 +135,34 @@ class Image_caption():
         self.tokenizer.word_index['<pad>'] = 0
         self.tokenizer.index_word[0] = '<pad>'
 
-    def evaluate(image):
+    def evaluate(self, image):
+        attention_plot = np.zeros((self.max_length, self.attention_features_shape))
+        hidden = self.decoder.reset_state(batch_size=1)    
+        temp_input = tf.expand_dims(self.load_image(image)[0], 0)
+        img_tensor_val = self.image_features_extract_model(temp_input)
+        img_tensor_val = tf.reshape(img_tensor_val, (img_tensor_val.shape[0], -1, img_tensor_val.shape[3]))
+
+        features = self.encoder(img_tensor_val)
+        dec_input = tf.expand_dims([self.tokenizer.word_index['<start>']],0)
+        result = []
+
+        for i in range(self.max_length):
+            predictions, hidden, attention_weights = self.decoder(dec_input, features, hidden)
+            attention_plot[i] = tf.reshape(attention_weights, (-1,)).numpy()
+            predicted_id = tf.random.categorical(predictions, 1)[0][0].numpy()
+
+            if self.tokenizer.index_word[predicted_id] == '<end>':
+                return result, attention_plot
+            result.append(self.tokenizer.index_word[predicted_id])
+            dec_input = tf.expand_dims([predicted_id],0)
         
+        attention_plot = attention_plot[:len(result), :]
+        return result, attention_plot
+
+
+    def load_image(self, image_path):
+        img = tf.io.read_file(image_path)
+        img = tf.image.decode_jpeg(img, channels=3)
+        img = tf.image.resize(img, (299, 299))
+        img = tf.keras.applications.inception_v3.preprocess_input(img)
+        return img, image_path
