@@ -1,4 +1,4 @@
-![Spinner-1s-535px](./documentation/convention/Spinner-1s-535px.gif)
+![Spinner-1s-535px](/documentation/convention/logo.gif)
 
 # 📕 Photory
 
