@@ -36,10 +36,32 @@ def style():
     img_extension_path = tf.keras.utils.get_file('image'+img_extension,
                                                 origin=image_url)
 
+    for i in range(1,6):
+        with tf.Graph().as_default():
+        # run neural network
+            transformer = style_transfer_tester.StyleTransferTester(
+                img, 'neural_style/fast_neural_style/wave.ckpt'
+            )
+            output = transformer.test()
 
+        # save result
+        result_path = 'asdf3.jpg'
+        utils.save_image(output, 'static/'+str(i)+'_1'+result_path)
+
+        with tf.Graph().as_default():
+            # run neural network
+            transformer = style_transfer_tester.StyleTransferTester(
+                img, 'neural_style/fast_neural_style/udnie.ckpt'
+            )
+            output = transformer.test()
+
+        # save result
+        result_path = 'asdf3.jpg'
+        utils.save_image(output, 'static/'+str(i)+'_2'+result_path)
+    
     with tf.Graph().as_default():
         caption_model = Image_caption()
-        result_cap , plot = caption_model.evaluate(img_extension_path)
+        result_cap , plot = caption_model(img_extension_path)
     return result_cap
 
 @app.route('/image/<filename>')
