@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path,include
 
 #JWT
-from rest_framework_jwt.views import obtain_jwt_token
+from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
 
 from allauth.account.views import confirm_email
 
@@ -33,12 +33,15 @@ urlpatterns = [
     path('rest-auth/', include('rest_auth.urls')), # login&logout
     path('rest-auth/signup/', include('rest_auth.registration.urls')),# signup
 
-    #Email 인증
-    path('accounts/', include('allauth.urls')),
+    # #Email 인증
+    # path('accounts/', include('allauth.urls')),
         
-    #Google 로그인
-    path('auth/',include('accounts.urls')),
-    #JWT
-    path('api-token-auth/', obtain_jwt_token),
+    # #Google 로그인
+    # path('auth/',include('accounts.urls')),
+    
+    # #JWT
+    # path('api-jwt-auth/', obtain_jwt_token),
+    # path('api-jwt-auth/refresh/',refresh_jwt_token),
+    # path('api-jwt-auth/verify/',verify_jwt_token),
 
 ]
