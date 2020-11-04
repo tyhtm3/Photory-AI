@@ -209,7 +209,7 @@ import store  from '../store/index'
       },
       onSignup(){
         const signupInfo = {
-          'username': this.nickname,
+          'nickname': this.nickname,
           'email': this.email,
           'password1': this.password,
           'password2' : this.password,
