@@ -29,13 +29,13 @@ const store = new Vuex.Store({
         login(context, signInfo) {
             axios.post(`http://127.0.0.1:8000/rest-auth/login/`, signInfo, { "Content-Type": "application-json" })
                 .then(res => {
-                    if (res.data.key) {
+                    if (res.data.user) {
                         context.commit('MUTATEISLOGIN', true)
-                        context.commit('MUTATEUSERINFO', res.data)
+                        context.commit('MUTATEUSERINFO', res.data.user)
                         alert("로그인 되었습니다.");
                         router.go(0);
                     } else {
-                        alert(res.data)
+                        alert(res.data.user);
                     }
                 })
                 .catch(err => {

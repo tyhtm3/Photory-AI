@@ -3,10 +3,8 @@
     <!-- Mainpage 화면클때 -->
     <div id="hill"  class="d-none d-sm-block">
       <img src="@/assets/hill.png" style="max-width: -webkit-fill-available;">
-      <!-- <div
-        style="background:url(../assets/loading/wave.png)">
-        ????
-      </div> -->
+      <!-- <img src="@/assets/loading/wave.svg" height="60" width=""> -->
+      
     </div>
     
     <!-- Mainpage 화면 작을때 -->

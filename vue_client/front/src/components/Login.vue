@@ -2,7 +2,7 @@
   <v-row justify="center">
     <v-dialog
       v-model="logindialog"
-      max-width="1000px"
+      max-width="900px"
       persistent
     >
        <v-card
@@ -14,7 +14,7 @@
             class = "d-none d-md-block"
             cols="6"
             >
-            <img src="@/assets/loginbackground.png" style="max-width: -webkit-fill-available;" >
+            <img src="@/assets/loginbackground.svg" style="position: absolute;top: 0;left: 0; height: 100%;" >
             </v-col>
             <v-col
               cols="6"
@@ -199,7 +199,7 @@ import store  from '../store/index'
       },
       onLogin(){
         const signinInfo = {
-          'username': 'user',
+          // 'username': 'user',
           'password': this.password,
           'email': this.email
         }
