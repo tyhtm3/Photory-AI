@@ -1,5 +1,16 @@
 <template>
     <v-row no-gutters id="storysharelist" align="center" style="width: 100vw; height: 100vh;">
+        <v-col>
+            <div class="back">
+                <img src="@/assets/loading/wave.png" style="max-width: -webkit-fill-available; position: absolute; bottom: 0;left: 0;">
+            </div>
+            <div class="tree">
+                <img src="@/assets/asset/tree.png" style="max-width: -webkit-fill-available; position: absolute; bottom: 0;left: 0;">
+            </div>
+            <div class="word">
+              <p style="font-family: 'UhBeeSeulvely'; font-size:60px; color:#3ba0a8;">ShareStory</p>
+            </div>
+        </v-col>
         <v-col id="iconright" cols="3">
             <v-btn
                 class="mx-2"
@@ -82,13 +93,14 @@
                 </v-icon>
             </v-btn>
         </v-col>
+        
     </v-row>
 </template>
 
 <script>
 export default {
   data: () => ({
-    num : 10,
+    num : 8,
   }),
 }
 </script>
@@ -116,7 +128,7 @@ export default {
       top: 0;
   }
   #gallery_layout {
-      width: 1000px;
+      width: 800px;
       margin: 0 auto;
   }
 
@@ -129,7 +141,7 @@ export default {
   .gallery_content {
       position: relative;
       float: left;
-      width: 20%;
+      width: 25%;
       overflow: hidden;
   }
 
@@ -226,4 +238,17 @@ export default {
       width: 100%;
   }
  }
+.tree{
+    position: absolute;
+    bottom: 0;
+    left: 50vh;
+    width:-webkit-fill-available;
+}
+.word{
+    position: absolute;
+    top: 10vh;
+    left: 0;
+    width:-webkit-fill-available;
+}
+
 </style>

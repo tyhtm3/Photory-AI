@@ -12,9 +12,11 @@ const store = new Vuex.Store({
     state: {
         user: null,
         isLogin: false,
+        msg:null,
     },
     getters: {
-        user: (state) => { return state.user; }
+        user: (state) => { return state.user; },
+        msg: (state) => {return state.msg;}
     },
     mutations: {
         SETUSER(state, user) { state.user = user; },
@@ -24,28 +26,33 @@ const store = new Vuex.Store({
         MUTATEUSERINFO(state, user) {
             state.user = user
         },
+        MUTATEUSMSG(state, msg){
+            state.msg = msg
+        }
     },
     actions: {
         login(context, signInfo) {
             axios.post(`http://127.0.0.1:8000/rest-auth/login/`, signInfo, { "Content-Type": "application-json" })
                 .then(res => {
-                    if (res.data.user) {
                         context.commit('MUTATEISLOGIN', true)
                         context.commit('MUTATEUSERINFO', res.data.user)
-                        alert("로그인 되었습니다.");
+                        // context.commit('MUTATEUSMSG',res.data.user.nickname+"님 환영합니다.")
+                        alert(res.data.user.nickname+"님 환영합니다.");
                         router.go(0);
-                    } else {
-                        alert(res.data.user);
-                    }
                 })
                 .catch(err => {
-                    console.log(err);
-                    alert("아이디 또는 비밀번호 실패입니다.");
+                    console.log(err.response.data);
+                    if(err.response.data.non_field_errors){
+                        alert(err.response.data.non_field_errors);
+                    }else if(err.response.data.email){
+                        alert(err.response.data.email);
+                    }
                 })
         },
-        logout(context) {
-            context.commit('MUTATEISLOGIN', false)
-            context.commit('MUTATEUSERINFO', {})
+        logout(store) {
+            alert(store.state.user.nickname+"님 안녕히 가세요")
+            store.commit('MUTATEISLOGIN', false)
+            store.commit('MUTATEUSERINFO', {})
             router.go(0);
         },
 
@@ -57,9 +64,15 @@ const store = new Vuex.Store({
                     console.log(res.data);
                     router.go(0);
                 })
-                .catch(err => {
-                    alert("회원가입에 실패하셨습니다.");
-                    console.log(err);
+                .catch((error) => {
+                    console.log(error.response.data);
+                    if(error.response.data.email){
+                        alert(error.response.data.email);
+                    }else if(error.response.data.password1){
+                        alert(error.response.data.password1)
+                    }else{
+                        alert("회원가입에 실패하셨습니다.");
+                    }
                 })
         },
     },
