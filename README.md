@@ -1,4 +1,4 @@
-![로고](images/README/로고.png) <-만들면 업데이트
+![Spinner-1s-535px](/documentation/convention/logo.gif)
 
 # 📕 Photory
 

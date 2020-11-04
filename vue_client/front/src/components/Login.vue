@@ -2,7 +2,7 @@
   <v-row justify="center">
     <v-dialog
       v-model="logindialog"
-      max-width="1000px"
+      max-width="900px"
       persistent
     >
        <v-card
@@ -14,7 +14,7 @@
             class = "d-none d-md-block"
             cols="6"
             >
-            <img src="@/assets/loginbackground.png" style="max-width: -webkit-fill-available;" >
+            <img src="@/assets/loginbackground.svg" style="position: absolute;top: 0;left: 0; height: 100%;" >
             </v-col>
             <v-col
               cols="6"
@@ -167,6 +167,20 @@
     </v-dialog>
     <!-- 회원가입 -->
     <Signup v-bind:signupdialog="signupdialog" v-on:close-signup="closeSignup" v-on:open-login="openLogin"/>
+    <!-- <v-alert
+      prominent
+      type="error"
+      :value="alert"
+    >
+      <v-row align="center">
+        <v-col class="grow">
+         {{this.$store.state.msg}}
+        </v-col>
+        <v-col class="shrink">
+          <v-btn @click="alert = false">Close</v-btn>
+        </v-col>
+      </v-row>
+    </v-alert> -->
   </v-row>
 </template>
 <script>
@@ -181,6 +195,7 @@ import store  from '../store/index'
        signupdialog : false,
        password: '',
        email:'',
+      //  alert: false,
     }),
 
     methods : {
@@ -199,11 +214,15 @@ import store  from '../store/index'
       },
       onLogin(){
         const signinInfo = {
-          'username': 'user',
+          // 'username': 'user',
           'password': this.password,
           'email': this.email
         }
         store.dispatch('login', signinInfo);
+        // alert(this.$store.state.msg)
+        // if(this.$store.state.msg==!""){
+        //   this.alert = true;
+        // }
       },
     },
   }

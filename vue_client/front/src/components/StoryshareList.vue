@@ -1,5 +1,16 @@
 <template>
     <v-row no-gutters id="storysharelist" align="center" style="width: 100vw; height: 100vh;">
+        <v-col>
+            <div class="back">
+                <img src="@/assets/loading/wave.png" style="max-width: -webkit-fill-available; position: absolute; bottom: 0;left: 0;">
+            </div>
+            <div class="tree">
+                <img src="@/assets/asset/tree.png" style="max-width: -webkit-fill-available; position: absolute; bottom: 0;left: 0;">
+            </div>
+            <div class="word">
+              <p style="font-family: 'UhBeeSeulvely'; font-size:60px; color:#3ba0a8;">ShareStory</p>
+            </div>
+        </v-col>
         <v-col id="iconright" cols="3">
             <v-btn
                 class="mx-2"
@@ -82,13 +93,14 @@
                 </v-icon>
             </v-btn>
         </v-col>
+        
     </v-row>
 </template>
 
 <script>
 export default {
   data: () => ({
-    num : 10,
+    num : 8,
   }),
 }
 </script>
@@ -108,15 +120,15 @@ export default {
       font-family: "Nanum Barun Gothic", "Ubuntu Condensed", "Noto Sans Korean";;
   }
 
+ #storysharelist{
+    background-image:url("../assets/storysharehill.png");
+	background-size : contain;
+  }
   .gallery_content:hover .overlay.right {
       top: 0;
   }
-    #storysharelist{
-    background-image:url("../assets/hill.png");
-		background-size : cover;
-  }
   #gallery_layout {
-      width: 1000px;
+      width: 800px;
       margin: 0 auto;
   }
 
@@ -129,7 +141,7 @@ export default {
   .gallery_content {
       position: relative;
       float: left;
-      width: 20%;
+      width: 25%;
       overflow: hidden;
   }
 
@@ -140,6 +152,10 @@ export default {
       margin: 0 auto;
       transition: all 1s ease-in-out;
   }
+  .overlay.darkBlue {
+      background-color:rgba(48, 97, 129, 0.6);
+  }
+
 
   .content {
       z-index: 1;
@@ -183,26 +199,6 @@ export default {
       transition: top 0.3s, right 0.3s, bottom 0.3s, left 0.3s;
   }
 
-  /* overlay color */
-  .overlay.darkBlue {
-      background-color:rgba(31, 50, 99, 0.6);
-  }
-  .overlay.gold {
-      background-color:rgba(216, 177, 126, 0.5);
-  }  
-  .overlay.pink {
-      background-color:rgba(255, 113, 181, 0.7);
-  }  
-  .overlay.black {
-      background-color: rgba(0, 0, 0, 0.5);
-  }  
-  .overlay.yellow {
-      background-color: rgba(103, 58, 183, 0.5);
-  }
-  .overlay.red {
-      background-color: rgba(244, 67, 54, 0.5);
-  }      
-
   .gallery_content:hover .overlay {
       display: block;
       transition: all 0.5s ease-in-out;
@@ -217,6 +213,14 @@ export default {
       }   */
   }
 
+  /* @media all and (max-width: 1800px) {
+  #gallery_layout {
+      width: 100%;
+  }
+  .gallery_content {
+      width: 33%;
+  }
+  } */
   @media all and (max-width: 1000px) {
   #gallery_layout {
       width: 100%;
@@ -233,7 +237,18 @@ export default {
   .gallery_content {
       width: 100%;
   }
-
-
+ }
+.tree{
+    position: absolute;
+    bottom: 0;
+    left: 50vh;
+    width:-webkit-fill-available;
 }
+.word{
+    position: absolute;
+    top: 10vh;
+    left: 0;
+    width:-webkit-fill-available;
+}
+
 </style>
