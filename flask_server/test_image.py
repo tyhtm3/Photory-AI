@@ -8,6 +8,7 @@ print('asdfasdf')
 
 image_url = input()
 image_extention = image_url[-4:]
+print(image_extention)
 image_path = tf.keras.utils.get_file('image'+image_extention,
                                             origin=image_url)
 
