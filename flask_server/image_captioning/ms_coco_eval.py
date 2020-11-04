@@ -126,10 +126,10 @@ def evaluate(image):
 
         attention_plot[i] = tf.reshape(attention_weights, (-1, )).numpy()
         predicted_id = tf.random.categorical(predictions, 1)[0][0].numpy()
-        result.append(tokenizer.index_word[predicted_id])
-
+        
         if tokenizer.index_word[predicted_id] == '<end>':
             return result, attention_plot
+        result.append(tokenizer.index_word[predicted_id])
 
         dec_input = tf.expand_dims([predicted_id], 0)
 
