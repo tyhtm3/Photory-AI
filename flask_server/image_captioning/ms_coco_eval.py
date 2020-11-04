@@ -215,11 +215,13 @@ tokenizer.fit_on_texts(train_captions)
 tokenizer.word_index['<pad>'] = 0
 tokenizer.index_word[0] = '<pad>'
 
+while(1):
 
-image_url = 'https://tensorflow.org/images/surf.jpg'
-image_extension = image_url[-4:]
-image_path = tf.keras.utils.get_file('image'+image_extension,
-                                     origin=image_url)
 
-result, attention_plot = evaluate(image_path)
-print ('Prediction Caption:', ' '.join(result))
+  image_url = input()
+  image_extension = image_url[-4:]
+  image_path = tf.keras.utils.get_file('image'+image_extension,
+                                      origin=image_url)
+
+  result, attention_plot = evaluate(image_path)
+  print ('Prediction Caption:', ' '.join(result))
