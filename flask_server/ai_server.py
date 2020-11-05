@@ -8,24 +8,17 @@ import json
 from PIL import Image
 from io import BytesIO
 import numpy as np
+from image_captioning.image_caption import Image_caption
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 CORS(app)
 
-# 임시
-content_path = 'neural_style/content/female_knight.jpg'
-content_image = utils.load_image(content_path,max_size=None)
-
-style_model = 'neural_style/fast_neural_style/wave.ckpt'
 
 
-
-g = tf.get_default_graph()
 
 @app.route('/')
 def index_page():
-    
     return "AI server!"
 
 @app.route('/style', methods=['POST'])
@@ -39,16 +32,37 @@ def style():
     img = Image.open(BytesIO(res.content))
     img = np.asarray(img)
 
-    # run neural network
-    transformer = style_transfer_tester.StyleTransferTester(
-        img, style_model
-    )
-    output = transformer.test()
+    img_extension = image_url[-4:]
+    img_extension_path = tf.keras.utils.get_file('image'+img_extension,
+                                                origin=image_url)
 
-    # save result
-    result_path = 'asdf3.jpg'
-    utils.save_image(output, 'static/'+result_path)
-    return result_path
+    for i in range(1,6):
+        with tf.Graph().as_default():
+        # run neural network
+            transformer = style_transfer_tester.StyleTransferTester(
+                img, 'neural_style/fast_neural_style/wave.ckpt'
+            )
+            output = transformer.test()
+
+        # save result
+        result_path = 'asdf3.jpg'
+        utils.save_image(output, 'static/'+str(i)+'_1'+result_path)
+
+        with tf.Graph().as_default():
+            # run neural network
+            transformer = style_transfer_tester.StyleTransferTester(
+                img, 'neural_style/fast_neural_style/udnie.ckpt'
+            )
+            output = transformer.test()
+
+        # save result
+        result_path = 'asdf3.jpg'
+        utils.save_image(output, 'static/'+str(i)+'_2'+result_path)
+    
+    with tf.Graph().as_default():
+        
+        result_cap , plot = caption_model(img_extension_path)
+    return result_cap
 
 @app.route('/image/<filename>')
 def image(filename):

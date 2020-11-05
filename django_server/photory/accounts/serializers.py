@@ -20,12 +20,10 @@ class RegistrationSerializer(RegisterSerializer):
     profile = serializers.CharField(required=False)
 
     def get_cleaned_data(self):
-        
         return {
             'email' : self.validated_data.get('email', ''),
             'password1' : self.validated_data.get('password1', ''),
             'password2' : self.validated_data.get('password2', ''),
             'profile' : self.validated_data.get('profile', ''),
-            'nickname' : self.validated_data.get('nickname','')
-            
+            'nickname' : self.validated_data.get('nickname',''),
         }
