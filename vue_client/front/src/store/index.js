@@ -13,10 +13,12 @@ const store = new Vuex.Store({
         user: null,
         isLogin: false,
         msg:null,
+        token:null,
     },
     getters: {
         user: (state) => { return state.user; },
-        msg: (state) => {return state.msg;}
+        msg: (state) => {return state.msg;},
+        token: (state) =>{return state.token;},
     },
     mutations: {
         SETUSER(state, user) { state.user = user; },
@@ -25,6 +27,9 @@ const store = new Vuex.Store({
         },
         MUTATEUSERINFO(state, user) {
             state.user = user
+        },
+        MUTATEUSERTOKEN(state, token){
+            state.token = token
         },
         MUTATEUSMSG(state, msg){
             state.msg = msg
@@ -36,6 +41,7 @@ const store = new Vuex.Store({
                 .then(res => {
                         context.commit('MUTATEISLOGIN', true)
                         context.commit('MUTATEUSERINFO', res.data.user)
+                        context.commit('MUTATEUSERTOKEN', res.data.token)
                         // context.commit('MUTATEUSMSG',res.data.user.nickname+"님 환영합니다.")
                         alert(res.data.user.nickname+"님 환영합니다.");
                         router.go(0);
@@ -79,7 +85,7 @@ const store = new Vuex.Store({
     plugins: [
         createPersistedState({
             storage: window.sessionStorage,
-            paths: ["isLogin", "user"]
+            paths: ["isLogin", "user","token"]
         })
     ],
     modules: {
