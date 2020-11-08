@@ -1,9 +1,5 @@
 <template>
   <div class="Createstory" :style="{ height: `${hei}px` }">
-    <div id="debug">
-      <div id="debugForm"></div>
-      <button @click="debug">디버그</button>
-    </div>
     <div id="filmForm">
       <svg :height="Math.max(0, hei - 100)" :width="wid">
         <path
@@ -26,12 +22,23 @@
           :id="`pic${pic.id}`"
           :style="{ top: `${pic.y + 50}px`, left: `${pic.x}px` }"
         >
-          <img src="@/assets/film.png" />
+          <img class="fil" src="@/assets/film.png" />
+          <img
+            :id="`file${pic.id}Preview`"
+            class="preview"
+            src="data:image/bmp;base64,Qk1CAAAAAAAAAD4AAAAoAAAAAQAAAAEAAAABAAEAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP///wAAAAAA"
+            alt=""
+          />
           <label :for="`file${pic.id}`">사진 올리기</label>
-          <input type="file" :id="`file${pic.id}`" />
+          <input
+            type="file"
+            :id="`file${pic.id}`"
+            accept=".jpg, .jpeg, .png, .bmp"
+          />
         </div>
       </div>
     </div>
+    <div id="screen"></div>
     <button id="next" @click="story_init">다음</button>
   </div>
 </template>
@@ -79,6 +86,13 @@ export default {
         },
       ],
       picIdx: 0,
+      fileList: {
+        file0Preview: 0,
+        file1Preview: 0,
+        file2Preview: 0,
+        file3Preview: 0,
+        file4Preview: 0,
+      },
     };
   },
   created() {
@@ -89,8 +103,25 @@ export default {
   },
   mounted() {
     this.reCalc();
+    [0, 1, 2, 3, 4].forEach((item) => {
+      document
+        .querySelector(`#file${item}`)
+        .addEventListener("change", this.upImg);
+    });
   },
   methods: {
+    upImg(e) {
+      let file = e.target.files[0];
+      if (file) {
+        let preview = document.querySelector(`#${e.target.id}Preview`);
+        let reader = new FileReader();
+        reader.onload = () => {
+          preview.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+        this.fileList[`${e.target.id}Preview`] = file;
+      }
+    },
     reCalc() {
       this.wid = window.innerWidth;
       this.hei = Math.max(0, window.innerHeight - 100);
@@ -103,6 +134,10 @@ export default {
         itemDiv.childNodes.forEach((i) => {
           i.onmouseenter = () => {
             itemDiv.querySelector("img").style.height = "40vh";
+            itemDiv.querySelector(".preview").style.top = "8vh";
+            itemDiv.querySelector(".preview").style.left = "5.6vh";
+            itemDiv.querySelector(".preview").style.height = "23.4vh";
+            itemDiv.querySelector(".preview").style.width = "26.7vh";
             itemDiv.style.zIndex = "9";
             if (window.innerWidth < itemDiv.clientWidth + itemDiv.offsetLeft) {
               itemDiv.style.left = `${
@@ -112,6 +147,10 @@ export default {
           };
           i.onmouseout = () => {
             itemDiv.querySelector("img").style.height = "30vh";
+            itemDiv.querySelector(".preview").style.top = "6.1vh";
+            itemDiv.querySelector(".preview").style.left = "4.2vh";
+            itemDiv.querySelector(".preview").style.height = "17.5vh";
+            itemDiv.querySelector(".preview").style.width = "20vh";
             itemDiv.style.zIndex = `${item.id}`;
             itemDiv.style.left = `${-card + (this.wid / 6) * (index + 1)}px`;
           };
@@ -124,6 +163,10 @@ export default {
               let itemDiv = document.querySelector(`#pic${i}`);
               if (index === i) {
                 itemDiv.querySelector("img").style.height = "40vh";
+                itemDiv.querySelector(".preview").style.top = "8vh";
+                itemDiv.querySelector(".preview").style.left = "5.6vh";
+                itemDiv.querySelector(".preview").style.height = "23.4vh";
+                itemDiv.querySelector(".preview").style.width = "26.7vh";
                 itemDiv.style.zIndex = "9";
                 if (
                   window.innerWidth <
@@ -135,6 +178,10 @@ export default {
                 }
               } else {
                 itemDiv.querySelector("img").style.height = "30vh";
+                itemDiv.querySelector(".preview").style.top = "6.1vh";
+                itemDiv.querySelector(".preview").style.left = "4.2vh";
+                itemDiv.querySelector(".preview").style.height = "17.5vh";
+                itemDiv.querySelector(".preview").style.width = "20vh";
                 itemDiv.style.zIndex = `${i}`;
                 itemDiv.style.left = `${-card + (this.wid / 6) * (i + 1)}px`;
               }
@@ -143,18 +190,49 @@ export default {
         });
       }
     },
-    story_init(){
+    story_init() {
+      let config = {
+        headers: {
+          Authorization: `JWT ${this.$store.state.token}`,
+        },
+      };
+      if (Object.values(this.fileList).includes(0)) {
+        alert("사진을 모두 넣어 주세요");
+      } else {
+        axios.post(url + "storys/init/", {},config).then((res) => {
+          //res.data.pk
+          if (res.data.status) {
+            let idx = 0;
+            // console.log(this.fileList.values());
+            for (let key in this.fileList) {
+              let formData = new FormData();
+              formData.append("file", this.fileList[key]);
+              formData.append("fileName", `file${idx}`);
+              idx++;
+              axios
+                .post(url + "storys/images/" + res.data.pk + "/", formData, {
+                  headers: {
+                    accept: "application/json",
+                    "Content-Type": "multipart/form-data",
+                    Authorization: `JWT ${this.$store.state.token}`,
+                  },
+                })
+                .then((res) => {
+                  console.log(res.data);
+                  if (res.data.last) {
+                    this.$router.push("/MyStory");
+                  }
+                });
+            }
+          }
+        });
+      }
+    },
+    debug() {
       axios.post(url + "storys/init/").then((res) => {
         document.querySelector("#debugForm").innerHTML = res.data;
         console.log(res.data);
       });
-      this.$router.push("/CreateStory/edit")
-    },
-    debug() {
-      // axios.post(url + "storys/init/").then((res) => {
-      //   document.querySelector("#debugForm").innerHTML = res.data;
-      //   console.log(res.data);
-      // });
     },
   },
 };
@@ -179,9 +257,16 @@ export default {
       flex-flow: column;
       align-items: center;
       height: 30vh;
-      img {
+      .fil {
         height: 30vh;
         width: auto;
+      }
+      .preview {
+        position: absolute;
+        top: 6.1vh;
+        left: 4.2vh;
+        height: 17.5vh;
+        width: 20vh;
       }
       input {
         position: relative;

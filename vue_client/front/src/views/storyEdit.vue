@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="storyEdit"
-    :style="{ height: `${hei}px`, flexDirection: mainDir }"
-  >
+  <div class="storyEdit" :style="{ flexDirection: mainDir }">
     <ul id="tools" :style="{ flexDirection: toolDir }">
       <li @click="toolSelect(0)" class="select">이동 및 크기 조절</li>
       <li @click="toolSelect(1)">글 수정</li>
@@ -12,7 +9,7 @@
       <!-- <li @click="save()">저장</li> -->
       <!-- <li @click="toolSelect(4)">색상 변경</li> -->
     </ul>
-    <div id="playground" v-html="pageData"></div>
+    <div id="playground"></div>
     <vue-editor
       id="ed0"
       v-model="editor.con"
@@ -62,6 +59,15 @@
       <img src="@/assets/stickers/s13.png" alt="" />
       <img src="@/assets/stickers/s14.png" alt="" />
     </div>
+    <div id="pagePanel" v-if="pagePanelOn">
+      <h3>page 선택</h3>
+      <div
+        v-for="(page, index) in pageData"
+        :key="index"
+        v-html="page"
+        :data-idx="index"
+      ></div>
+    </div>
   </div>
 </template>
 
@@ -90,8 +96,13 @@ export default {
       screenHorizontal: 0,
       mainDir: "row",
       toolDir: "column",
-      pageData:
-        '<img id="mainImg" draggable="false" src="/img/logo_name.334d3675.png" style="position:absolute;left:0px;top:0px;width:100px;height:100px;"/><div id="con1" class="content ql-editor" draggable="false" style="position:absolute;left:0px;top:0px;width:400px;height:400px;z-index:100"><h1><span style="color: rgb(0, 102, 204);">로렌 입슘 달러 싯</span></h1><p class="ql-align-right"><span style="color: rgb(255, 255, 255); background-color: rgb(255, 153, 0);">기타 등등</span></p><p class="ql-align-center"><span style="background-color: rgb(187, 187, 187); color: rgb(68, 68, 68);">배경색이 이상한건 레이아웃을 잡기 위해서입니다</span></p><p><br></p></div>',
+      pageData: [
+        '<img id="mainImg" draggable="false" src="/img/logo_name.334d3675.png" style="position:absolute;left:0px;top:0px;width:30%;height:30%;"/><div id="con1" class="contentt" draggable="false" style="position:absolute;left:0px;top:0px;width:30%;height:30%;z-index:100;"><h1><span style="color: rgb(0, 102, 204);">로렌 입슘 달러 싯</span></h1><p class="ql-align-right"><span style="color: rgb(255, 255, 255); background-color: rgb(255, 153, 0);">기타 등등</span></p><p class="ql-align-center"><span style="background-color: rgb(187, 187, 187); color: rgb(68, 68, 68);">배경색이 이상한건 레이아웃을 잡기 위해서입니다</span></p><p><br></p></div>',
+        '<img id="mainImg" draggable="false" src="/img/logo_name.334d3675.png" style="position:absolute;left:70%;top:0px;width:30%;height:30%;"/><div id="con1" class="contentt" draggable="false" style="position:absolute;left:0px;top:0px;width:30%;height:30%;z-index:100;"><h1><span style="color: rgb(0, 102, 204);">로렌 입슘 달러 싯</span></h1><p class="ql-align-right"><span style="color: rgb(255, 255, 255); background-color: rgb(255, 153, 0);">기타 등등</span></p><p class="ql-align-center"><span style="background-color: rgb(187, 187, 187); color: rgb(68, 68, 68);">배경색이 이상한건 레이아웃을 잡기 위해서입니다</span></p><p><br></p></div>',
+        '<img id="mainImg" draggable="false" src="/img/logo_name.334d3675.png" style="position:absolute;left:0px;top:70%;width:30%;height:30%;"/><div id="con1" class="contentt" draggable="false" style="position:absolute;left:0px;top:0px;width:30%;height:30%;z-index:100;"><h1><span style="color: rgb(0, 102, 204);">로렌 입슘 달러 싯</span></h1><p class="ql-align-right"><span style="color: rgb(255, 255, 255); background-color: rgb(255, 153, 0);">기타 등등</span></p><p class="ql-align-center"><span style="background-color: rgb(187, 187, 187); color: rgb(68, 68, 68);">배경색이 이상한건 레이아웃을 잡기 위해서입니다</span></p><p><br></p></div>',
+        '<img id="mainImg" draggable="false" src="/img/logo_name.334d3675.png" style="position:absolute;left:50%;top:50%;width:30%;height:30%;"/><div id="con1" class="contentt" draggable="false" style="position:absolute;left:0px;top:0px;width:30%;height:30%;z-index:100;"><h1><span style="color: rgb(0, 102, 204);">로렌 입슘 달러 싯</span></h1><p class="ql-align-right"><span style="color: rgb(255, 255, 255); background-color: rgb(255, 153, 0);">기타 등등</span></p><p class="ql-align-center"><span style="background-color: rgb(187, 187, 187); color: rgb(68, 68, 68);">배경색이 이상한건 레이아웃을 잡기 위해서입니다</span></p><p><br></p></div>',
+        '<img id="mainImg" draggable="false" src="/img/logo_name.334d3675.png" style="position:absolute;left:70%;top:70%;width:30%;height:30%;"/><div id="con1" class="contentt" draggable="false" style="position:absolute;left:0px;top:0px;width:30%;height:30%;z-index:100;"><h1><span style="color: rgb(0, 102, 204);">로렌 입슘 달러 싯</span></h1><p class="ql-align-right"><span style="color: rgb(255, 255, 255); background-color: rgb(255, 153, 0);">기타 등등</span></p><p class="ql-align-center"><span style="background-color: rgb(187, 187, 187); color: rgb(68, 68, 68);">배경색이 이상한건 레이아웃을 잡기 위해서입니다</span></p><p><br></p></div>',
+      ],
       dragXY: [0, 0],
       active: "",
       editText: false,
@@ -104,6 +115,8 @@ export default {
       },
       toolStatus: 1,
       sPanelOn: false,
+      pagePanelOn: false,
+      pageCurrent: -1,
     };
   },
   created() {
@@ -112,8 +125,8 @@ export default {
   mounted() {
     this.reposition();
     this.$nextTick(() => this.reposition());
-
-    this.toolSelect(0);
+    this.pageSelect(0);
+    // this.$nextTick(()=>t)
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.reposition);
@@ -133,6 +146,8 @@ export default {
     toolSelect(tool) {
       if (tool !== this.toolStatus) {
         this.sPanelOn = false;
+        this.pagePanelOn = false;
+
         document
           .querySelector(`#tools li:nth-child(${this.toolStatus + 1})`)
           .classList.remove("select");
@@ -167,7 +182,7 @@ export default {
         } else if (tool === 1) {
           // 글 수정
           pg.childNodes.forEach((item) => {
-            if (item.classList[0] === "content") {
+            if (item.classList[0] === "contentt") {
               item.onmousedown = () => {
                 this.onEditText(item);
               };
@@ -175,8 +190,8 @@ export default {
           });
         } else if (tool === 2) {
           // 글상자 추가
-          if (document.querySelectorAll(".content").length < 2) {
-            this.addContent();
+          if (document.querySelectorAll(".contentt").length < 5) {
+            this.addContent(document.querySelectorAll(".contentt").length + 1);
           } else {
             alert("더이상 글 상자를 늘릴 수 없습니다.");
           }
@@ -202,14 +217,42 @@ export default {
                   newImg.classList.add("sticker");
                   newImg.id = `stkr${stkrCnt}`;
                   newImg.style.cssText =
-                    "position:absolute;left:0px;top:0px;width:100px;height:100px;";
+                    "position:absolute;left:0px;top:0px;width:30%;height:30%;";
                   this.toolSelect(0);
                 }
               };
             });
           });
+        } else if (tool === 4) {
+          // 페이지 선택
+          this.pagePanelOn = true;
+          this.pageData[this.pageCurrent] = pg.innerHTML;
+          this.$nextTick(() => {
+            let pp = document.querySelector("#pagePanel");
+            pp.childNodes.forEach((item) => {
+              if (item.nodeName === "DIV") {
+                item.childNodes.forEach((item2) => {
+                  // console.log(item2.nodeName);
+                  if (item2.nodeName !== "IMG") {
+                    item2.remove();
+                  }
+                });
+                item.onclick = () => {
+                  this.pageSelect(item.dataset.idx * 1);
+                };
+              }
+            });
+          });
         }
       }
+    },
+    pageSelect(idx) {
+      let pg = document.querySelector("#playground");
+      if (idx !== this.pageCurrent) {
+        this.pageCurrent = idx;
+        pg.innerHTML = this.pageData[idx];
+      }
+      this.toolSelect(0);
     },
     removerMove(item) {
       let remover = document.querySelector("#remover");
@@ -225,16 +268,15 @@ export default {
         item.offsetTop + pg.offsetTop + item.clientHeight + 10
       }px`;
     },
-    addContent() {
-      // <div id="con1" class="content ql-editor" draggable="false" style="position:absolute;left:0px;top:0px;width:400px;height:400px;z-index:100"><h1><span style="color: rgb(0, 102, 204);">로렌 입슘 달러 싯</span></h1><p class="ql-align-right"><span style="color: rgb(255, 255, 255); background-color: rgb(255, 153, 0);">기타 등등</span></p><p class="ql-align-center"><span style="background-color: rgb(187, 187, 187); color: rgb(68, 68, 68);">배경색이 이상한건 레이아웃을 잡기 위해서입니다</span></p><p><br></p></div>
+    addContent(n) {
       //class 가 콘텐트인게 한개라면 div 추가
       let cont = document.createElement("div");
-      cont.id = "con2";
-      cont.className = "content";
+      cont.id = `con${n}`;
+      cont.className = "contentt";
       cont.classList.add("ql-editor");
       cont.draggable = false;
       cont.style.cssText =
-        "position:absolute;left:0px;top:0px;width:400px;height:400px;z-index:100";
+        "position:absolute;left:0px;top:0px;width:30%;height:30%;z-index:100";
       document.querySelector("#playground").appendChild(cont);
       this.onEditText(cont);
     },
@@ -242,35 +284,57 @@ export default {
       // 화면 비율을 감지, 가로와 세로를 비교했을 때 가장
       let pg = document.querySelector("#playground");
       let tls = document.querySelector("#tools");
-      this.hei = window.innerHeight - pg.offsetTop;
       let el = document.querySelector(".storyEdit");
-      let ratio = this.hei / el.clientWidth;
+      let ratio = (el.clientHeight - 50) / el.clientWidth;
+      let defaultXY = [];
+      el.style.height = `${window.innerHeight - 50}px`;
+      defaultXY[0] = el.clientWidth;
+      defaultXY[1] = el.clientHeight;
       if (ratio <= 1.333) {
         this.screenHorizontal = true;
-        tls.style.height = `${el.clientHeight}px`;
+        tls.style.height = `${defaultXY[1]}px`;
         tls.style.width = "200px";
+        defaultXY[0] -= 200;
       } else {
         this.screenHorizontal = false;
-        tls.style.width = `${el.clientWidth}px`;
+        tls.style.width = `${defaultXY[0]}px`;
         tls.style.height = "200px";
+        defaultXY[1] -= 200;
       }
       /////////////////////////////////
-      if (pg.clientHeight * 3 > pg.clientWidth * 4) {
-        pg.style.width = `${el.clienWidth}px`;
-        pg.style.height = `${(el.clientWidth * 4) / 3}px`;
+      if (defaultXY[1] * 3 > defaultXY[0] * 4) {
+        pg.style.width = `${defaultXY[0]}px`;
+        pg.style.height = `${(defaultXY[0] * 4) / 3}px`;
+        pg.style.marginLeft = "0px";
+        if (ratio <= 1.333) {
+          pg.style.marginTop = `${defaultXY[1] / 2 - pg.clientHeight / 2}px`;
+          pg.style.marginBottom = 0;
+        } else {
+          pg.style.marginTop = 0;
+          pg.style.marginBottom = `${defaultXY[1] / 2 - pg.clientHeight / 2}px`;
+        }
       } else {
-        pg.style.height = `${el.clientHeight}px`;
-        pg.style.width = `${(el.clientHeight * 3) / 4}px`;
+        pg.style.height = `${defaultXY[1]}px`;
+        pg.style.width = `${(defaultXY[1] * 3) / 4}px`;
+        pg.style.marginTop = "0px";
+        pg.style.marginBottom = "0px";
+        pg.style.marginLeft = `${defaultXY[0] / 2 - pg.clientWidth / 2}px`;
       }
     },
     moveObj(e, pg, target) {
       target.style.left = `${Math.max(
         0,
-        Math.min(90, ((e.screenX - this.dragXY[0]) / pg.clientWidth) * 100)
+        Math.min(
+          100 - (target.clientWidth / pg.clientWidth) * 100,
+          ((e.screenX - this.dragXY[0]) / pg.clientWidth) * 100
+        )
       )}%`;
       target.style.top = `${Math.max(
         0,
-        Math.min(90, ((e.screenY - this.dragXY[1]) / pg.clientHeight) * 100)
+        Math.min(
+          100 - (target.clientHeight / pg.clientHeight) * 100,
+          ((e.screenY - this.dragXY[1]) / pg.clientHeight) * 100
+        )
       )}%`;
       this.act({ target });
       this.resizerFunc(target);
@@ -324,7 +388,7 @@ export default {
           const originLT = [item.offsetLeft, item.offsetTop];
           document.onmousemove = (e) => {
             const move = [e.screenX - resizeXY[0], e.screenY - resizeXY[1]];
-            item.style.width = `${(originWH[0] - move[0]) / pgWH[0]}%`;
+            item.style.width = `${(0, (originWH[0] - move[0]) / pgWH[0])}%`;
             item.style.left = `${(originLT[0] + move[0]) / pgWH[0]}%`;
             item.style.top = `${(originLT[1] + move[1]) / pgWH[1]}%`;
             item.style.height = `${(originWH[1] - move[1]) / pgWH[1]}%`;
@@ -359,6 +423,9 @@ export default {
             item.style.width = `${(originWH[0] + move[0]) / pgWH[0]}%`;
             item.style.height = `${(originWH[1] + move[1]) / pgWH[1]}%`;
             this.resizerMove(resizer, item);
+            if (!(this.active === "con1" || this.active === "mainImg")) {
+              this.removerMove(item);
+            }
           };
           document.onmouseup = () => {
             document.onmousemove = null;
@@ -416,7 +483,7 @@ export default {
         this.editor.hei = `${item.clientHeight}px`;
         this.editText = item.id;
         document.querySelector("#playground").onclick = (e) => {
-          if (e.target.classList[0] !== "content") {
+          if (e.target.classList[0] !== "contentt") {
             this.saveEditor(this.editText);
           }
         };
@@ -427,10 +494,6 @@ export default {
       this.editText = "";
       document.querySelector("#playground").onclick = null;
     },
-    save() {
-      let pg = document.querySelector("#playground");
-      console.log(pg.innerHTML);
-    },
   },
 };
 </script>
@@ -439,10 +502,14 @@ export default {
 <style lang="scss">
 .storyEdit {
   margin: 0;
+  margin-top: 50px;
   padding: 0;
   box-sizing: border-box;
   height: 100%;
+  width: 100vw;
   display: flex;
+  align-content: center;
+  justify-content: flex-start;
   overflow: hidden;
   background-color: #777;
   #tools {
@@ -453,9 +520,10 @@ export default {
     justify-content: space-between;
     background-color: white;
     border-right: 2px black solid;
+    border-top: 2px black solid;
     li {
       padding: 5px;
-      // border: 1px solid gray;
+      border: 1px solid gray;
       flex-grow: 1;
       border-radius: 10px;
       &:hover {
@@ -476,9 +544,6 @@ export default {
     position: fixed;
     top: 16vh;
     left: 5vw;
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
     padding: 30px;
     overflow-y: auto;
     overflow-x: hidden;
@@ -496,21 +561,51 @@ export default {
       }
     }
   }
-  #con {
+  #pagePanel {
+    background-color: ivory;
+    border: #555 2px solid;
+    border-radius: 15px;
+    box-shadow: black 2px 2px 5px;
+    width: 90vw;
+    height: 80vh;
+    position: fixed;
+    top: 16vh;
+    left: 5vw;
+    padding: 30px;
+    overflow-y: auto;
+    overflow-x: hidden;
     display: flex;
+    flex-flow: row wrap;
+    align-content: flex-start;
+    z-index: 102;
+    h3 {
+      width: 100%;
+    }
+    div {
+      margin: 10px;
+      height: 32vmin;
+      width: 24vmin;
+      min-height: 160px;
+      min-width: 120px;
+      background-color: white;
+      position: relative;
+      &:hover {
+        cursor: pointer;
+        border: 1px black solid;
+        background-color: #ccc;
+      }
+    }
   }
   #playground {
-    display: flex;
     position: relative;
     background-color: white;
-    flex-grow: 1;
     .active:hover {
       cursor: move;
     }
     .active {
       border: 1px solid black;
     }
-    .content {
+    .contentt {
       overflow: visible;
     }
   }
