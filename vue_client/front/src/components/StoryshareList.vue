@@ -10,6 +10,12 @@
             <div class="word">
               <p style="font-family: 'UhBeeSeulvely'; font-size:60px; color:#3ba0a8;">ShareStory</p>
             </div>
+            <div class="ani">
+                <img src="@/assets/asset/rabbit.png" style="max-width:150px; position: absolute; bottom: 0;left: 0;">
+            </div>
+            <div class="ani2">
+                <img @click="alert" src="@/assets/asset/owl_write.png" style="max-width:250px; position: absolute; bottom: 0;left: 0;">
+            </div>
         </v-col>
         <v-col id="iconright" cols="3">
             <v-btn
@@ -46,16 +52,16 @@
         </v-col>
         <v-col style="padding-left: 0px;padding-right: 0px;" cols="6">
             <div id="gallery_layout">
-                <div class="gallery_content" v-for="index in num"  v-bind:key="index">
-                <div id ="imgbox" style="float: left; position: relative;">
-                    <div class="front"><img src="@/assets/book.png" alt="travel_img"></div>
-                    <div id="back" style="position: absolute;  left: 50px;  top: 28px;  width: 55%; height: 63%;"><img src="@/assets/book_cover.png" alt="travel_img"></div>
-                </div>
-                <div class="content">
-                        <h1>book {{index}}</h1>
-                        <p>{{index}}</p>
-                </div>
-                <div class="overlay darkBlue"></div>
+                <div class="gallery_content" v-for="index in num"  v-bind:key="index" @click="()=>$router.push('/sharestorypage').catch(()=>{})">
+                    <div id ="imgbox" style="float: left; position: relative;" >
+                        <div class="front"><img src="@/assets/book.png" alt="travel_img"></div>
+                        <div id="back" style="position: absolute;  left: 50px;  top: 28px;  width: 55%; height: 63%;"><img src="@/assets/book_cover.png" alt="travel_img"></div>
+                    </div>
+                    <div class="content">
+                            <h1>book {{index}}</h1>
+                            <p>{{index}}</p>
+                    </div>
+                    <div class="overlay darkBlue" ></div>
                 </div>
             </div>
         </v-col>
@@ -102,6 +108,11 @@ export default {
   data: () => ({
     num : 8,
   }),
+  methods:{
+      alert(){
+          alert("글쓰기로 이동")
+      }
+  }
 }
 </script>
 
@@ -246,9 +257,20 @@ export default {
 }
 .word{
     position: absolute;
-    top: 10vh;
+    top: 10%;
     left: 0;
     width:-webkit-fill-available;
 }
-
+.ani{
+    position: absolute;
+    bottom: 0;
+    left: 20%;
+    width:-webkit-fill-available;
+}
+.ani2{
+    position: absolute;
+    bottom: 0;
+    left:70%;
+    width:-webkit-fill-available;
+}
 </style>
