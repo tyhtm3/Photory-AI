@@ -16,6 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 #JWT
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
 
@@ -45,3 +48,6 @@ urlpatterns = [
     # path('api-jwt-auth/verify/',verify_jwt_token),
 
 ]
+
+# 이미지 넘겨주는 코드
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
