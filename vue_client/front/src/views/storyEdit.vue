@@ -6,7 +6,8 @@
       <li @click="toolSelect(2)">글 상자 추가</li>
       <li @click="toolSelect(3)">스티커</li>
       <li @click="toolSelect(4)">페이지</li>
-      <!-- <li @click="save()">저장</li> -->
+      <li @click="toolSelect(5)">그림 스타일 바꾸기</li>
+      <li @click="toolSelect(6)">저장 후 나가기</li>
       <!-- <li @click="toolSelect(4)">색상 변경</li> -->
     </ul>
     <div id="playground"></div>
@@ -68,12 +69,25 @@
         :data-idx="index"
       ></div>
     </div>
+    <div id="savePanel" v-if="savePanelOn">
+      <h3>저장 후 나가기</h3>
+      <span>
+        제목 :
+        <input type="text" v-model="title" />
+      </span>
+      <span>
+        지은이 :
+        <input type="text" v-model="writer" />
+      </span>
+      <button @click="saveAll()">저장</button>
+    </div>
   </div>
 </template>
 
 <script>
+import Axios from "axios";
 import { VueEditor } from "vue2-editor";
-
+const url = "http://127.0.0.1:8000/";
 export default {
   name: "storyEdit",
   components: {
@@ -96,13 +110,7 @@ export default {
       screenHorizontal: 0,
       mainDir: "row",
       toolDir: "column",
-      pageData: [
-        '<img id="mainImg" draggable="false" src="/img/logo_name.334d3675.png" style="position:absolute;left:0px;top:0px;width:30%;height:30%;"/><div id="con1" class="contentt" draggable="false" style="position:absolute;left:0px;top:0px;width:30%;height:30%;z-index:100;"><h1><span style="color: rgb(0, 102, 204);">로렌 입슘 달러 싯</span></h1><p class="ql-align-right"><span style="color: rgb(255, 255, 255); background-color: rgb(255, 153, 0);">기타 등등</span></p><p class="ql-align-center"><span style="background-color: rgb(187, 187, 187); color: rgb(68, 68, 68);">배경색이 이상한건 레이아웃을 잡기 위해서입니다</span></p><p><br></p></div>',
-        '<img id="mainImg" draggable="false" src="/img/logo_name.334d3675.png" style="position:absolute;left:70%;top:0px;width:30%;height:30%;"/><div id="con1" class="contentt" draggable="false" style="position:absolute;left:0px;top:0px;width:30%;height:30%;z-index:100;"><h1><span style="color: rgb(0, 102, 204);">로렌 입슘 달러 싯</span></h1><p class="ql-align-right"><span style="color: rgb(255, 255, 255); background-color: rgb(255, 153, 0);">기타 등등</span></p><p class="ql-align-center"><span style="background-color: rgb(187, 187, 187); color: rgb(68, 68, 68);">배경색이 이상한건 레이아웃을 잡기 위해서입니다</span></p><p><br></p></div>',
-        '<img id="mainImg" draggable="false" src="/img/logo_name.334d3675.png" style="position:absolute;left:0px;top:70%;width:30%;height:30%;"/><div id="con1" class="contentt" draggable="false" style="position:absolute;left:0px;top:0px;width:30%;height:30%;z-index:100;"><h1><span style="color: rgb(0, 102, 204);">로렌 입슘 달러 싯</span></h1><p class="ql-align-right"><span style="color: rgb(255, 255, 255); background-color: rgb(255, 153, 0);">기타 등등</span></p><p class="ql-align-center"><span style="background-color: rgb(187, 187, 187); color: rgb(68, 68, 68);">배경색이 이상한건 레이아웃을 잡기 위해서입니다</span></p><p><br></p></div>',
-        '<img id="mainImg" draggable="false" src="/img/logo_name.334d3675.png" style="position:absolute;left:50%;top:50%;width:30%;height:30%;"/><div id="con1" class="contentt" draggable="false" style="position:absolute;left:0px;top:0px;width:30%;height:30%;z-index:100;"><h1><span style="color: rgb(0, 102, 204);">로렌 입슘 달러 싯</span></h1><p class="ql-align-right"><span style="color: rgb(255, 255, 255); background-color: rgb(255, 153, 0);">기타 등등</span></p><p class="ql-align-center"><span style="background-color: rgb(187, 187, 187); color: rgb(68, 68, 68);">배경색이 이상한건 레이아웃을 잡기 위해서입니다</span></p><p><br></p></div>',
-        '<img id="mainImg" draggable="false" src="/img/logo_name.334d3675.png" style="position:absolute;left:70%;top:70%;width:30%;height:30%;"/><div id="con1" class="contentt" draggable="false" style="position:absolute;left:0px;top:0px;width:30%;height:30%;z-index:100;"><h1><span style="color: rgb(0, 102, 204);">로렌 입슘 달러 싯</span></h1><p class="ql-align-right"><span style="color: rgb(255, 255, 255); background-color: rgb(255, 153, 0);">기타 등등</span></p><p class="ql-align-center"><span style="background-color: rgb(187, 187, 187); color: rgb(68, 68, 68);">배경색이 이상한건 레이아웃을 잡기 위해서입니다</span></p><p><br></p></div>',
-      ],
+      pageData: ["", "", "", "", ""],
       dragXY: [0, 0],
       active: "",
       editText: false,
@@ -116,7 +124,11 @@ export default {
       toolStatus: 1,
       sPanelOn: false,
       pagePanelOn: false,
+      savePanelOn: false,
       pageCurrent: -1,
+      storyNum: 1,
+      title: "",
+      writer: "",
     };
   },
   created() {
@@ -125,8 +137,14 @@ export default {
   mounted() {
     this.reposition();
     this.$nextTick(() => this.reposition());
-    this.pageSelect(0);
-    // this.$nextTick(()=>t)
+
+    this.storyNum = this.$route.params.storyNum;
+    Axios.get(`${url}storys/${this.storyNum}/`).then((res) => {
+      this.pageData = res.data.content;
+      this.title = res.data.title;
+      this.writer = res.data.writer;
+      this.pageSelect(0);
+    });
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.reposition);
@@ -147,7 +165,7 @@ export default {
       if (tool !== this.toolStatus) {
         this.sPanelOn = false;
         this.pagePanelOn = false;
-
+        this.savePanelOn = false;
         document
           .querySelector(`#tools li:nth-child(${this.toolStatus + 1})`)
           .classList.remove("select");
@@ -205,9 +223,9 @@ export default {
           this.$nextTick(() => {
             document.querySelectorAll("#sPanel img").forEach((item) => {
               item.onclick = () => {
-                let stkrCnt = Array.prototype.slice
-                  .call(pg.childNodes)
-                  .filter((item) => item.classList[0] === "sticker").length;
+                let stkrCnt = Array.from(pg.childNodes).filter(
+                  (item) => item.classList[0] === "sticker"
+                ).length;
                 if (stkrCnt >= 20) {
                   alert("스티커는 20개 까지만 생성 가능합니다.");
                 } else {
@@ -243,6 +261,28 @@ export default {
               }
             });
           });
+        } else if (tool === 5) {
+          let mI = document.querySelector("#mainImg");
+          if (Array.from(mI.classList).includes("normImg")) {
+            mI.src = "123";
+            mI.className = "img0";
+          } else if (Array.from(mI.classList).includes("img0")) {
+            mI.src = "123";
+            mI.className = "img1";
+          } else if (Array.from(mI.classList).includes("img1")) {
+            mI.src = "123";
+            mI.className = "img2";
+          } else if (Array.from(mI.classList).includes("img2")) {
+            Axios.get(
+              `${url}storys/images/${this.storyNum}/${this.pageCurrent}`
+            ).then((res) => {
+              mI.src = res.data.img;
+              mI.className = "normImg";
+            });
+          }
+          this.toolSelect(0);
+        } else if (tool === 6) {
+          this.savePanelOn = true;
         }
       }
     },
@@ -494,6 +534,21 @@ export default {
       this.editText = "";
       document.querySelector("#playground").onclick = null;
     },
+    saveAll() {
+      let data = {
+        id:this.storyNum,
+        title:this.title,
+        writer: this.writer,
+        content0:this.pageData[0],
+        content1:this.pageData[1],
+        content2:this.pageData[2],
+        content3:this.pageData[3],
+        content4:this.pageData[4],
+      }
+      Axios.put(`${url}storys/edit/`,data).then(()=>{
+        this.$router.push('/MyStory')
+      })
+    },
   },
 };
 </script>
@@ -594,6 +649,45 @@ export default {
         border: 1px black solid;
         background-color: #ccc;
       }
+    }
+  }
+  #savePanel {
+    background-color: ivory;
+    border: #555 2px solid;
+    border-radius: 15px;
+    box-shadow: black 2px 2px 5px;
+    width: 90vw;
+    position: fixed;
+    top: 16vh;
+    left: 5vw;
+    padding: 30px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-flow: row wrap;
+    align-content: flex-start;
+    z-index: 102;
+    h3 {
+      width: 100%;
+    }
+    span {
+      width: 100%;
+      display: flex;
+    }
+    input {
+      flex-grow: 1;
+      border: #555 1px solid;
+      margin: 6px;
+      padding: 3px;
+      border-radius: 5px;
+      background-color: white;
+    }
+    button {
+      border: #555 1px solid;
+      margin: 6px;
+      padding: 3px;
+      border-radius: 5px;
+      background-color: #ffffaa;
     }
   }
   #playground {
