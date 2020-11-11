@@ -9,13 +9,14 @@ from PIL import Image
 from io import BytesIO
 import numpy as np
 from image_captioning.image_caption import Image_caption
+import os
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 CORS(app)
 
 IMAGE_SERVER_URL = "http://127.0.0.1:8000"
-STYLE_PATH = ['wave.ckpt', 'udnie.ckpt', 'ths_scream.ckpt', 'shipwreck.ckpt', 'rain_princess.ckpt', 'la_muse.ckpt']
+STYLE_PATH = ['wave.ckpt', 'udnie.ckpt', 'the_scream.ckpt', 'shipwreck.ckpt', 'rain_princess.ckpt', 'la_muse.ckpt']
 
 @app.route('/')
 def index_page():
@@ -26,6 +27,8 @@ def tale():
     data = json.loads(request.get_data(), encoding='utf-8')
     story_pk = data['story_pk']
     paths = data['imagePaths']
+
+    os.makedirs('static/story'+str(story_pk))
 
     cnt = 0
     for path in paths:
@@ -42,9 +45,11 @@ def tale():
                 )
                 output = transformer.test()
             
-            result_path = 'story'+str(story_pk) + '/' + str(cnt) + '_i.jpg'
+            result_path = 'story'+str(story_pk) + '/' + str(cnt) + '_'+ str(i) + '.jpg'
             utils.save_image(output, 'static/' + result_path)
         cnt = cnt + 1
+
+
     return "hi"
 
 
@@ -87,7 +92,7 @@ def style():
         utils.save_image(output, 'static/'+str(i)+'_2'+result_path)
     
     with tf.Graph().as_default():
-        
+        caption_model =  Image_caption()
         result_cap , plot = caption_model(img_extension_path)
     return result_cap
 

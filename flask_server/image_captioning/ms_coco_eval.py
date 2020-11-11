@@ -190,7 +190,7 @@ ckpt_manager = tf.train.CheckpointManager(ckpt, checkpoint_path, max_to_keep=5)
 
 start_epoch = 0
 if ckpt_manager.latest_checkpoint:
-  start_epoch = int(ckpt_manager.latest_checkpoint.split('-')[-1])*5
+  start_epoch = int(ckpt_manager.latest_checkpoint.split('-')[-1])
   # restoring the latest checkpoint in checkpoint_path
   ckpt.restore(ckpt_manager.latest_checkpoint)
   print(start_epoch,"epoch start")
@@ -215,13 +215,11 @@ tokenizer.fit_on_texts(train_captions)
 tokenizer.word_index['<pad>'] = 0
 tokenizer.index_word[0] = '<pad>'
 
-while(1):
 
+image_url = 'http://ecotopia.hani.co.kr/files/attach/images/69/406/492/d2.jpg'
 
-  image_url = input()
-  image_extension = image_url[-4:]
-  image_path = tf.keras.utils.get_file('image'+image_extension,
-                                      origin=image_url)
+image_path = tf.keras.utils.get_file('image3.jpg',
+                                     origin=image_url)
 
-  result, attention_plot = evaluate(image_path)
-  print ('Prediction Caption:', ' '.join(result))
+result, attention_plot = evaluate(image_path)
+print ('Prediction Caption:', ' '.join(result))
