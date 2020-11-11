@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import Createstory from '../views/Createstory'
 import Mystory from '../views/Mystory'
 import Sharestory from '../views/Sharestory'
+import SharestoryPage from '../views/SharestoryPage'
 import storyEdit from '../views/storyEdit'
 
 Vue.use(VueRouter)
@@ -26,7 +27,11 @@ const routes = [{
         name: 'Sharestory',
         component: Sharestory
     }, {
-        path: '/Createstory/edit',
+        path: '/sharestorypage',
+        name: 'SharestoryPage',
+        component: SharestoryPage
+    }, {
+        path: '/EditStory/:storyNum',
         name: 'storyEdit',
         component: storyEdit
     },

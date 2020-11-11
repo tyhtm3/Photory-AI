@@ -5,7 +5,7 @@ import time
 def send_post():
     start = time.time()
     params = {
-        "url": "https://japan-magazine.jnto.go.jp/jnto2wm/wp-content/uploads/1701_japanese_dog_main.jpg",
+        "url": "https://images.mypetlife.co.kr/content/uploads/2019/09/04222847/dog-panting-1024x683.jpg",
     }
     res = requests.post("http://127.0.0.1:5000/style", data=json.dumps(params))
     print("time to return : " + str(time.time() - start))
