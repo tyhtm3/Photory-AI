@@ -21,3 +21,6 @@ media
 # Neural network model
 fast_neural_style/
 checkpoints/
+
+# static files
+flask_server/neural_style/static/
