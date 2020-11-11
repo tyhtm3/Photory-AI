@@ -21,6 +21,15 @@ CORS(app)
 def index_page():
     return "AI server!"
 
+@app.route('/tale', methods=['POST'])
+def tale():
+    data = json.loads(request.get_data(), encoding='utf-8')
+    
+    print(data)
+
+    return "hi"
+
+
 @app.route('/style', methods=['POST'])
 def style():
     # Get image url from json
