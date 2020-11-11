@@ -1,5 +1,7 @@
 <template>
   <div id="Mystory">
+    <img id="bg" src="@/assets/hill.png" alt="">
+    <img src="@/assets/loading/wave.png" style="width: 100vw;position:fixed;bottom:0;left:0;height:10%">
     <div id="storyList">
       <img
         v-for="book in list"
@@ -9,6 +11,7 @@
         :src="`${url}media/${book.images[0]}`"
         style=""
         alt=""
+        @click="editStory(book.id)"
       />
       <div id="listIndex">{{ list }}</div>
     </div>
@@ -30,6 +33,7 @@ export default {
     };
   },
   created() {
+    // if (this.state.)
     let config = {
       headers: {
         Authorization: `JWT ${this.$store.state.token}`,
@@ -51,6 +55,11 @@ export default {
     //   });
     // }, 5000);
   },
+  methods:{
+    editStory(id){
+      this.$router.push('EditStory/'+id)
+    },
+  },
 };
 </script>
 <style lang="scss">
@@ -58,6 +67,13 @@ export default {
   height: 100%;
   overflow: hidden;
   width: 100vw;
+  #bg{
+    position: fixed;
+    left: 0;
+    top: 50px;
+    width: 100vw;
+    height: 100vh;
+  }
   #storyList {
     padding: 15px;
     width: 100vw;
@@ -67,13 +83,16 @@ export default {
     flex-flow: row wrap;
     justify-content: flex-start;
     align-content: flex-start;
-    background-color: rgba($color: #999, $alpha: 0.6);
     .bookCover {
       height: 20vmin;
       width: 15vmin;
       min-height: 140px;
       min-width: 105px;
       margin: 0 10px 20px 10px;
+      &:hover{
+        cursor: pointer;
+        
+      }
     }
   }
 }
