@@ -51,13 +51,14 @@ def ai_receive(request):
     # imagePath:string,
     # contents:[string,...]
     # }
+    print(request.data)
     story = get_object_or_404(Story, pk=request.data['story_pk'])
     imgs = story.images.all()
     imgs = list(story.images.all())
     imgs = list(map(str,imgs))
     imgs.sort()
     for i in range(5):
-        story.content =  '<img id="mainImg" class="normImg" draggable="false" src="'+imgs[i] + '" style="position:absolute;left:0px;top:0px;width:30%;height:30%;"/><div id="con1" class="contentt" draggable="false" style="position:absolute;left:0px;top:0px;width:30%;height:30%;z-index:100;"><p>' + request.data['contents'][i] + '</p></div>'
+        story.content =  '<img id="mainImg" class="normImg" draggable="false" src="'+imgs[i] + '" style="position:absolute;left:0px;top:0px;width:30%;height:30%;"/><div id="con1" class="contentt" draggable="false" style="position:absolute;left:0px;top:0px;width:30%;height:30%;z-index:100;"><p>' + request.data['tale'][i] + '</p></div>'
     story.editable = True
     return Response({'status':"OK"})
 

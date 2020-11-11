@@ -28,9 +28,8 @@ def tale():
     story_pk = data['story_pk']
     paths = data['imagePaths']
 
-    os.makedirs('static/story'+str(story_pk))
-
     cnt = 0
+
     for path in paths:
         # image load from url
         image_url = IMAGE_SERVER_URL + '/media/' +path
@@ -45,12 +44,17 @@ def tale():
                 )
                 output = transformer.test()
             
-            result_path = 'story'+str(story_pk) + '/' + str(cnt) + '_'+ str(i) + '.jpg'
+            result_path = str(story_pk) + '_' + str(cnt) + '_'+ str(i) + '.jpg'
             utils.save_image(output, 'static/' + result_path)
         cnt = cnt + 1
 
+    params = {
+        'story_pk' : story_pk,
+        'tale': ['아직', '준비중인', '컨텐츠', '입니다', 'ㅎㅎ']
+    }
 
-    return "hi"
+    requests.post('http://127.0.0.1:8000/storys/editable/', data = params)
+    return 'ok'
 
 
 @app.route('/style', methods=['POST'])
