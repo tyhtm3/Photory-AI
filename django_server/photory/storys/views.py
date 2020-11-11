@@ -6,7 +6,7 @@ from rest_framework.decorators import api_view,permission_classes
 from rest_framework.permissions import IsAuthenticated
 from .serializers import StoryListSerializer
 from .models import Story,Images
-import requests
+import requests, json
 # Create your views here.
  
 
@@ -139,13 +139,13 @@ def images_create(request,story_pk):
         last = False
         # 
         if len(story.images.all())==5:
-            url = 'http://121.125.56.92:50740/tale'
+            url = 'http://127.0.0.1:5000/tale'
             data = {
                 'story_pk':story_pk,
                 'imagePaths':[str(i.image) for i in story.images.all()]
             }
             print(data)
-            requests.post(url,data=data)
+            requests.post(url,data=json.dumps(data))
             last = True
         con = {
             'status':True,
