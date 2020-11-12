@@ -27,29 +27,21 @@ def article_detail(request, article_pk):
 def article_create(request):
     serializer = ArticleSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
-        serializer.save(nickname=request.nickname)
+        serializer.save()
         return Response(serializer.data)
 
-@api_view(['PUT','DELETE'])
+@api_view(['PUT'])
 @permission_classes([IsAuthenticated])
-def article_update(request):
-    if request.method=="PUT":
-        article =article.objects.get(nickname = request.nickname)
-        try:
-            article.bookcover = request.data['bookcover']
-            article.story = request.data['story']
-            article.title = request.data['title']
-            article.writer = request.data['writer']
-            article.content = request.data['content']
-            article.category = request.data['category']
-            article.save()
-            serializer = ArticleSerializer(article)
-            return Response(serializer.data, status =200)
-        except:
-            return Response({'status': False})
-    else:
-        request.article.delete()
-        return Response(status=200)
+def article_update(request,article_pk):
+    article =Article.objects.get(pk=article_pk)
+    article.bookcover = request.data['bookcover']
+    article.title = request.data['title']
+    article.writer = request.data['writer']
+    article.content = request.data['content']
+    article.category = request.data['category']
+    article.save()
+    return Response(status =200)
+
 
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated]) 

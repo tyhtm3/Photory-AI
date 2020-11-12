@@ -4,7 +4,7 @@ from storys.models import Story
 # Create your models here.
 class Article(models.Model):
     nickname = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    bookcover = models.ImageField()
+    bookcover = models.ImageField(blank=True)
     story = models.ForeignKey(Story,on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     writer = models.CharField(max_length=100)
