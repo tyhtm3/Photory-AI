@@ -55,8 +55,8 @@ def index(request, pagenum,pagenum2):
     if pagenum2 ==0:
         pagenum2=1
     pages = [i for i in range(1,len(articles)+1)]
-    page2 = max(1,min((pages[-1]-1//10,pagenum2)))
-    pages= pages[(page2-1)*10:(page2)*10]
+    page2 = max(1,min((pages[-1]-1//8,pagenum2)))
+    pages= pages[(page2-1)*8:(page2)*8]
     if pagenum<pages[0]:
         pagenum=pages[0]
     elif pagenum>pages[-1]:
