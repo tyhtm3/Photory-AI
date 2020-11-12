@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     path('',views.article_list),
+    path('list/<int:pagenum>/', views.index),
     path('<int:article_pk>/detail/', views.article_detail),
     path('create/', views.article_create), # create
     path('<int:article_pk>/', views.article_delete_update), # 수정삭제
