@@ -54,7 +54,7 @@
               color="#bbe454"
               dark
               rounded
-              @click="selectmystory"
+              @click="dialogSelect = true"
             >
               내 스토리 가져오기 
               <v-icon>
@@ -69,7 +69,41 @@
         ></v-text-field>
       </v-col>
     </v-row>
-
+     <v-dialog
+      v-model="dialogSelect"
+      scrollable
+      max-width="300px"
+    >
+      <v-card>
+        <v-card-title>Select Story</v-card-title>
+        <v-divider></v-divider>
+        <v-card-text style="height: 100px;">
+           <v-select
+          :items="Stories"
+          label="Story"
+          v-model="selectedstroy"
+        ></v-select>
+        </v-card-text>
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="dialogSelect = false"
+          >
+            Close
+          </v-btn>
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="saveselectstory"
+          >
+            Save
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+ 
   </v-container>
 </template>
 <script>
@@ -83,7 +117,10 @@ export default {
     menubar:true,
     readOnly:false,
     title:"제목",
-    storytitle:"내 스토리 제목"
+    storytitle:"내 스토리 제목",
+    dialogSelect:false,
+    Stories: ['story1', 'story2', 'story3', 'story4'],
+    selectedstroy:'',
   }),
   methods :{
     write(){
@@ -95,6 +132,10 @@ export default {
     selectmystory(){
 
     },
+    saveselectstory(){
+      this.dialogSelect = false
+      this.storytitle = this.selectedstroy
+    }
   }
 }
 </script>
