@@ -21,7 +21,7 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn text @click="()=>$router.push('/ShareStory').catch(()=>{})">
+      <v-btn text @click="()=>$router.push('/sharestorylist').catch(()=>{})">
         <v-col style="color: black" >Share Story</v-col>
       </v-btn>
 
