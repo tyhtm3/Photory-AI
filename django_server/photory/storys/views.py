@@ -6,6 +6,7 @@ from rest_framework.decorators import api_view,permission_classes
 from rest_framework.permissions import IsAuthenticated
 from .serializers import StoryListSerializer
 from .models import Story,Images
+import requests, json
 # Create your views here.
  
 
@@ -13,7 +14,6 @@ from .models import Story,Images
 @permission_classes([IsAuthenticated])
 def storys(request):
     storys = Story.objects.filter(user = request.user)
-    print(storys)
     serializer = StoryListSerializer(storys, many=True)
     return Response(serializer.data)
     # for i in storys:
@@ -51,13 +51,14 @@ def ai_receive(request):
     # imagePath:string,
     # contents:[string,...]
     # }
+    print(request.data)
     story = get_object_or_404(Story, pk=request.data['story_pk'])
     imgs = story.images.all()
     imgs = list(story.images.all())
     imgs = list(map(str,imgs))
     imgs.sort()
     for i in range(5):
-        story.content =  '<img id="mainImg" class="normImg" draggable="false" src="'+imgs[i] + '" style="position:absolute;left:0px;top:0px;width:30%;height:30%;"/><div id="con1" class="contentt" draggable="false" style="position:absolute;left:0px;top:0px;width:30%;height:30%;z-index:100;"><p>' + request.data['contents'][i] + '</p></div>'
+        story.content =  '<img id="mainImg" class="normImg" draggable="false" src="'+imgs[i] + '" style="position:absolute;left:0px;top:0px;width:30%;height:30%;"/><div id="con1" class="contentt" draggable="false" style="position:absolute;left:0px;top:0px;width:30%;height:30%;z-index:100;"><p>' + request.data['tale'][i] + '</p></div>'
     story.editable = True
     return Response({'status':"OK"})
 
@@ -82,6 +83,7 @@ def storys_u(request):
             story.content2 = request.data['content2']
             story.content3 = request.data['content3']
             story.content4 = request.data['content4']
+            story.complete = request.data['complete']
             story.save()
             con['status'] = True
             con['pk'] = story.pk
@@ -104,6 +106,8 @@ def story_rd(request,story_pk):
             story.content3,
             story.content4
         ]
+        con['complete']=story.complete
+        con['editable']=story.editable
         con['create_at']=story.create_at
         con['update_at']=story.update_at
         con['image']=[str(i.image) for i in story.images.all()]
@@ -134,7 +138,15 @@ def images_create(request,story_pk):
         images.image = request.FILES['file']
         images.save()
         last = False
-        if images.imageName[-1]=="4":
+        # 
+        if len(story.images.all())==5:
+            url = 'http://127.0.0.1:5000/tale'
+            data = {
+                'story_pk':story_pk,
+                'imagePaths':[str(i.image) for i in story.images.all()]
+            }
+            print(data)
+            requests.post(url,data=json.dumps(data))
             last = True
         con = {
             'status':True,
