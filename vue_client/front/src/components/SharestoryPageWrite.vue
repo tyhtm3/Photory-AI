@@ -1,25 +1,72 @@
 <template>
-  <v-container>
-    <v-row style="height:10vh">
+  <v-container style="text-align: -webkit-center;">
+    <v-row style="height:10vh" >
       <v-col>
         <div class="back">
           <img src="@/assets/loading/wave.png" style="max-width: -webkit-fill-available; position: absolute; bottom: 0;left: 0;">
         </div>
       </v-col>
     </v-row>
-    <v-row justify="center">
-      <v-col cols="8" id="title">
+    <v-row justify="center" id="write" >
+      <v-col cols="6" id="title">
         <v-text-field
             v-model="title"
-            :rules="rules"
             counter="25"
-            label="Outlined"
-            outlined
-            rounded
           ></v-text-field>
       </v-col>
-      <v-col cols="8" id="editor">
+      <v-col cols="10" id="editor">
       <EditorTipTap :description="description" :menubar="menubar" :readOnly="readOnly"/>
+      </v-col>
+      <v-col cols="12"
+      >
+        <v-row
+        justify="center">
+          <v-col cols="2">
+            <v-btn
+              color="#87c7c6"
+              dark
+              rounded
+              @click="write"
+            >
+              등록하기 
+              <v-icon>
+                mdi-arrow-right-thick
+              </v-icon>
+            </v-btn>
+          </v-col>
+          <v-col cols="2">
+            <v-btn
+              color="#f48a8e"
+              dark
+              rounded
+              @click="()=>$router.push('/sharestorylist').catch(()=>{})"
+            >
+              취소하기 
+              <v-icon>
+                mdi-arrow-right-thick
+              </v-icon>
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-col>
+      <v-col cols="4">
+        <v-btn
+              color="#bbe454"
+              dark
+              rounded
+              @click="selectmystory"
+            >
+              내 스토리 가져오기 
+              <v-icon>
+                mdi-arrow-right-thick
+              </v-icon>
+            </v-btn>
+      </v-col>
+      <v-col cols="6" style="padding-top: 0px;">
+        <v-text-field
+            v-model="storytitle"
+            disabled
+        ></v-text-field>
       </v-col>
     </v-row>
 
@@ -32,19 +79,33 @@ export default {
     EditorTipTap,
   },
   data: () => ({
-    description:"글을 적어주세요",
+    description:"내용을 입력해주세요",
     menubar:true,
     readOnly:false,
+    title:"제목",
+    storytitle:"내 스토리 제목"
   }),
+  methods :{
+    write(){
+
+    },
+    cancel(){
+
+    },
+    selectmystory(){
+
+    },
+  }
 }
 </script>
 <style>
-#title{
-
-}
- #editor{
+#write{
   background-color: white;
   border: 10px solid rgb(220, 247, 158);
   border-radius: 80px / 40px;
- }
+  max-height: 75vh;
+  max-width: 1000px;
+}
+
+ 
 </style>

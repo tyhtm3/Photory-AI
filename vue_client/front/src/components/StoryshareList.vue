@@ -52,7 +52,7 @@
         </v-col>
         <v-col style="padding-left: 0px;padding-right: 0px;" cols="6">
             <div id="gallery_layout">
-                <div class="gallery_content" v-for="index in num"  v-bind:key="index" @click="()=>$router.push('/sharestorypage').catch(()=>{})">
+                <div class="gallery_content" v-for="index in num"  v-bind:key="index" @click="()=>$router.push('/sharestorypageboard').catch(()=>{})">
                     <div id ="imgbox" style="float: left; position: relative;" >
                         <div class="front"><img src="@/assets/book.png" alt="travel_img"></div>
                         <div id="back" style="position: absolute;  left: 50px;  top: 28px;  width: 55%; height: 63%;"><img src="@/assets/book_cover.png" alt="travel_img"></div>

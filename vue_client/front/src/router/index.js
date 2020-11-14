@@ -3,10 +3,12 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Createstory from '../views/Createstory'
 import Mystory from '../views/Mystory'
-import Sharestory from '../views/Sharestory'
-import SharestoryPage from '../views/SharestoryPage'
+import SharestoryList from '../views/SharestoryList'
+import SharestoryPageBoard from '../views/SharestoryPageBoard'
 import SharestoryPageWrite from '../views/SharestoryPageWrite'
+import SharestoryPageStory from '../views/SharestoryPageStory'
 import storyEdit from '../views/storyEdit'
+
 
 Vue.use(VueRouter)
 
@@ -24,17 +26,21 @@ const routes = [{
         name: 'Mystory',
         component: Mystory
     }, {
-        path: '/sharestory',
-        name: 'Sharestory',
-        component: Sharestory
+        path: '/sharestorylist',
+        name: 'SharestoryList',
+        component: SharestoryList
     }, {
-        path: '/sharestorypage',
-        name: 'SharestoryPage',
-        component: SharestoryPage
+        path: '/sharestorypageboard',
+        name: 'SharestoryPageBoard',
+        component: SharestoryPageBoard
     }, {
         path: '/sharestorywrite',
         name: 'SharestoryPageWrite',
         component: SharestoryPageWrite
+    }, {
+        path: '/sharestorypagestory',
+        name: 'SharestoryPageStory',
+        component: SharestoryPageStory
     }, {
         path: '/EditStory',
         name: 'storyEdit',
