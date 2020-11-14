@@ -42,7 +42,6 @@ const routes = [{
         name: 'SharestoryPageStory',
         component: SharestoryPageStory
     }, {
-        path: '/EditStory',
         path: '/EditStory/:storyNum',
         name: 'storyEdit',
         component: storyEdit
