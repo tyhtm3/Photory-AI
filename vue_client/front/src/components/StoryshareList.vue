@@ -14,7 +14,7 @@
                 <img src="@/assets/asset/rabbit.png" style="max-width:150px; position: absolute; bottom: 0;left: 0;">
             </div>
             <div class="ani2">
-                <img @click="alert" src="@/assets/asset/owl_write.png" style="max-width:250px; position: absolute; bottom: 0;left: 0;">
+                <img @click="()=>$router.push('/sharestorywrite').catch(()=>{})" src="@/assets/asset/owl_write.png" style="max-width:250px; position: absolute; bottom: 0;left: 0;">
             </div>
         </v-col>
         <v-col id="iconright" cols="3">
