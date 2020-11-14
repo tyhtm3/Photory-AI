@@ -21,7 +21,8 @@
                 sm="4"
                 md="4"
               >
-                <v-img :src="require('@/assets/user_bear.png')" />
+                <v-img :src="imgs[userimgNum].image" />
+                <v-icon @click="dialogimg = true"> mdi-comment-edit-outline</v-icon>
               </v-col>
               <v-col
                 cols="12"
@@ -44,12 +45,6 @@
                     ></v-text-field>
                   </v-col>
                   <v-col cols="2">
-                  
-                  <v-icon
-                      @click="onupdate"
-                    >
-                      mdi-comment-edit-outline
-                    </v-icon>
                   </v-col>
                 </v-row>
               </v-col>
@@ -68,6 +63,7 @@
                       required
                       solo
                       flat
+                      disabled
                     ></v-text-field>
                   </v-col>
                   <v-col cols="8"
@@ -82,11 +78,6 @@
                     ></v-text-field>
                   </v-col>
                   <v-col cols="2">
-                    <v-icon
-                      @click="onupdate"
-                    >
-                      mdi-comment-edit-outline
-                    </v-icon>
                   </v-col>
                 </v-row>
                 
@@ -122,21 +113,92 @@
                     ></v-text-field>
                   </v-col>
                   <v-col cols="2">
-                  <v-icon
-                      @click="onupdate"
-                    >
-                      mdi-comment-edit-outline
-                    </v-icon>
+                  
                   </v-col>
                 </v-row>
                
               </v-col>
-              
+              <v-col cols="4">
+                 <v-btn
+                  color="#87c7c6"
+                  dark
+                  rounded
+                  @click="onupdate"
+                >
+                  수정하기 
+                  <v-icon>
+                    mdi-comment-edit-outline
+                  </v-icon>
+                </v-btn>
+              </v-col>
+              <v-col cols="4">
+                 <v-btn
+                  color="#bbe454"
+                  dark
+                  rounded
+                  @click="deletemember"
+                >
+                  탈퇴하기 
+                  <v-icon>
+                    mdi-arrow-right-thick
+                  </v-icon>
+                </v-btn>
+              </v-col>
+              <v-col cols="4">
+                 <v-btn
+                  color="#f48a8e"
+                  dark
+                  rounded
+                  @click="closeMypage"
+                >
+                  닫기 
+                  <v-icon>
+                    mdi-arrow-right-thick
+                  </v-icon>
+                </v-btn>
+              </v-col>
             </v-row>
           </v-container>
         </v-card-text>
       </v-card>
     </v-dialog>
+    <v-dialog
+        v-model="dialogimg"
+        max-width="500px"
+      >
+        <v-card>
+          <v-card-title>
+            프로필 이미지 선택하기
+          </v-card-title>
+          <v-card-text>
+            <v-select v-model="imgs.value" :items="imgs" item-value="value" item-text="name" >
+               <template v-slot:item="{ item }">
+                <img :src="item.image" style="height: 50px;" >
+                <span>{{ item.name }}</span>
+              </template>
+            </v-select>
+          </v-card-text>
+          <v-card-actions style="justify-content: flex-end;">
+            <v-btn
+              color="#87c7c6"
+              dark
+              rounded
+              @click="changeimg"
+            >
+              저장하기
+            </v-btn>
+           <v-btn
+              color="#f48a8e"
+              dark
+              rounded
+                @click="dialogimg = false"
+            >
+              닫기
+            </v-btn>
+            
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
   </v-row>
 </template>
 
@@ -144,6 +206,17 @@
 export default {
     name: 'Mypage',
     data: () => ({
+      dialogimg: false,
+      //가져온 유저정보로 저장하기
+      userimgNum: 0,
+      imgs: [
+      { name: '곰', image:  require('@/assets/user_bear.png'), value:0},
+      { name: '사슴', image: require('@/assets/user_deer.png'), value:1},
+      { name: '고슴도치', image: require('@/assets/user_hedgehog.png'), value:2},
+      { name: '부엉이', image: require('@/assets/user_owl.png'), value:3},
+      { name: '토끼', image: require('@/assets/user_rabbit.png'), value:4},
+      { name: '너구리', image: require('@/assets/user_raccoon.png'),value:5}],
+      userImgValue : 0,
     }),
     props:['mypagedialog'],
     methods:{
@@ -155,6 +228,13 @@ export default {
       },
       onupdate(){
         alert("변경되었습니다")
+      },
+      deletemember(){
+        alert("탈퇴되었습니다.")
+      },
+      changeimg(){
+        this.userimgNum=this.imgs.value
+        this.dialogimg =false
       }
     }
   }
@@ -195,6 +275,9 @@ div.v-image__image.v-image__image--cover{
   }
   #height50{
     height: 50px;
+  }
+  #imgexample{
+    height: 20px;
   }
 }
 </style>
