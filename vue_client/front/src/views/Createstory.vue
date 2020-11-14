@@ -1,7 +1,9 @@
 <template>
   <div class="Createstory" :style="{ height: `${hei}px` }">
+    <img id="bg" src="@/assets/hill.png" alt="">
+    <img src="@/assets/loading/wave.png" style="width: 100vw;position:fixed;bottom:0;left:0;height:10%">
     <div id="filmForm">
-      <svg :height="Math.max(0, hei - 100)" :width="wid">
+      <svg :height="Math.max(0, hei - 50)" :width="wid">
         <path
           :d="`M 0 ${hei / 5} q ${wid / 2} ${hei / 5} ${wid} 0`"
           stroke="#000"
@@ -242,9 +244,11 @@ export default {
 <style lang="scss">
 .Createstory {
   margin: 0;
+  margin-top: 50px;
   padding: 0;
+
   box-sizing: border-box;
-  overflow: hidden;
+  overflow: visible;
   position: relative;
   svg {
     box-sizing: border-box;
@@ -299,6 +303,7 @@ export default {
     list-style: none;
     li {
       border: 2px solid blue;
+      background-color: #fff;
       border-radius: 50%;
       width: 44px;
       height: 44px;
@@ -316,6 +321,11 @@ export default {
     bottom: 10vh;
     left: 0;
     width: 100vw;
+    
+  }
+  #bg{
+    width: 100%;
+    height: 100%;
   }
 }
 </style>
