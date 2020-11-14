@@ -40,7 +40,7 @@
                     <v-text-field
                       solo
                       flat
-                      value="보통뭐할까"
+                      v-model="userTemp.nickname"
                       style="font-size : x-large;"
                     ></v-text-field>
                   </v-col>
@@ -58,7 +58,7 @@
                   class="d-none d-sm-block">
                     <v-text-field
                       label="Email"
-                      value="user@user.com"
+                      v-model="userTemp.email"
                       style="font-size : x-large;"
                       required
                       solo
@@ -70,7 +70,7 @@
                   class="d-sm-none">
                     <v-text-field
                       label="Email"
-                      value="user@user.com"
+                      v-model="userTemp.email"
                       style="font-size : small;"
                       required
                       solo
@@ -93,7 +93,7 @@
                     <v-text-field
                       label="Password"
                       type="password"
-                      value="asdfqwer1234"
+                      v-model="userTemp.password"
                       style="font-size : x-large;"
                       required
                       solo
@@ -105,7 +105,7 @@
                     <v-text-field
                       label="Password"
                       type="password"
-                      value="asdfqwer1234"
+                      v-model="userTemp.password"
                       style="font-size : small;"
                       required
                       solo
@@ -235,6 +235,11 @@ export default {
       changeimg(){
         this.userimgNum=this.imgs.value
         this.dialogimg =false
+      }
+    },
+    computed: {
+      userTemp() {
+        return this.$store.state.user
       }
     }
   }
