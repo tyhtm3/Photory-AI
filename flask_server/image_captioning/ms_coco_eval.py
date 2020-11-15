@@ -179,7 +179,7 @@ def load_image(image_path):
 with open('checkpoints/train3/train_captions.pickle','rb') as fr:
     train_captions = pickle.load(fr)
     
-max_length = 493135 # 학습한 캡션의 갯수, 학습 이미지의 갯수랑 동일
+max_length = 616435 # 학습한 캡션의 갯수, 학습 이미지의 갯수랑 동일
 
 top_k = 30000
 embedding_dim = 512
@@ -194,7 +194,7 @@ decoder = RNN_Decoder(embedding_dim, units, vocab_size)
 optimizer = tf.keras.optimizers.Adam()
 
 
-checkpoint_path = "./checkpoints/train"
+checkpoint_path = "./checkpoints/train3"
 ckpt = tf.train.Checkpoint(encoder=encoder,
                            decoder=decoder,
                            optimizer = optimizer)
@@ -230,8 +230,7 @@ tokenizer.index_word[0] = '<pad>'
 
 
 image_url = 'https://tensorflow.org/images/surf.jpg'
-image_extension = image_url[-4:]
-image_path = tf.keras.utils.get_file('image'+image_extension,
+image_path = tf.keras.utils.get_file('image4.jpg',
                                      origin=image_url)
 
 result, attention_plot = evaluate(image_path)
