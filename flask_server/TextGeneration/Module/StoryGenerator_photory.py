@@ -78,8 +78,11 @@ class StoryGeneration :
         self.tok = SentencepieceTokenizer(tok_path, num_best = 0, alpha=0)
         
         
-    def Generate_p_sampling(self) :
-        sent = input('문장 입력: ')
+    def Generate_p_sampling(self, inputText = '') :
+        if inputText == '' :
+            return '문장을 넣어주세요'
+        else :
+            sent = inputText
 
         toked = self.tok(sent)
         #print(toked)
