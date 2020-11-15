@@ -78,11 +78,11 @@ def ai_receive(request):
     imgs = list(story.images.all())
     imgs = list(map(str,imgs))
     imgs.sort()
-    story.content0 =  '<img id="mainImg" class="normImg" draggable="false" src="http://localhost:8000/media/'+imgs[0] + '" style="position:absolute;left:0px;top:0px;width:30%;height:30%;"/><div id="con1" class="contentt" draggable="false" style="position:absolute;left:0px;top:0px;width:30%;height:30%;z-index:100;"><p>' + data['tale'][0] + '</p></div>'
-    story.content1 =  '<img id="mainImg" class="normImg" draggable="false" src="http://localhost:8000/media/'+imgs[1] + '" style="position:absolute;left:0px;top:0px;width:30%;height:30%;"/><div id="con1" class="contentt" draggable="false" style="position:absolute;left:0px;top:0px;width:30%;height:30%;z-index:100;"><p>' + data['tale'][1] + '</p></div>'
-    story.content2 =  '<img id="mainImg" class="normImg" draggable="false" src="http://localhost:8000/media/'+imgs[2] + '" style="position:absolute;left:0px;top:0px;width:30%;height:30%;"/><div id="con1" class="contentt" draggable="false" style="position:absolute;left:0px;top:0px;width:30%;height:30%;z-index:100;"><p>' + data['tale'][2] + '</p></div>'
-    story.content3 =  '<img id="mainImg" class="normImg" draggable="false" src="http://localhost:8000/media/'+imgs[3] + '" style="position:absolute;left:0px;top:0px;width:30%;height:30%;"/><div id="con1" class="contentt" draggable="false" style="position:absolute;left:0px;top:0px;width:30%;height:30%;z-index:100;"><p>' + data['tale'][3] + '</p></div>'
-    story.content4 =  '<img id="mainImg" class="normImg" draggable="false" src="http://localhost:8000/media/'+imgs[4] + '" style="position:absolute;left:0px;top:0px;width:30%;height:30%;"/><div id="con1" class="contentt" draggable="false" style="position:absolute;left:0px;top:0px;width:30%;height:30%;z-index:100;"><p>' + data['tale'][4] + '</p></div>'
+    story.content0 =  '<img id="mainImg" class="normImg" draggable="false" src="http://k3a205.p.ssafy.io:8000/media/'+imgs[0] + '" style="position:absolute;left:0px;top:0px;width:30%;height:30%;"/><div id="con1" class="contentt" draggable="false" style="position:absolute;left:0px;top:0px;width:30%;height:30%;z-index:100;"><p>' + data['tale'][0] + '</p></div>'
+    story.content1 =  '<img id="mainImg" class="normImg" draggable="false" src="http://k3a205.p.ssafy.io:8000/media/'+imgs[1] + '" style="position:absolute;left:0px;top:0px;width:30%;height:30%;"/><div id="con1" class="contentt" draggable="false" style="position:absolute;left:0px;top:0px;width:30%;height:30%;z-index:100;"><p>' + data['tale'][1] + '</p></div>'
+    story.content2 =  '<img id="mainImg" class="normImg" draggable="false" src="http://k3a205.p.ssafy.io:8000/media/'+imgs[2] + '" style="position:absolute;left:0px;top:0px;width:30%;height:30%;"/><div id="con1" class="contentt" draggable="false" style="position:absolute;left:0px;top:0px;width:30%;height:30%;z-index:100;"><p>' + data['tale'][2] + '</p></div>'
+    story.content3 =  '<img id="mainImg" class="normImg" draggable="false" src="http://k3a205.p.ssafy.io:8000/media/'+imgs[3] + '" style="position:absolute;left:0px;top:0px;width:30%;height:30%;"/><div id="con1" class="contentt" draggable="false" style="position:absolute;left:0px;top:0px;width:30%;height:30%;z-index:100;"><p>' + data['tale'][3] + '</p></div>'
+    story.content4 =  '<img id="mainImg" class="normImg" draggable="false" src="http://k3a205.p.ssafy.io:8000/media/'+imgs[4] + '" style="position:absolute;left:0px;top:0px;width:30%;height:30%;"/><div id="con1" class="contentt" draggable="false" style="position:absolute;left:0px;top:0px;width:30%;height:30%;z-index:100;"><p>' + data['tale'][4] + '</p></div>'
     story.editable = True
     story.save()
     return Response({'status':"OK"})
@@ -93,7 +93,7 @@ def get_normImg(request,story_pk,img_num):
     imgs = list(story.images.all())
     imgs = list(map(str,imgs))
     imgs.sort()
-    return Response({'status':"OK",'img':"http://127.0.0.1:8000/media/"+imgs[img_num]})
+    return Response({'status':"OK",'img':"http://k3a205.p.ssafy.io:8000/media/"+imgs[img_num]})
 
 @api_view(['PUT'])
 def storys_u(request):
@@ -182,7 +182,7 @@ def images_create(request,story_pk):
             url = 'http://121.125.56.92:50740/tale'
             data = {
                 'story_pk':story_pk,
-                'imagePaths':[str(i.image) for i in story.images.all()]
+                'imagePaths': sorted([str(i.image) for i in story.images.all()])
             }
             print(data)
             requests.post(url,data=json.dumps(data))
