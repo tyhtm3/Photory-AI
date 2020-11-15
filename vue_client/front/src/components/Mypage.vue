@@ -94,8 +94,8 @@
                     <v-text-field
                       label="Password"
                       type="password"
-                      v-model="userPwd.password1"
                       style="font-size : x-large;"
+                      value="password"
                       required
                       solo
                       flat
@@ -113,7 +113,7 @@
                     <v-text-field
                       label="Password"
                       type="password"
-                      v-model="userPwd"
+                      value="password"
                       style="font-size : small;"
                       required
                       solo
@@ -256,8 +256,6 @@ export default {
     data: () => ({
       dialogimg: false,
       dialogpwd: false,
-      //가져온 유저정보로 저장하기
-      userimgNum: 0,
       imgs: [
       { name: '곰', image:  require('@/assets/user_bear.png'), value:0},
       { name: '사슴', image: require('@/assets/user_deer.png'), value:1},
@@ -265,20 +263,14 @@ export default {
       { name: '부엉이', image: require('@/assets/user_owl.png'), value:3},
       { name: '토끼', image: require('@/assets/user_rabbit.png'), value:4},
       { name: '너구리', image: require('@/assets/user_raccoon.png'),value:5}],
-      userPwd : {passwrod1:'Password',passwrod2:''},
+      userPwd : {password1:'',password2:''},
     }),
     props:['mypagedialog'],
     methods:{
-      // inputuserimgNum(){
-      //   if(userInfo.profile){
-      //     this.userimgNum = userInfo.profile
-      //   }
-      // },
       closeMypage (){
         this.$emit('close-mypage');
       },
       openMypage(){
-        // inputuserimgNum();
         this.$emit('open-mypage');
       },
       onupdate(){
@@ -294,13 +286,25 @@ export default {
         store.dispatch('deleteuser');
       },
       changeimg(){
-        // this.userInfo.profile=this.imgs.value
-        this.userimgNum = this.imgs.value
+        let profile = this.imgs.value
+        let nickname = this.$store.state.user.nickname
+        const userInfo = {
+          'nickname': nickname,
+          'profile' : profile
+        }
+        store.dispatch('changeimg', userInfo);
         this.dialogimg =false
       },
       changepwd(){
+        let new_password1 = this.userPwd.password1
+        let new_password2 = this.userPwd.password2
+        const password = {
+          'new_password1': new_password1,
+          'new_password2': new_password2,
+        }
+        store.dispatch('changepwd', password);
         this.dialogpwd =false
-      }
+      },
     },
     computed:{
       ...mapGetters({
