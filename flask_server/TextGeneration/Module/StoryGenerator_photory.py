@@ -21,7 +21,7 @@ class StoryGeneration :
         ctx= 'cpu'#'cuda' #'cpu' #학습 Device CPU or GPU. colab의 경우 GPU 사용
         cachedir='./kogpt2/model' # KoGPT-2 모델 다운로드 경로
         save_path = 'checkpoints/'
-        load_path = 'TextGeneration/Module/checkpoints/narrativeKoGPT2_checkpoint_tokenized_ver3_bat1_epoch300.tar'
+        load_path = 'TextGeneration/Module/checkpoints/narrativeKoGPT2_checkpoint_tokenized_ver3_bat1_epoch350.tar'
 
         pytorch_kogpt2 = {
             'url': 'https://kobert.blob.core.windows.net/models/kogpt2/pytorch/pytorch_kogpt2_676e9bcfa7.params',
