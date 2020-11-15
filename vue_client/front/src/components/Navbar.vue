@@ -21,7 +21,7 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn text @click="()=>$router.push('/ShareStory').catch(()=>{})">
+      <v-btn text @click="()=>$router.push('/sharestorylist').catch(()=>{})">
         <v-col style="color: black" >Share Story</v-col>
       </v-btn>
 
@@ -100,7 +100,8 @@
             v-bind="attrs"
             v-on="on"
           >
-            <img id = "userimg" src="@/assets/user_bear.png" alt=""> 
+            <img  id = "userimg" src="@/assets/user_bear.png" alt="">
+            <!-- <img id = "userimg" :src="imgs[this.$store.state.user.profile].image" >  -->
           </v-btn>
         </template>
 
@@ -182,7 +183,14 @@ export default {
       drawer2: false,
       group: null,
       logindialog : false,
-      mypagedialog : false,      
+      mypagedialog : false,
+      imgs: [
+      { name: '곰', image:  require('@/assets/user_bear.png'), value:0},
+      { name: '사슴', image: require('@/assets/user_deer.png'), value:1},
+      { name: '고슴도치', image: require('@/assets/user_hedgehog.png'), value:2},
+      { name: '부엉이', image: require('@/assets/user_owl.png'), value:3},
+      { name: '토끼', image: require('@/assets/user_rabbit.png'), value:4},
+      { name: '너구리', image: require('@/assets/user_raccoon.png'),value:5}],      
     }),
   watch: {
     group () {
