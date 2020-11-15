@@ -4,8 +4,8 @@ from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.decorators import api_view,permission_classes
 from rest_framework.permissions import IsAuthenticated
-from .serializers import StoryListSerializer
-from .models import Story,Images
+from .serializers import StoryListSerializer,BookStoryListSerializer
+from .models import Story,Images,BookStory
 import requests, json
 # Create your views here.
  
@@ -16,15 +16,6 @@ def storys(request):
     storys = Story.objects.filter(user = request.user)
     serializer = StoryListSerializer(storys, many=True)
     return Response(serializer.data)
-    # for i in storys:
-    #     i.delete()
-    # return Response(1)
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def story_detail(request,story_pk):
-    story = get_object_or_404(Story, pk=story_pk)
-    return Response(story)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -44,6 +35,36 @@ def storys_init(request):
         except:
             return Response({'status':False})
 
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def book_init(request):
+    con={}
+    if request.method == "POST":
+        # try:
+        bstory = BookStory()
+        bstory.user = request.user
+        bstory.title = request.data['title']
+        bstory.writer = request.data['writer']
+        bstory.content0 = request.FILES['c0']
+        bstory.content1 = request.FILES['c1']
+        bstory.content2 = request.FILES['c2']
+        bstory.content3 = request.FILES['c3']
+        bstory.content4 = request.FILES['c4']
+        bstory.save()
+        con['status'] = True
+        con['pk'] = bstory.pk
+        return Response(con)
+        # except:
+        #     return Response({'status':False})
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def books(request):
+    bstorys = BookStory.objects.filter(user = request.user)
+    serializer = BookStoryListSerializer(bstorys, many=True)
+    return Response(serializer.data)
+
 @api_view(['POST'])
 def ai_receive(request):
     #     data={
@@ -51,15 +72,19 @@ def ai_receive(request):
     # imagePath:string,
     # contents:[string,...]
     # }
-    print(request.data)
-    story = get_object_or_404(Story, pk=request.data['story_pk'])
+    data = dict(request.data)
+    story = get_object_or_404(Story, pk=data['story_pk'][0])
     imgs = story.images.all()
     imgs = list(story.images.all())
     imgs = list(map(str,imgs))
     imgs.sort()
-    for i in range(5):
-        story.content =  '<img id="mainImg" class="normImg" draggable="false" src="'+imgs[i] + '" style="position:absolute;left:0px;top:0px;width:30%;height:30%;"/><div id="con1" class="contentt" draggable="false" style="position:absolute;left:0px;top:0px;width:30%;height:30%;z-index:100;"><p>' + request.data['tale'][i] + '</p></div>'
+    story.content0 =  '<img id="mainImg" class="normImg" draggable="false" src="http://localhost:8000/media/'+imgs[0] + '" style="position:absolute;left:0px;top:0px;width:30%;height:30%;"/><div id="con1" class="contentt" draggable="false" style="position:absolute;left:0px;top:0px;width:30%;height:30%;z-index:100;"><p>' + data['tale'][0] + '</p></div>'
+    story.content1 =  '<img id="mainImg" class="normImg" draggable="false" src="http://localhost:8000/media/'+imgs[1] + '" style="position:absolute;left:0px;top:0px;width:30%;height:30%;"/><div id="con1" class="contentt" draggable="false" style="position:absolute;left:0px;top:0px;width:30%;height:30%;z-index:100;"><p>' + data['tale'][1] + '</p></div>'
+    story.content2 =  '<img id="mainImg" class="normImg" draggable="false" src="http://localhost:8000/media/'+imgs[2] + '" style="position:absolute;left:0px;top:0px;width:30%;height:30%;"/><div id="con1" class="contentt" draggable="false" style="position:absolute;left:0px;top:0px;width:30%;height:30%;z-index:100;"><p>' + data['tale'][2] + '</p></div>'
+    story.content3 =  '<img id="mainImg" class="normImg" draggable="false" src="http://localhost:8000/media/'+imgs[3] + '" style="position:absolute;left:0px;top:0px;width:30%;height:30%;"/><div id="con1" class="contentt" draggable="false" style="position:absolute;left:0px;top:0px;width:30%;height:30%;z-index:100;"><p>' + data['tale'][3] + '</p></div>'
+    story.content4 =  '<img id="mainImg" class="normImg" draggable="false" src="http://localhost:8000/media/'+imgs[4] + '" style="position:absolute;left:0px;top:0px;width:30%;height:30%;"/><div id="con1" class="contentt" draggable="false" style="position:absolute;left:0px;top:0px;width:30%;height:30%;z-index:100;"><p>' + data['tale'][4] + '</p></div>'
     story.editable = True
+    story.save()
     return Response({'status':"OK"})
 
 @api_view(['GET'])
@@ -87,6 +112,7 @@ def storys_u(request):
             story.save()
             con['status'] = True
             con['pk'] = story.pk
+            print(story.content0)
             return Response(con)
         except:
             return Response({'status':False})
@@ -113,7 +139,6 @@ def story_rd(request,story_pk):
         con['image']=[str(i.image) for i in story.images.all()]
         return Response(con)
     elif request.method == "DELETE":
-        # if request:
         story = get_object_or_404( Story ,pk = story_pk)
         try:
             story.delete()
@@ -121,10 +146,6 @@ def story_rd(request,story_pk):
         except:
             con['status'] = False
         return Response(con)
-        # else:
-        #     con['status'] = False
-        #     con['data'] ="로그인이 필요합니다."
-        #     return Response(con)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -140,7 +161,7 @@ def images_create(request,story_pk):
         last = False
         # 
         if len(story.images.all())==5:
-            url = 'http://127.0.0.1:5000/tale'
+            url = 'http://121.125.56.92:50740/tale'
             data = {
                 'story_pk':story_pk,
                 'imagePaths':[str(i.image) for i in story.images.all()]
@@ -156,7 +177,7 @@ def images_create(request,story_pk):
         return Response(con)
 
 @api_view(['DELETE'])
-# @permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def images_delete(request,image_pk):
     if request.method == "DELETE":
         images = get_object_or_404(Images, pk = image_pk)

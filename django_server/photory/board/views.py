@@ -19,8 +19,8 @@ def article_list(requset):
 @api_view(['GET'])
 def article_count(request):
     article_count = Article.objects.count()
+    # return Response({'count':article_count},status=200)
     return Response(article_count)
-    
 @api_view(['GET'])
 def article_detail(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
