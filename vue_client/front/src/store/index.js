@@ -115,7 +115,39 @@ const store = new Vuex.Store({
                 .catch((error) => {
                     console.log(error.response.data);
                 })
-        }
+        },
+
+        changeimg(context, userInfo) {
+            const TOKEN = store.state.token
+            const config = {
+                headers: { 'Authorization': 'jwt ' + TOKEN }
+            }
+            axios.put(`http://127.0.0.1:8000/accounts/userinfo/ `, userInfo, config, { "Content-Type": "application-json" })
+                .then(res => {
+                    alert("회원 사진이 수정되었습니다.");
+                    console.log(res.data);
+                    context.commit('MUTATEUSERINFO', res.data)
+                })
+                .catch((error) => {
+                    console.log(error.response.data);
+                })
+        },
+
+        changepwd(context, password) {
+            const TOKEN = store.state.token
+            const config = {
+                headers: { 'Authorization': 'jwt ' + TOKEN }
+            }
+            axios.post(`http://127.0.0.1:8000/rest-auth/password/change/ `, password, config, { "Content-Type": "application-json" })
+                .then(res => {
+                    alert("회원 비밀번호가 수정되었습니다.");
+                    console.log(res.data);
+                    context.commit();
+                })
+                .catch((error) => {
+                    console.log(error.response.data);
+                })
+        },
     },
     plugins: [
         createPersistedState({
