@@ -68,7 +68,6 @@ export default {
     // EditorTipTap,
   },
   data: () => ({
-    //props로 보내지는 description 처음 data값으로 들어감
     description:"내용1",
     menubar:false,
     readOnly:true,
@@ -93,7 +92,7 @@ export default {
         const config = {
             headers: { 'Authorization': 'jwt ' + TOKEN }
         }
-      axios.delete(`http://127.0.0.1:8000/board/${this.boardNum}/ `,config, { "Content-Type": "application-json" })
+      axios.delete(`http://127.0.0.1:8000/board/${this.boardNum}/`,config, { "Content-Type": "application-json" })
         .then(res => {
             alert('삭제되었습니다.')
             console.log(res.data)
@@ -109,7 +108,8 @@ export default {
     },
     goStory(){
       if(this.isStroy){
-        router.push('/sharestorypagestory').catch(()=>{})
+        let data ={'storyid':this.storydata.id, 'boardid':this.boardNum}
+        router.push(`/sharestorypagestory/${data.boardid}/${data.storyid}`).catch(()=>{})
       }else{
         alert("등록된 스토리가 없습니다.")
       }
