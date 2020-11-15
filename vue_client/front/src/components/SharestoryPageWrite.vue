@@ -62,7 +62,7 @@
               color="#bbe454"
               dark
               rounded
-              @click="dialogSelect = true"
+              @click="bringStory"
             >
               내 스토리 가져오기 
               <v-icon>
@@ -86,11 +86,16 @@
         <v-card-title>Select Story</v-card-title>
         <v-divider></v-divider>
         <v-card-text style="height: 100px;">
-           <v-select
-          :items="Stories"
-          label="Story"
-          v-model="selectedstroy"
-        ></v-select>
+           <!-- <v-select
+            :items="Stories"
+            label="Story"
+            v-model="selectedstory"
+          ></v-select> -->
+          <v-select v-model="selectedstoryid" :items="bookList" item-value="id" item-text="title" >
+            <template v-slot:item="{ item }">
+            <span>{{ item.title }}</span>
+            </template>
+          </v-select>
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
@@ -116,6 +121,7 @@
 </template>
 <script>
 import axios from 'axios'
+import router from '../router'
 // import EditorTipTap from '@/components/EditorTipTap.vue'
 export default {
   components:{
@@ -128,8 +134,11 @@ export default {
     title:"제목",
     storytitle:"내 스토리 제목",
     dialogSelect:false,
+    bookList: [{'id':1, title :'story',writer:'방냥이'},{'id':2, title :'story2',writer:'방냥이'},{'id':3, title :'story3',writer:'방냥이'}],
     Stories: ['story1', 'story2', 'story3', 'story4'],
-    selectedstroy:'',
+    selectedstory:'',
+    selectedstoryid:'',
+    storycover:'',
   }),
   methods :{
     write(){
@@ -138,24 +147,59 @@ export default {
           headers: { 'Authorization': 'jwt ' + TOKEN }
       }
       const writeinfo = {
-        'title' : this.title
+        // 'title' : this.title,
+        // 'writer' : this.$store.state.user.nickname,
+        // 'content' : this.description,
+        // 'category' :1,
+        // 'nickname' : this.$store.state.user.id,
+        // 'story' : this.selectedstoryid,
+        // 'bookcover':this.storycover,
+        'title' : this.title,
+        'writer' : this.$store.state.user.nickname,
+        'content' : this.description,
+        'category' :1,
+        'nickname' : this.$store.state.user.id,
+        'story' : this.selectedstoryid,
+        // 'bookcover': null,
       }
-      axios.post(`http://127.0.0.1:8000/board/create/ `, config, writeinfo, { "Content-Type": "application-json" })
+      axios.post(`http://127.0.0.1:8000/board/create/ `, writeinfo, config, { "Content-Type": "application-json" })
           .then(res => {
               console.log(res.data);
+              router.push('/sharestorylist').catch(()=>{})
           })
           .catch((error) => {
               console.log(error.response);
           })
     },
-    selectmystory(){
-
-    },
     saveselectstory(){
+      axios.get(`http://127.0.0.1:8000/storys/books/${this.selectedstoryid}/`)
+      .then((res) => {
+        this.storytitle = res.data.title;
+        this.storycover = res.data.content0;
+      });
       this.dialogSelect = false
-      this.storytitle = this.selectedstroy
+    },
+    bringStory(){
+      if(this.Stories===undefined || this.Stories ===null){
+        alert("가져올 스토리가 없습니다.")
+      }else{
+        this.dialogSelect = true
+      }
+      // this.dialogSelect =true;
     }
-  }
+  },
+  created(){
+    const TOKEN = this.$store.state.token
+    const config = {
+        headers: { 'Authorization': 'jwt ' + TOKEN }
+    }
+    axios.get(`http://127.0.0.1:8000/storys/books/`, config)
+      .then((res) => {
+        this.bookList = res.data;
+        this.Stories = res.data.title;
+        console.log(this.Stories)
+      });
+  },
 }
 </script>
 <style>
