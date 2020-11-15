@@ -13,7 +13,7 @@
             </div>
             <div class="mid">
                 <img src="@/assets/loading/logo.svg">
-            </div>
+            </div> 
         </div>
     </div>
     <div class="d-sm-none" style="height: 30vh;">

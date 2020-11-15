@@ -1,16 +1,31 @@
+from flask import Flask, request, render_template
+from flask_cors import CORS
+import tensorflow as tf2
+from neural_style import style_transfer_tester, utils
+from io import BytesIO
+import requests
+import json
+from PIL import Image
+from io import BytesIO
+import numpy as np
 from image_captioning.image_caption import Image_caption
-import tensorflow as tf
+import os
 
-print('aaa')
-caption_model = Image_caption()
+print('!!!!!!!!!!!!!!!')
+print(tf2.executing_eagerly())
+print('!!!!!!!!!!!!!!!!!!!!!!')
 
-print('asdfasdf')
+# Get image url from json
+image_url = "https://images.mypetlife.co.kr/content/uploads/2019/09/04222847/dog-panting-1024x683.jpg"
 
-image_url = input()
-image_extention = image_url[-3:]
-print(image_extention)
-image_path = tf.keras.utils.get_file('image'+image_extention,
-                                            origin=image_url)
+# Image load from url
+res = requests.get(image_url)
+img = Image.open(BytesIO(res.content))
+img = np.asarray(img)
 
-result, aa = caption_model.evaluate(image_path)
-print(' '.join(result))
+img_extension_path = tf2.keras.utils.get_file('image323.jpg',
+                                                origin=image_url)
+cap = Image_caption()
+result_cap , plot = cap.evaluate(img_extension_path)
+
+print(result_cap)
