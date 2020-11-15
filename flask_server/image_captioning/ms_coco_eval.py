@@ -18,7 +18,7 @@ import pickle
 #tf.enable_eager_execution()
 #tf.executing_eagerly() 
 # pip install matplotlib sklearn 
-print(tf.__version__)
+
 gpus = tf.config.experimental.list_physical_devices('GPU')
 if gpus:
   try:
@@ -214,14 +214,8 @@ tokenizer.index_word[0] = '<pad>'
 
 
 image_url = 'https://tensorflow.org/images/surf.jpg'
-image_extension = image_url[-4:]
-image_path = tf.keras.utils.get_file('image19'+image_extension,
+image_path = tf.keras.utils.get_file('image4.jpg',
                                      origin=image_url)
 
 result, attention_plot = evaluate(image_path)
-##### 새로 추가한 부분. evaluate 함수 사용하는 부분 바로 밑에 넣으면됨
-result = ' '.join(result).replace('<unk>','')
-if len(result) > 100 : 
-    result = result[:100]
-##### 여기까지 추가
-print ('Prediction Caption:', result)
+print ('Prediction Caption:', ' '.join(result))

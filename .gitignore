@@ -21,6 +21,7 @@ media
 # Neural network model
 fast_neural_style/
 checkpoints/
+kogpt2/
 
 # static files
 static
