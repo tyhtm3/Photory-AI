@@ -1,5 +1,5 @@
 <template>
-<v-container style="text-align: -webkit-center;">
+<v-container fluid >
   <div class="back">
     <img src="@/assets/loading/wave.png" style="max-width: -webkit-fill-available; position: absolute; bottom: 0;left: 0;">
   </div>
