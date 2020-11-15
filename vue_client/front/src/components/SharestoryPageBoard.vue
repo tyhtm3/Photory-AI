@@ -68,7 +68,6 @@ export default {
     // EditorTipTap,
   },
   data: () => ({
-    //props로 보내지는 description 처음 data값으로 들어감
     description:"내용1",
     menubar:false,
     readOnly:true,
@@ -109,7 +108,8 @@ export default {
     },
     goStory(){
       if(this.isStroy){
-        router.push('/sharestorypagestory').catch(()=>{})
+        let data ={'storyid':this.storydata.id, 'boardid':this.boardNum}
+        router.push(`/sharestorypagestory/${data.boardid}/${data.storyid}`).catch(()=>{})
       }else{
         alert("등록된 스토리가 없습니다.")
       }
