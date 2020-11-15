@@ -25,6 +25,7 @@
                 height="100"
                 width="100"
                 depressed
+                @click="goFirstPage"
             >
                 <v-icon
                     color="#c4e86b"
@@ -41,6 +42,7 @@
                 depressed
                 height="100"
                 width="100"
+                @click="goPrePage"
             >
                 <v-icon
                     color="#c4e86b"
@@ -52,7 +54,7 @@
         </v-col>
         <v-col style="padding-left: 0px;padding-right: 0px;" cols="6">
             <div id="gallery_layout">
-                <div class="gallery_content" v-for="( item ) in storyListData" v-bind:key="item" @click="()=>$router.push(`/sharestorypageboard/${item.id}`).catch(()=>{})">
+                <div class="gallery_content" v-for="( item ) in storyListData" v-bind:key="item.id" @click="()=>$router.push(`/sharestorypageboard/${item.id}`).catch(()=>{})">
                     <div id ="imgbox" style="float: left; position: relative;" >
                         <!-- 이미지 소스 바꿔놓기 bookcover가 null 일 때는 book.png -->
                         <div class="front"><img src="@/assets/book.png" alt="travel_img"></div>
@@ -75,6 +77,7 @@
                 depressed
                 height="100"
                 width="100"
+                @click="goNextPage"
             >
                 <v-icon
                     color="#c4e86b"
@@ -91,6 +94,7 @@
                 depressed
                 height="100"
                 width="100"
+                @click="goLastpage"
             >
                 <v-icon
                     color="#c4e86b"
@@ -146,16 +150,16 @@ export default {
           }
       },
       goLastpage(){
-        //   let pagecount = (this.storyListCount-1)%8;
-        //   if(){
-        //       console.log(pagecount)
-        //   }
+          let pagecount = (this.storyListCount-1)%8;
+          this.pagenum = pagecount;
+          this.getList();
       },
       goNextPage(){
-          if(this.pagenum<1){
+          let pagecount = (this.storyListCount-1)%8;
+          if(pagecount<=this.pagenum){
               alert("마지막 페이지입니다.")
           }else{
-              this.pagenum = this.pagenum -1;
+              this.pagenum = this.pagenum +1;
               this.getList()
           }
       }
