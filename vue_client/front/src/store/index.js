@@ -43,7 +43,7 @@ const store = new Vuex.Store({
                     context.commit('MUTATEUSERINFO', res.data.user)
                     context.commit('MUTATEUSERTOKEN', res.data.token)
                         // context.commit('MUTATEUSMSG',res.data.user.nickname+"님 환영합니다.")
-                    alert(res.data.user.nickname + "님 환영합니다." + res.data.user.profile);
+                    alert(res.data.user.nickname + "님 환영합니다.");
                     router.go(0);
                 })
                 .catch(err => {
@@ -81,6 +81,41 @@ const store = new Vuex.Store({
                     }
                 })
         },
+
+        deleteuser(context) {
+            const TOKEN = store.state.token
+            const config = {
+                headers: { 'Authorization': 'jwt ' + TOKEN }
+            }
+            axios.delete(`http://127.0.0.1:8000/accounts/userinfo/ `, config)
+                .then(res => {
+                    alert(store.state.user.nickname + "님 탈퇴처리 되었습니다.")
+                    console.log(res.data);
+                    store.commit('MUTATEISLOGIN', false)
+                    context.commit('MUTATEUSERINFO', {});
+                    router.go(0);
+                })
+                .catch((error) => {
+                    console.log(error.response);
+                })
+        },
+
+        updateuser(context, userInfo) {
+            const TOKEN = store.state.token
+            const config = {
+                headers: { 'Authorization': 'jwt ' + TOKEN }
+            }
+            axios.put(`http://127.0.0.1:8000/accounts/userinfo/ `, userInfo, config, { "Content-Type": "application-json" })
+                .then(res => {
+                    alert("회원 정보가 수정되었습니다.");
+                    console.log(res.data);
+                    context.commit('MUTATEUSERINFO', res.data)
+                    router.go(0);
+                })
+                .catch((error) => {
+                    console.log(error.response.data);
+                })
+        }
     },
     plugins: [
         createPersistedState({

@@ -11,7 +11,7 @@ class User(AbstractUser):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
-    profile = models.CharField(max_length=1)
+    profile = models.CharField(max_length=1,default='0')
     nickname = models.CharField(max_length=100) 
     object = CustomUserManager()
 

@@ -1,5 +1,5 @@
 <template>
-<div>
+<v-container style="text-align: -webkit-center;">
   <div class="back">
     <img src="@/assets/loading/wave.png" style="max-width: -webkit-fill-available; position: absolute; bottom: 0;left: 0;">
   </div>
@@ -10,7 +10,7 @@
   <div class="d-none d-md-block ani4">
       <img @click="()=>$router.push('/sharestorylist').catch(()=>{})" src="@/assets/asset/raccoongolist.png" style="max-width:350px; width:30vw;">
   </div>
-</div>
+</v-container>
   
 </template>
 <script>
