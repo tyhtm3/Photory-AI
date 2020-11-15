@@ -18,6 +18,19 @@ import pickle
 #tf.enable_eager_execution()
 #tf.executing_eagerly() 
 # pip install matplotlib sklearn 
+
+gpus = tf.config.experimental.list_physical_devices('GPU')
+if gpus:
+  try:
+    # Currently, memory growth needs to be the same across GPUs
+    for gpu in gpus:
+      tf.config.experimental.set_memory_growth(gpu, True)
+    logical_gpus = tf.config.experimental.list_logical_devices('GPU')
+    print(len(gpus), "Physical GPUs,", len(logical_gpus), "Logical GPUs")
+  except RuntimeError as e:
+    # Memory growth must be set before GPUs have been initialized
+    print(e)
+    
 class BahdanauAttention(tf.keras.Model):
   def __init__(self, units):
     super(BahdanauAttention, self).__init__()
@@ -166,10 +179,10 @@ def load_image(image_path):
 with open('checkpoints/train3/train_captions.pickle','rb') as fr:
     train_captions = pickle.load(fr)
     
-max_length = 24000 # 학습한 캡션의 갯수, 학습 이미지의 갯수랑 동일
+max_length = 493135 # 학습한 캡션의 갯수, 학습 이미지의 갯수랑 동일
 
-top_k = 8000
-embedding_dim = 256
+top_k = 30000
+embedding_dim = 512
 units = 512
 vocab_size = top_k + 1
 features_shape = 2048
@@ -181,7 +194,7 @@ decoder = RNN_Decoder(embedding_dim, units, vocab_size)
 optimizer = tf.keras.optimizers.Adam()
 
 
-checkpoint_path = "./checkpoints/train3"
+checkpoint_path = "./checkpoints/train"
 ckpt = tf.train.Checkpoint(encoder=encoder,
                            decoder=decoder,
                            optimizer = optimizer)
@@ -216,9 +229,9 @@ tokenizer.word_index['<pad>'] = 0
 tokenizer.index_word[0] = '<pad>'
 
 
-image_url = 'http://ecotopia.hani.co.kr/files/attach/images/69/406/492/d2.jpg'
-
-image_path = tf.keras.utils.get_file('image3.jpg',
+image_url = 'https://tensorflow.org/images/surf.jpg'
+image_extension = image_url[-4:]
+image_path = tf.keras.utils.get_file('image'+image_extension,
                                      origin=image_url)
 
 result, attention_plot = evaluate(image_path)
