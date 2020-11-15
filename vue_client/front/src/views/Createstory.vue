@@ -50,7 +50,7 @@
 
 <script>
 import axios from "axios";
-const url = "http://127.0.0.1:8000/";
+const url = "http://k3a205.p.ssafy.io:8000/";
 
 export default {
   name: "Createstory",
