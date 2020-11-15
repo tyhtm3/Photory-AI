@@ -30,7 +30,7 @@ const routes = [{
         name: 'SharestoryList',
         component: SharestoryList
     }, {
-        path: '/sharestorypageboard',
+        path: '/sharestorypageboard/:boardNum',
         name: 'SharestoryPageBoard',
         component: SharestoryPageBoard
     }, {
