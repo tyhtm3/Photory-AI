@@ -150,7 +150,7 @@
           <v-list-item @click="()=>$router.push('/').catch(()=>{})">
             <v-list-item-title>HOME</v-list-item-title>
           </v-list-item>
-          <v-list-item @click="()=>$router.push('/ShareStory').catch(()=>{})">
+          <v-list-item @click="()=>$router.push('/sharestorylist').catch(()=>{})">
             <v-list-item-title>SHARESTORY</v-list-item-title>
           </v-list-item>
           <v-list-item @click="()=>$router.push('/CreateStory').catch(()=>{})">
