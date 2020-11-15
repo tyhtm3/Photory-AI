@@ -44,7 +44,7 @@ def article_delete_update(request, article_pk):
         return Response(status=200)
     else:
         article =Article.objects.get(pk=article_pk)
-        article.bookcover = request.data['bookcover']
+        # article.bookcover = request.data['bookcover']
         article.title = request.data['title']
         article.writer = request.data['writer']
         article.content = request.data['content']
