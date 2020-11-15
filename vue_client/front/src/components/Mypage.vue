@@ -21,7 +21,7 @@
                 sm="4"
                 md="4"
               >
-                <v-img :src="imgs[userInfo.profile].image" />
+                <v-img v-if="this.$store.state.isLogin" :src="imgs[userInfo.profile].image" />
                 <v-icon @click="dialogimg = true"> mdi-comment-edit-outline</v-icon>
               </v-col>
               <v-col
@@ -38,6 +38,7 @@
                   </v-col>
                   <v-col cols="10">
                     <v-text-field
+                      v-if="this.$store.state.isLogin"
                       solo
                       flat
                       v-model="userInfo.nickname"
@@ -58,6 +59,7 @@
                   class="d-none d-sm-block">
                     <v-text-field
                       label="Email"
+                      v-if="this.$store.state.isLogin"
                       v-model="userInfo.email"
                       style="font-size : x-large;"
                       required
@@ -70,6 +72,7 @@
                   class="d-sm-none">
                     <v-text-field
                       label="Email"
+                      v-if="this.$store.state.isLogin"
                       v-model="userInfo.email"
                       style="font-size : small;"
                       required
