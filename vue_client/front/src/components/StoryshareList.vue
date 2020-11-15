@@ -14,7 +14,7 @@
                 <img src="@/assets/asset/rabbit.png" style="max-width:150px; position: absolute; bottom: 0;left: 0;">
             </div>
             <div class="ani2">
-                <img @click="()=>$router.push('/sharestorywrite').catch(()=>{})" src="@/assets/asset/owl_write.png" style="max-width:250px; position: absolute; bottom: 0;left: 0;">
+                <img @click="writeStory" src="@/assets/asset/owl_write.png" style="max-width:250px; position: absolute; bottom: 0;left: 0;">
             </div>
         </v-col>
         <v-col id="iconright" cols="3">
@@ -104,14 +104,56 @@
 </template>
 
 <script>
+import axios from 'axios'
+import router from '../router'
 export default {
   data: () => ({
     num : 8,
+    pagenum:0,
+    storyListData:[],
   }),
   methods:{
-      alert(){
-          alert("글쓰기로 이동")
+      getList(){
+        axios.get(`http://127.0.0.1:8000/board/list/${this.pagenum}/ `, { "Content-Type": "application-json" })
+            .then(res => {
+               this.storyListData = res.data
+            })
+            .catch((error) => {
+                console.log(error.response.data);
+            })
+      },
+
+      writeStory(){
+          if(this.$store.state.isLogin){
+              router.push('/sharestorywrite').catch(()=>{})
+          }else{
+              alert("로그인이 필요한 서비스 입니다.")
+          }
+      },
+      goFirstPage(){
+          this.pagenum =0;
+          this.getList()
+      },
+      goPrePage(){
+          if(this.pagenum<1){
+              alert("첫 페이지입니다.")
+          }else{
+              this.pagenum = this.pagenum -1;
+              this.getList()
+          }
+      },
+      goLastpage(){
+
+      },
+      goNextPage(){
+          if(this.pagenum<1){
+              alert("마지막 페이지입니다.")
+          }else{
+              this.pagenum = this.pagenum -1;
+              this.getList()
+          }
       }
+
   }
 }
 </script>
@@ -119,13 +161,6 @@ export default {
 <style>
 
 @import url(https://cdn.rawgit.com/openhiun/hangul/14c0f6faa2941116bb53001d6a7dcd5e82300c3f/nanumbarungothic.css); 
-
-/* * {
-      -webkit-box-sizing: border-box;
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-  } */
 
   body {
       font-family: "Nanum Barun Gothic", "Ubuntu Condensed", "Noto Sans Korean";;

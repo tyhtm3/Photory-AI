@@ -107,6 +107,7 @@
   </v-container>
 </template>
 <script>
+import axios from 'axios'
 import EditorTipTap from '@/components/EditorTipTap.vue'
 export default {
   components:{
@@ -124,7 +125,17 @@ export default {
   }),
   methods :{
     write(){
-
+      const TOKEN = this.$store.state.token
+      const config = {
+          headers: { 'Authorization': 'jwt ' + TOKEN }
+      }
+      axios.post(`http://127.0.0.1:8000/board/create/ `, config)
+          .then(res => {
+              console.log(res.data);
+          })
+          .catch((error) => {
+              console.log(error.response);
+          })
     },
     cancel(){
 

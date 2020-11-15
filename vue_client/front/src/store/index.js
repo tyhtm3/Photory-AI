@@ -2,10 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import router from "../router"
 
-// import loginStore from './modules/loginStore'
 import axios from 'axios'
 import createPersistedState from 'vuex-persistedstate';
-import storyStore from './modules/storyStore'
 
 Vue.use(Vuex)
 const store = new Vuex.Store({
@@ -36,8 +34,9 @@ const store = new Vuex.Store({
         }
     },
     actions: {
+        //Member
         login(context, signInfo) {
-            axios.post(`http://127.0.0.1:8000/rest-auth/login/`, signInfo, { "Content-Type": "application-json" })
+            axios.post(`http://k3a205.p.ssafy.io:8000/rest-auth/login/`, signInfo, { "Content-Type": "application-json" })
                 .then(res => {
                     context.commit('MUTATEISLOGIN', true)
                     context.commit('MUTATEUSERINFO', res.data.user)
@@ -59,11 +58,12 @@ const store = new Vuex.Store({
             alert(store.state.user.nickname + "님 안녕히 가세요")
             store.commit('MUTATEISLOGIN', false)
             store.commit('MUTATEUSERINFO', {})
+            store.commit('MUTATEUSERTOKEN', {})
             router.go(0);
         },
 
         signup(context, signupInfo) {
-            axios.post(`http://127.0.0.1:8000/rest-auth/signup/`, signupInfo, { "Content-Type": "application-json" })
+            axios.post(`http://k3a205.p.ssafy.io:8000/rest-auth/signup/`, signupInfo, { "Content-Type": "application-json" })
                 .then(res => {
                     context.commit('SignUP');
                     alert("회원가입되었습니다.");
@@ -87,12 +87,13 @@ const store = new Vuex.Store({
             const config = {
                 headers: { 'Authorization': 'jwt ' + TOKEN }
             }
-            axios.delete(`http://127.0.0.1:8000/accounts/userinfo/ `, config)
+            axios.delete(`http://k3a205.p.ssafy.io:8000/accounts/userinfo/ `, config)
                 .then(res => {
                     alert(store.state.user.nickname + "님 탈퇴처리 되었습니다.")
                     console.log(res.data);
                     store.commit('MUTATEISLOGIN', false)
                     context.commit('MUTATEUSERINFO', {});
+                    store.commit('MUTATEUSERTOKEN', {});
                     router.go(0);
                 })
                 .catch((error) => {
@@ -105,7 +106,7 @@ const store = new Vuex.Store({
             const config = {
                 headers: { 'Authorization': 'jwt ' + TOKEN }
             }
-            axios.put(`http://127.0.0.1:8000/accounts/userinfo/ `, userInfo, config, { "Content-Type": "application-json" })
+            axios.put(`http://k3a205.p.ssafy.io:8000/accounts/userinfo/ `, userInfo, config, { "Content-Type": "application-json" })
                 .then(res => {
                     alert("회원 정보가 수정되었습니다.");
                     console.log(res.data);
@@ -122,7 +123,7 @@ const store = new Vuex.Store({
             const config = {
                 headers: { 'Authorization': 'jwt ' + TOKEN }
             }
-            axios.put(`http://127.0.0.1:8000/accounts/userinfo/ `, userInfo, config, { "Content-Type": "application-json" })
+            axios.put(`http://k3a205.p.ssafy.io:8000/accounts/userinfo/ `, userInfo, config, { "Content-Type": "application-json" })
                 .then(res => {
                     alert("회원 사진이 수정되었습니다.");
                     console.log(res.data);
@@ -138,7 +139,7 @@ const store = new Vuex.Store({
             const config = {
                 headers: { 'Authorization': 'jwt ' + TOKEN }
             }
-            axios.post(`http://127.0.0.1:8000/rest-auth/password/change/ `, password, config, { "Content-Type": "application-json" })
+            axios.post(`http://k3a205.p.ssafy.io:8000/rest-auth/password/change/ `, password, config, { "Content-Type": "application-json" })
                 .then(res => {
                     alert("회원 비밀번호가 수정되었습니다.");
                     console.log(res.data);
@@ -148,6 +149,7 @@ const store = new Vuex.Store({
                     console.log(error.response.data);
                 })
         },
+        //========================================================================================
     },
     plugins: [
         createPersistedState({
@@ -155,10 +157,7 @@ const store = new Vuex.Store({
             paths: ["isLogin", "user", "token"]
         })
     ],
-    modules: {
-        // loginStore
-        storyStore
-    },
+    modules: {},
 })
 
 export default store
