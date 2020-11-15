@@ -117,6 +117,24 @@ def storys_u(request):
         except:
             return Response({'status':False})
 
+@api_view(['GET'])
+def bookdetail(request,bstory_pk):
+    con = {
+    }
+    if request.method == "GET":
+        bookStory = get_object_or_404( BookStory ,pk = bstory_pk)
+        con['title']=bookStory.title
+        con['writer']=bookStory.writer
+        con['content']=[
+            bookStory.content0,
+            bookStory.content1,
+            bookStory.content2,
+            bookStory.content3,
+            bookStory.content4
+        ]
+        con['create_at']=bookStory.create_at
+        return Response(con)
+
 @api_view(['GET','DELETE'])
 def story_rd(request,story_pk):
     con = {
