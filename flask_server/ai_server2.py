@@ -18,7 +18,7 @@ def index_page():
 
 @app.route('/tale', methods=['POST'])
 def test():
-    data = json.loads(requset.get_data(), encoding='utf-8')
+    data = json.loads(request.get_data(), encoding='utf-8')
     story_pk = data['story_pk']
     paths = data['imagePaths']
 
