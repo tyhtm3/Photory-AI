@@ -52,14 +52,15 @@
         </v-col>
         <v-col style="padding-left: 0px;padding-right: 0px;" cols="6">
             <div id="gallery_layout">
-                <div class="gallery_content" v-for="index in num"  v-bind:key="index" @click="()=>$router.push('/sharestorypageboard').catch(()=>{})">
+                <div class="gallery_content" v-for="( item ) in storyListData" v-bind:key="item" @click="()=>$router.push(`/sharestorypageboard/${item.id}`).catch(()=>{})">
                     <div id ="imgbox" style="float: left; position: relative;" >
+                        <!-- 이미지 소스 바꿔놓기 bookcover가 null 일 때는 book.png -->
                         <div class="front"><img src="@/assets/book.png" alt="travel_img"></div>
                         <div id="back" style="position: absolute;  left: 50px;  top: 28px;  width: 55%; height: 63%;"><img src="@/assets/book_cover.png" alt="travel_img"></div>
                     </div>
                     <div class="content">
-                            <h1>book {{index}}</h1>
-                            <p>{{index}}</p>
+                            <h1>{{item.title}}</h1>
+                            <p>{{item.writer}}</p>
                     </div>
                     <div class="overlay darkBlue" ></div>
                 </div>
@@ -110,7 +111,9 @@ export default {
   data: () => ({
     num : 8,
     pagenum:0,
-    storyListData:[],
+    storyListData:null,
+    storyListCount :0,
+
   }),
   methods:{
       getList(){
@@ -143,7 +146,10 @@ export default {
           }
       },
       goLastpage(){
-
+        //   let pagecount = (this.storyListCount-1)%8;
+        //   if(){
+        //       console.log(pagecount)
+        //   }
       },
       goNextPage(){
           if(this.pagenum<1){
@@ -153,8 +159,28 @@ export default {
               this.getList()
           }
       }
-
-  }
+  },
+  created(){
+    axios.get(`http://127.0.0.1:8000/board/list/${this.pagenum}/ `, { "Content-Type": "application-json" })
+        .then(res => {
+            this.storyListData = res.data
+            console.log(res.data)
+        })
+        .catch((error) => {
+            console.log(error.response.data);
+        })
+    
+    axios.get(`http://127.0.0.1:8000/board/count/ `, { "Content-Type": "application-json" })
+        .then(res => {
+            this.storyListCount = res.data
+            console.log(res.data)
+        })
+        .catch((error) => {
+            console.log(error.response.data);
+        })
+      
+  },
+  
 }
 </script>
 

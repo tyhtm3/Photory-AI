@@ -199,7 +199,7 @@ import store  from '../store/index'
     }),
 
     methods : {
-    closeLogin (){
+      closeLogin (){
         this.$emit('close-login');
       },
       openLogin(){

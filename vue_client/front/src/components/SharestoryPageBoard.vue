@@ -63,7 +63,8 @@
         ></v-text-field>
       </v-col>
       <v-col cols="10" id="editor">
-      <EditorTipTap :description="description" :menubar="menubar" :readOnly="readOnly"/>
+        <!-- 하위 컴포넌트 불러오는 곳 description이랑 menubar readOnly를 v-bind로 보내줌 -->
+      <EditorTipTap :description="description" :menubar="menubar" :readOnly="readOnly" />
       </v-col>
       <v-col cols="4">
         <v-btn
@@ -90,16 +91,20 @@
 </template>
 <script>
 import EditorTipTap from '@/components/EditorTipTap.vue'
+import axios from 'axios';
 export default {
   components:{
     EditorTipTap,
   },
   data: () => ({
-    description:"내용1.",
+    //props로 보내지는 description 처음 data값으로 들어감
+    description:"내용1",
     menubar:false,
     readOnly:true,
     title:"제목1",
-    storytitle:"글 스토리 제목"
+    storytitle:"글 스토리 제목",
+    boardNum :1,
+    boardData:null,
   }),
   methods :{
     updateboard(){
@@ -108,8 +113,21 @@ export default {
     deleteboard(){
      alert("삭제하기")
     },
-   
-  }
+  },
+  created(){
+    this.boardNum = this.$route.params.boardNum;
+    axios.get(`http://127.0.0.1:8000/board/${this.boardNum}/detail/ `, { "Content-Type": "application-json" })
+      .then(res => {
+          this.boardData = res.data
+          console.log(res.data)
+          this.title = this.boardData.title
+          //여기서 props 값 바꿔 주는데 안바뀜 watch 써도 안됨
+          this.description = this.boardData.content
+      })
+      .catch((error) => {
+          console.log(error.response.data);
+      })
+  },
 }
 </script>
 <style>
