@@ -1,0 +1,6 @@
+Dataset
+.ipynb_checkpoints
+!checkpoints
+checkpoints/*
+!kogpt2/model/
+kogpt2/model/*
