@@ -3,7 +3,10 @@ from . import views
 
 urlpatterns = [
     path('',views.storys), 
+    path('books/',views.books), 
+    path('books/<int:bstory_pk>/',views.bookdetail), 
     path('init/',views.storys_init), # post
+    path('bookinit/',views.book_init), # post
     path('edit/',views.storys_u), # put
     path('editable/',views.ai_receive), # put
     path('<int:story_pk>/',views.story_rd), # get delete

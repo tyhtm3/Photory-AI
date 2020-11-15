@@ -14,7 +14,7 @@
                 <img src="@/assets/asset/rabbit.png" style="max-width:150px; position: absolute; bottom: 0;left: 0;">
             </div>
             <div class="ani2">
-                <img @click="()=>$router.push('/sharestorywrite').catch(()=>{})" src="@/assets/asset/owl_write.png" style="max-width:250px; position: absolute; bottom: 0;left: 0;">
+                <img @click="writeStory" src="@/assets/asset/owl_write.png" style="max-width:250px; position: absolute; bottom: 0;left: 0;">
             </div>
         </v-col>
         <v-col id="iconright" cols="3">
@@ -25,6 +25,7 @@
                 height="100"
                 width="100"
                 depressed
+                @click="goFirstPage"
             >
                 <v-icon
                     color="#c4e86b"
@@ -41,6 +42,7 @@
                 depressed
                 height="100"
                 width="100"
+                @click="goPrePage"
             >
                 <v-icon
                     color="#c4e86b"
@@ -52,14 +54,15 @@
         </v-col>
         <v-col style="padding-left: 0px;padding-right: 0px;" cols="6">
             <div id="gallery_layout">
-                <div class="gallery_content" v-for="index in num"  v-bind:key="index" @click="()=>$router.push('/sharestorypageboard').catch(()=>{})">
+                <div class="gallery_content" v-for="( item ) in storyListData" v-bind:key="item.id" @click="()=>$router.push(`/sharestorypageboard/${item.id}`).catch(()=>{})">
                     <div id ="imgbox" style="float: left; position: relative;" >
+                        <!-- 이미지 소스 바꿔놓기 bookcover가 null 일 때는 book.png -->
                         <div class="front"><img src="@/assets/book.png" alt="travel_img"></div>
                         <div id="back" style="position: absolute;  left: 50px;  top: 28px;  width: 55%; height: 63%;"><img src="@/assets/book_cover.png" alt="travel_img"></div>
                     </div>
                     <div class="content">
-                            <h1>book {{index}}</h1>
-                            <p>{{index}}</p>
+                            <h1>{{item.title}}</h1>
+                            <p>{{item.writer}}</p>
                     </div>
                     <div class="overlay darkBlue" ></div>
                 </div>
@@ -74,6 +77,7 @@
                 depressed
                 height="100"
                 width="100"
+                @click="goNextPage"
             >
                 <v-icon
                     color="#c4e86b"
@@ -90,6 +94,7 @@
                 depressed
                 height="100"
                 width="100"
+                @click="goLastpage"
             >
                 <v-icon
                     color="#c4e86b"
@@ -104,28 +109,88 @@
 </template>
 
 <script>
+import axios from 'axios'
+import router from '../router'
 export default {
   data: () => ({
     num : 8,
+    pagenum:0,
+    storyListData:null,
+    storyListCount :0,
+
   }),
   methods:{
-      alert(){
-          alert("글쓰기로 이동")
+      getList(){
+        axios.get(`http://127.0.0.1:8000/board/list/${this.pagenum}/ `, { "Content-Type": "application-json" })
+            .then(res => {
+               this.storyListData = res.data
+            })
+            .catch((error) => {
+                console.log(error.response.data);
+            })
+      },
+
+      writeStory(){
+          if(this.$store.state.isLogin){
+              router.push('/sharestorywrite').catch(()=>{})
+          }else{
+              alert("로그인이 필요한 서비스 입니다.")
+          }
+      },
+      goFirstPage(){
+          this.pagenum =0;
+          this.getList()
+      },
+      goPrePage(){
+          if(this.pagenum<1){
+              alert("첫 페이지입니다.")
+          }else{
+              this.pagenum = this.pagenum -1;
+              this.getList()
+          }
+      },
+      goLastpage(){
+          let pagecount = (this.storyListCount-1)%8;
+          this.pagenum = pagecount;
+          this.getList();
+      },
+      goNextPage(){
+          let pagecount = (this.storyListCount-1)%8;
+          if(pagecount<=this.pagenum){
+              alert("마지막 페이지입니다.")
+          }else{
+              this.pagenum = this.pagenum +1;
+              this.getList()
+          }
       }
-  }
+  },
+  created(){
+    axios.get(`http://127.0.0.1:8000/board/list/${this.pagenum}/ `, { "Content-Type": "application-json" })
+        .then(res => {
+            this.storyListData = res.data
+            console.log(res.data)
+        })
+        .catch((error) => {
+            console.log(error.response.data);
+        })
+    
+    axios.get(`http://127.0.0.1:8000/board/count/ `, { "Content-Type": "application-json" })
+        .then(res => {
+            this.storyListCount = res.data
+            console.log(res.data)
+        })
+        .catch((error) => {
+            console.log(error.response.data);
+        })
+      
+  },
+  
 }
 </script>
 
 <style>
 
 @import url(https://cdn.rawgit.com/openhiun/hangul/14c0f6faa2941116bb53001d6a7dcd5e82300c3f/nanumbarungothic.css); 
-
-/* * {
-      -webkit-box-sizing: border-box;
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-  } */
 
   body {
       font-family: "Nanum Barun Gothic", "Ubuntu Condensed", "Noto Sans Korean";;
