@@ -14,27 +14,26 @@
           class="bookCover"
           :class="{ editable: !book.editable }"
           :src="`${url}/media/${book.images[0]}`"
-          style=""
-          alt=""
+          alt="작업중"
           @click="editFalse()"
         />
-        <!-- <div>{{list0}}</div> -->
       </div>
       <h3>내 책 목록이에요</h3>
       <div class="storyList">
+        <!-- {{list1}} -->
         <img
           v-for="book in list1"
           :key="book.id"
           class="bookCover"
           :class="{ editable: !book.editable }"
           :src="`${url}/media/${book.images[0]}`"
-          style=""
-          alt=""
+          :alt="book.title"
           @click="editStory(book.id)"
         />
         <img
           v-if="list1.length === 0"
           class="bookCover"
+          alt="빈 공간"
           src="@/assets/asset/book.png"
         />
         <h1 v-if="list1.length === 0">새 책을 추가해 보세요</h1>
@@ -46,12 +45,12 @@
           :key="book.id"
           class="bookCover"
           :src="`${url}${book.content0}`"
-          style=""
-          alt=""
+          :alt="book.title"
         />
         <img
           v-if="list2.length === 0"
           class="bookCover"
+          alt="빈 공간"
           src="@/assets/asset/book.png"
         />
         <h1 v-if="list2.length === 0">책을 완성해 보세요</h1>
@@ -61,7 +60,7 @@
 </template>
 <script>
 import axios from "axios";
-const url = "http://127.0.0.1:8000";
+const url = "http://k3a205.p.ssafy.io:8000";
 
 export default {
   // 사진이름 url/stpk_photonum_styleNum.jpg
@@ -80,14 +79,14 @@ export default {
   created() {
     if (!this.$store.state.isLogin) {
       alert("로그인이 필요합니다");
-      this.$router.go(-1);
+      this.$router.push('/');
     }
-    let config = {
+    const config = {
       headers: {
-        Authorization: `JWT ${this.$store.state.token}`,
+        Authorization: "JWT " + this.$store.state.token,
+        "Content-Type": "application-json",
       },
     };
-
     axios.get(url + "/storys/", config).then((res) => {
       this.list = res.data;
       this.list.forEach((item) => {
@@ -99,14 +98,24 @@ export default {
     axios.get(url + "/storys/books/", config).then((res) => {
       this.list2 = res.data;
     });
-    // this.update = setInterval(() => {
-    //   axios.get(url + "/storys/",config).then((res) => {
-    //     this.list = res.data;
-    //     this.list.forEach((item) => {
-    //       item.images.sort();
-    //     });
-    //   });
-    // }, 5000);
+    this.update = setInterval(() => {
+      axios.get(url + "/storys/",config).then((res) => {
+        this.list = res.data;
+        this.list.forEach((item) => {
+          item.images.sort();
+        });
+      });
+    }, 5000);
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.addTitle();
+    });
+  },
+  beforeUpdate() {
+    this.$nextTick(() => {
+      this.addTitle();
+    });
   },
   methods: {
     editStory(id) {
@@ -115,11 +124,26 @@ export default {
     editFalse() {
       alert("서버 작업이 완료되면 만들기 시작할 수 있어요");
     },
+    addTitle() {
+      document.querySelectorAll(".labelT").forEach((item) => item.remove());
+      document.querySelectorAll(".bookCover").forEach((item) => {
+        let T = document.createElement("span");
+        T.className = "labelT";
+        T.innerText = item.alt;
+        T.style.position = "absolute";
+        T.style.left = `${item.offsetLeft}px`;
+        T.style.top = `${item.offsetTop + item.clientHeight}px`;
+        T.style.width = `${item.clientWidth}px`;
+        T.style.backgroundColor = "rgba($color: #eee, $alpha: 0.5)";
+        item.parentNode.appendChild(T);
+      });
+    },
   },
 };
 </script>
 <style lang="scss" scoped>
 #Mystory {
+  position: relative;
   height: 100%;
   overflow: hidden;
   width: 100vw;
