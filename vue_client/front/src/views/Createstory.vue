@@ -1,7 +1,10 @@
 <template>
   <div class="Createstory" :style="{ height: `${hei}px` }">
-    <img id="bg" src="@/assets/hill.png" alt="">
-    <img src="@/assets/loading/wave.png" style="width: 100vw;position:fixed;bottom:0;left:0;height:10%">
+    <img id="bg" src="@/assets/hill.png" alt="" />
+    <img
+      src="@/assets/loading/wave.png"
+      style="width: 100vw; position: fixed; bottom: 0; left: 0; height: 10%"
+    />
     <div id="filmForm">
       <svg :height="Math.max(0, hei - 50)" :width="wid">
         <path
@@ -99,6 +102,10 @@ export default {
   },
   created() {
     window.addEventListener("resize", this.reCalc);
+    if (!this.$store.state.isLogin) {
+      alert("로그인이 필요합니다");
+      this.$router.go(-1);
+    }
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.reCalc);
@@ -201,7 +208,7 @@ export default {
       if (Object.values(this.fileList).includes(0)) {
         alert("사진을 모두 넣어 주세요");
       } else {
-        axios.post(url + "storys/init/", {},config).then((res) => {
+        axios.post(url + "storys/init/", {}, config).then((res) => {
           //res.data.pk
           if (res.data.status) {
             let idx = 0;
@@ -254,6 +261,12 @@ export default {
     box-sizing: border-box;
     padding: 0;
   }
+  #filmForm {
+    z-index: 2;
+    position: fixed;
+    left: 0;
+    top: 0;
+  }
   #films {
     .film {
       position: absolute;
@@ -289,6 +302,11 @@ export default {
         background-color: greenyellow;
         border-radius: 7px;
         padding: 3px;
+        &:hover {
+          cursor: pointer;
+          background-color: green;
+          color: #fff;
+        }
       }
     }
   }
@@ -318,14 +336,23 @@ export default {
   }
   #next {
     position: fixed;
+    padding: 5px;
     bottom: 10vh;
-    left: 0;
-    width: 100vw;
-    
+    left: 45vw;
+    width: 10vw;
+    background-color: white;
+    border: 1px solid #aaa;
+    border-radius: 10px;
+    box-shadow: #000 2px 2px 2px;
+    &:hover {
+      box-shadow: #888 1px 1px 1px;
+      background-color: #aff;
+    }
   }
-  #bg{
+  #bg {
     width: 100%;
     height: 100%;
+    z-index: -1;
   }
 }
 </style>
