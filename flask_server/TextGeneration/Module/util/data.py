@@ -1,6 +1,6 @@
 from torch.utils.data import Dataset # 데이터로더
 
-from kogpt2.utils import download, tokenizer, get_tokenizer
+from TextGeneration.Module.kogpt2.utils import download, tokenizer, get_tokenizer
 from gluonnlp.data import SentencepieceTokenizer
 import gluonnlp
 import numpy as np
