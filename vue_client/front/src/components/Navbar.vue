@@ -47,7 +47,7 @@
             v-bind="attrs"
             v-on="on"
           >
-            <img id = "userimg" src="@/assets/user_bear.png" alt=""> 
+            <img id = "userimg" :src="imgs[0].image" alt=""> 
           </v-btn>
         </template>
 
