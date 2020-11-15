@@ -22,12 +22,13 @@ def tale():
 @app.route('/test')
 def test():
     image_url = 'https://tensorflow.org/images/surf.jpg'
-    img_extension_path = tf.keras.utils.get_file('image1231.jpg',
+    img_extension_path = tf.keras.utils.get_file('image13231.jpg',
                                                 origin=image_url)
     caption_model = Image_caption()
     res, plot = caption_model.evaluate(img_extension_path)
 
-    return ' '.join(res)
+    st = SGEN.StoryGeneration()
+    return st.Generate_p_sampling(' '.join(res))
 
 if __name__=='__main__':
     app.run(host='0.0.0.0')
