@@ -93,7 +93,7 @@ export default {
         const config = {
             headers: { 'Authorization': 'jwt ' + TOKEN }
         }
-      axios.delete(`http://127.0.0.1:8000/board/${this.boardNum}/ `,config, { "Content-Type": "application-json" })
+      axios.delete(`http://127.0.0.1:8000/board/${this.boardNum}/`,config, { "Content-Type": "application-json" })
         .then(res => {
             alert('삭제되었습니다.')
             console.log(res.data)
