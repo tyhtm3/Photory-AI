@@ -46,6 +46,7 @@
           class="bookCover"
           :src="`${url}${book.content0}`"
           :alt="book.title"
+          @click="lookbook(book.id)"
         />
         <img
           v-if="list2.length === 0"
@@ -141,6 +142,9 @@ export default {
         item.parentNode.appendChild(T);
       });
     },
+    lookbook(id){
+      this.$router.push('/sharestorypagestory/0/'+id)
+    }
   },
 };
 </script>
