@@ -117,6 +117,9 @@ export default {
       this.addTitle();
     });
   },
+  beforeDestroy(){
+    clearInterval(this.update)
+  },
   methods: {
     editStory(id) {
       this.$router.push("EditStory/" + id);
