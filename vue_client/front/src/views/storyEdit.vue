@@ -160,6 +160,7 @@ export default {
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.reposition);
+    this.saveAll()
   },
   watch: {
     screenHorizontal(boo) {
