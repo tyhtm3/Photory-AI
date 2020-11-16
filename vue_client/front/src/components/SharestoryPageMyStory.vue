@@ -57,15 +57,19 @@ export default {
         this.storydata = res.data;
         this.pages[0] =
           "http://k3a205.p.ssafy.io:8000/media" +
-          res.data.content[0].split("media");
+          res.data.content[0].split("media")[1];
         this.pages[1] =
-          "http://k3a205.p.ssafy.io:8000/media" + res.data.content[1];
+          "http://k3a205.p.ssafy.io:8000/media" +
+          res.data.content[1].split("media")[1];
         this.pages[2] =
-          "http://k3a205.p.ssafy.io:8000/media" + res.data.content[2];
+          "http://k3a205.p.ssafy.io:8000/media" +
+          res.data.content[2].split("media")[1];
         this.pages[3] =
-          "http://k3a205.p.ssafy.io:8000/media" + res.data.content[3];
+          "http://k3a205.p.ssafy.io:8000/media" +
+          res.data.content[3].split("media")[1];
         this.pages[4] =
-          "http://k3a205.p.ssafy.io:8000/media" + res.data.content[4];
+          "http://k3a205.p.ssafy.io:8000/media" +
+          res.data.content[4].split("media")[1];
       });
   },
 };
