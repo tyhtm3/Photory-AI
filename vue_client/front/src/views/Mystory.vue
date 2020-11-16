@@ -38,7 +38,7 @@
         />
         <h1 v-if="list1.length === 0">새 책을 추가해 보세요</h1>
       </div>
-      <h3>내 책 목록이에요</h3>
+      <h3>내 책 목록이에요. 공유해서 확인해보세요</h3>
       <div class="storyList">
         <img
           v-for="book in list2"
