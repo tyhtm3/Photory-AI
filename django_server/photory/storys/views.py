@@ -21,19 +21,27 @@ def storys(request):
 @permission_classes([IsAuthenticated])
 def storys_init(request):
     con={}
+    tmp=[]
     if request.method == "POST":
         try:
+            tmp.append('1')
             story = Story()
+            tmp.append('2')
             story.user = request.user
+            tmp.append('3')
             story.title = "제목을 입력해 주세요"
             story.writer = "지은이를 입력해 주세요"
             story.content0 = "초기 내용을 받아오는 중입니다."
             story.save()
+            tmp.append('4')
+
             con['status'] = True
             con['pk'] = story.pk
             return Response(con)
         except:
-            return Response({'status':False})
+            con['data'] = tmp
+            con['status'] = False
+            return Response()
 
 
 @api_view(['POST'])
