@@ -14,45 +14,7 @@
       <img @click="deleteboard" src="@/assets/asset/bearbtn.png" style="max-width:300px; width:30vw; position: absolute; bottom: 0;left: 0;">
   </div>
   <div class="d-none d-md-block ani4">
-      <img @click="()=>$router.push('/sharestorylist').catch(()=>{})" src="@/assets/asset/raccoongolist.png" style="max-width:350px; width:30vw;">
-  </div>
-  <div class = "d-none d-md-block">
-    <v-btn
-        class="mx-2"
-        id="leftbtn"
-        fab
-        color="#57bcc4"
-        small
-        depressed
-        height="100"
-        width="100"
-        style="left: 50px;"
-    >
-        <v-icon
-            color="#c4e86b"
-            size=80
-        >
-            mdi-arrow-left
-        </v-icon>
-    </v-btn>
-    <v-btn
-        class="mx-2"
-        id="rightbtn"
-        fab
-        color="#57bcc4"
-        small
-        depressed
-        height="100"
-        width="100"
-        style="right: 50px;"
-    >
-        <v-icon
-            color="#c4e86b"
-            size =80
-        >
-            mdi-arrow-right
-        </v-icon>
-    </v-btn>
+      <img  @click="()=>$router.push('/sharestorylist').catch(()=>{})" src="@/assets/asset/raccoongolist.png" style="max-width:350px; width:30vw;">
   </div>
     <v-row justify="center" id="write" >
       <v-col cols="6" id="title">
@@ -63,20 +25,29 @@
         ></v-text-field>
       </v-col>
       <v-col cols="10" id="editor">
-      <EditorTipTap :description="description" :menubar="menubar" :readOnly="readOnly"/>
+      <!-- <EditorTipTap :description="description" :menubar="menubar" :readOnly="readOnly" /> -->
+      <v-textarea
+          clearable
+          clear-icon="mdi-close-circle"
+          v-model="description"
+          no-resize
+          solo
+          flat
+          disabled
+        ></v-textarea>
       </v-col>
       <v-col cols="4">
         <v-btn
-              color="#bbe454"
-              dark
-              rounded
-              @click="()=>$router.push('/sharestorypagestory').catch(()=>{})"
-            >
-              스토리 보러가기 
-              <v-icon>
-                mdi-arrow-right-thick
-              </v-icon>
-            </v-btn>
+          color="#bbe454"
+          dark
+          rounded
+          @click="goStory"
+        >
+          스토리 보러가기 
+          <v-icon>
+            mdi-arrow-right-thick
+          </v-icon>
+        </v-btn>
       </v-col>
       <v-col cols="6" style="padding-top: 0px;" class="d-none d-md-block">
         <v-text-field
@@ -89,27 +60,91 @@
   </v-container>
 </template>
 <script>
-import EditorTipTap from '@/components/EditorTipTap.vue'
+// import EditorTipTap from '@/components/EditorTipTap.vue'
+import router from "../router"
+import axios from 'axios';
 export default {
   components:{
-    EditorTipTap,
+    // EditorTipTap,
   },
   data: () => ({
-    description:"내용1.",
+    description:"내용1",
     menubar:false,
     readOnly:true,
     title:"제목1",
-    storytitle:"글 스토리 제목"
+    storytitle:"글 스토리 제목",
+    boardNum :1,
+    boardData:[],
+    storydata:[],
+    isStroy:false,
+    storyId:0,
   }),
   methods :{
     updateboard(){
-      alert("수정하기")
+      if(this.$store.state.isLogin && (this.$store.state.user.id == this.boardData.nickname)){
+        router.push(`/sharestoryupdate/${this.boardNum}`).catch(()=>{})
+      }else{
+        alert("권한이 없습니다.")
+      }
     },
     deleteboard(){
-     alert("삭제하기")
+      if(this.$store.state.isLogin && (this.$store.state.user.id == this.boardData.nickname)){
+        const TOKEN = this.$store.state.token
+        const config = {
+            headers: { 'Authorization': 'jwt ' + TOKEN }
+        }
+      axios.delete(`http://k3a205.p.ssafy.io:8000/board/${this.boardNum}/`,config, { "Content-Type": "application-json" })
+        .then(res => {
+            alert('삭제되었습니다.')
+            console.log(res.data)
+            router.push('/sharestorylist').catch(()=>{})
+        })
+        .catch((error) => {
+            console.log(error.response.data);
+        })
+      }else{
+        alert("권한이 없습니다.")
+      }
+      
     },
-   
-  }
+    goStory(){
+      if(this.isStroy){
+        let data ={'storyid':this.storyId, 'boardid':this.boardNum}
+        router.push(`/sharestorypagestory/${data.boardid}/${data.storyid}`).catch(()=>{})
+      }else{
+        alert("등록된 스토리가 없습니다.")
+      }
+    },
+  },
+  created(){
+    this.boardNum = this.$route.params.boardNum;
+    axios.get(`http://k3a205.p.ssafy.io:8000/board/${this.boardNum}/detail/ `, { "Content-Type": "application-json" })
+      .then(res => {
+          this.boardData = res.data
+          console.log(res.data)
+          this.title = this.boardData.title
+          this.description = this.boardData.content
+          this.storyId = res.data.story
+          if(res.data.story !== undefined ){
+            axios.get(`http://k3a205.p.ssafy.io:8000/storys/books/${res.data.story}/ `, { "Content-Type": "application-json" })
+          .then(res => {
+              this.storydata = res.data
+              console.log(res.data)
+              this.storytitle = this.storydata.title
+              this.isStroy = true;
+          })
+          .catch((error) => {
+              console.log(error.response.data);
+          })
+          }else{
+            this.storytitle = '등록된 스토리가 없습니다.'
+          }
+      })
+      .catch((error) => {
+          console.log(error.response.data);
+      })
+    
+  },
 }
 </script>
 <style>

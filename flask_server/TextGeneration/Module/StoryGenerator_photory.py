@@ -5,14 +5,14 @@ import torch
 import time
 from torch.utils.data import DataLoader # 데이터로더
 from gluonnlp.data import SentencepieceTokenizer 
-from kogpt2.utils import get_tokenizer
-from kogpt2.utils import download, tokenizer
-from kogpt2.pytorch_kogpt2 import get_pytorch_kogpt2_model
-from model.torch_gpt2 import GPT2Config, GPT2LMHeadModel
-from util.data import NovelDataset
+from TextGeneration.Module.kogpt2.utils import get_tokenizer
+from TextGeneration.Module.kogpt2.utils import download, tokenizer
+from TextGeneration.Module.kogpt2.pytorch_kogpt2 import get_pytorch_kogpt2_model
+from TextGeneration.Module.model.torch_gpt2 import GPT2Config, GPT2LMHeadModel
+from TextGeneration.Module.util.data import NovelDataset
 import gluonnlp
-import util.sampling as sampling
-import kss
+import TextGeneration.Module.util.sampling as sampling
+
 
 
 
@@ -21,7 +21,7 @@ class StoryGeneration :
         ctx= 'cpu'#'cuda' #'cpu' #학습 Device CPU or GPU. colab의 경우 GPU 사용
         cachedir='./kogpt2/model' # KoGPT-2 모델 다운로드 경로
         save_path = 'checkpoints/'
-        load_path = 'checkpoints/narrativeKoGPT2_checkpoint_tokenized_ver3_bat1_epoch300.tar'
+        load_path = 'TextGeneration/Module/checkpoints/narrativeKoGPT2_checkpoint_tokenized_ver3_bat1_epoch300.tar'
 
         pytorch_kogpt2 = {
             'url': 'https://kobert.blob.core.windows.net/models/kogpt2/pytorch/pytorch_kogpt2_676e9bcfa7.params',

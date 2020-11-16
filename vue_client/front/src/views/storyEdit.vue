@@ -80,6 +80,8 @@
         <input type="text" v-model="writer" />
       </span>
       <button @click="saveAll()">저장</button>
+      <button @click="saveIMG()">이미지 추출</button>
+      <button @click="saveBook()">책만들기</button>
     </div>
   </div>
 </template>
@@ -87,7 +89,11 @@
 <script>
 import Axios from "axios";
 import { VueEditor } from "vue2-editor";
-const url = "http://127.0.0.1:8000/";
+import html2canvas from "html2canvas";
+// import jsPDF from "jspdf";
+
+const url = "http://k3a205.p.ssafy.io:8000/";
+
 export default {
   name: "storyEdit",
   components: {
@@ -129,9 +135,14 @@ export default {
       storyNum: 1,
       title: "",
       writer: "",
+      fileList:[0,0,0,0,0]
     };
   },
   created() {
+    if (!this.$store.state.isLogin) {
+      alert("로그인이 필요합니다");
+      this.$router.go(-1);
+    }
     window.addEventListener("resize", this.reposition);
   },
   mounted() {
@@ -143,11 +154,13 @@ export default {
       this.pageData = res.data.content;
       this.title = res.data.title;
       this.writer = res.data.writer;
+      this.complete = res.data.complete;
       this.pageSelect(0);
     });
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.reposition);
+    this.saveAll()
   },
   watch: {
     screenHorizontal(boo) {
@@ -249,7 +262,7 @@ export default {
             let pp = document.querySelector("#pagePanel");
             pp.childNodes.forEach((item) => {
               if (item.nodeName === "DIV") {
-                item.childNodes.forEach((item2) => {
+                Array.from(item.childNodes).forEach((item2) => {
                   // console.log(item2.nodeName);
                   if (item2.nodeName !== "IMG") {
                     item2.remove();
@@ -262,23 +275,39 @@ export default {
             });
           });
         } else if (tool === 5) {
+          // 이미지 변경
+          // Axios.get(`http://121.125.56.92:50740/image/${this.storyNum}_${this.pageCurrent+1}_1.jpg`).then(res=>console.log(res))
           let mI = document.querySelector("#mainImg");
           if (Array.from(mI.classList).includes("normImg")) {
-            mI.src = "123";
+            mI.src = `http://121.125.56.92:50740/static/${this.storyNum}_${
+              this.pageCurrent 
+            }_1.jpg`;
             mI.className = "img0";
           } else if (Array.from(mI.classList).includes("img0")) {
-            mI.src = "123";
+            mI.src = `http://121.125.56.92:50740/static/${this.storyNum}_${
+              this.pageCurrent 
+            }_2.jpg`;
             mI.className = "img1";
           } else if (Array.from(mI.classList).includes("img1")) {
-            mI.src = "123";
+            mI.src = `http://121.125.56.92:50740/static/${this.storyNum}_${
+              this.pageCurrent 
+            }_3.jpg`;
             mI.className = "img2";
           } else if (Array.from(mI.classList).includes("img2")) {
-            Axios.get(
-              `${url}storys/images/${this.storyNum}/${this.pageCurrent}`
-            ).then((res) => {
-              mI.src = res.data.img;
-              mI.className = "normImg";
-            });
+            mI.src = `http://121.125.56.92:50740/static/${this.storyNum}_${
+              this.pageCurrent 
+            }_4.jpg`;
+            mI.className = "img3";
+          } else if (Array.from(mI.classList).includes("img3")) {
+            mI.src = `http://121.125.56.92:50740/static/${this.storyNum}_${
+              this.pageCurrent 
+            }_5.jpg`;
+            mI.className = "img4";
+          } else if (Array.from(mI.classList).includes("img4")) {
+            mI.src = `http://121.125.56.92:50740/static/${this.storyNum}_${
+              this.pageCurrent 
+            }_0.jpg`;
+            mI.className = "normImg";
           }
           this.toolSelect(0);
         } else if (tool === 6) {
@@ -535,19 +564,95 @@ export default {
       document.querySelector("#playground").onclick = null;
     },
     saveAll() {
+      let pg = document.querySelector("#playground");
+      this.pageData[this.pageCurrent] = pg.innerHTML;
       let data = {
-        id:this.storyNum,
-        title:this.title,
+        id: this.storyNum,
+        title: this.title,
         writer: this.writer,
-        content0:this.pageData[0],
-        content1:this.pageData[1],
-        content2:this.pageData[2],
-        content3:this.pageData[3],
-        content4:this.pageData[4],
+        content0: this.pageData[0],
+        content1: this.pageData[1],
+        content2: this.pageData[2],
+        content3: this.pageData[3],
+        content4: this.pageData[4],
+        complete: this.complete,
+      };
+      Axios.put(`${url}storys/edit/`, data).then(() => {
+        this.$router.push("/MyStory");
+      });
+    },
+    saveIMG() {
+      let pg = document.getElementById("playground");
+      this.pageData[this.pageCurrent] = pg.innerHTML;
+      let idx = 0;
+      let idx2 = 0;
+      const toDataURL = (url) =>
+        fetch(url)
+          .then((response) => response.blob())
+          .then(
+            (blob) =>
+              new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(blob);
+              })
+          );
+      this.pageData.forEach((item) => {
+        setTimeout(() => {
+          pg.innerHTML = item;
+          setTimeout(() => {
+            let mainImg = document.querySelector("#mainImg");
+            toDataURL(mainImg.src).then((dataUrl) => {
+              mainImg.src = dataUrl;
+              html2canvas(pg).then((canvas) => {
+                let downloadLink = document.createElement("a");
+                downloadLink.setAttribute(
+                  "download",
+                  `${this.title}${idx + 1}.png`
+                );
+                idx++;
+                let that = this
+                canvas.toBlob(function (blob) {
+                  let url = URL.createObjectURL(blob);
+                  downloadLink.setAttribute("href", url);
+                  downloadLink.click();
+                  that.fileList[idx-1] = new File([blob], {type: 'image/png'})
+                });
+                this.pageCurrent = 4;
+              });
+            });
+          }, 1000);
+        }, 1300 * idx2);
+        idx2++;
+      });
+    },
+    saveBook() {
+      if (this.fileList[0]===0){
+        alert('이미지 추출을 먼저 해야 합니다')
+      }else{
+
+        let formData = new FormData();
+        formData.append("c0", this.fileList[0]);
+        formData.append("c1", this.fileList[1]);
+        formData.append("c2", this.fileList[2]);
+        formData.append("c3", this.fileList[3]);
+        formData.append("c4", this.fileList[4]);
+        formData.append("title", this.title);
+        formData.append("writer", this.writer);
+        Axios
+          .post(url + "storys/bookinit/", formData, {
+            headers: {
+              accept: "application/json",
+              "Content-Type": "multipart/form-data",
+              Authorization: `JWT ${this.$store.state.token}`,
+            },
+          })
+          .then((res) => {
+            console.log(res.data);
+            alert('책이 생성되었습니다.')
+          });
       }
-      Axios.put(`${url}storys/edit/`,data).then(()=>{
-        this.$router.push('/MyStory')
-      })
     },
   },
 };
@@ -567,6 +672,12 @@ export default {
   justify-content: flex-start;
   overflow: hidden;
   background-color: #777;
+  .quillWrapper {
+    .ql-editor,
+    .ql-toolbar {
+      background-color: rgba($color: #eee, $alpha: 0.5);
+    }
+  }
   #tools {
     padding: 0;
     margin: 0;
@@ -607,9 +718,11 @@ export default {
       width: 100%;
     }
     img {
+      box-sizing: border-box;
       margin: 10px;
       height: 150px;
       &:hover {
+        height: 152px;
         cursor: pointer;
         border: 1px black solid;
         background-color: #ccc;
@@ -673,6 +786,12 @@ export default {
     span {
       width: 100%;
       display: flex;
+      #text {
+        flex-grow: 1;
+      }
+      span {
+        width: 20%;
+      }
     }
     input {
       flex-grow: 1;
@@ -681,6 +800,10 @@ export default {
       padding: 3px;
       border-radius: 5px;
       background-color: white;
+    }
+    input[type="checkbox"] {
+      width: 10px;
+      flex-grow: 0;
     }
     button {
       border: #555 1px solid;
@@ -693,6 +816,13 @@ export default {
   #playground {
     position: relative;
     background-color: white;
+    div:hover,
+    img:hover {
+      cursor: pointer;
+      background-color: rgba($color: #eee, $alpha: 0.5);
+      box-sizing: content-box;
+      border: 1px #ccc solid;
+    }
     .active:hover {
       cursor: move;
     }

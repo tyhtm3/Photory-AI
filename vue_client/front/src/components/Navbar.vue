@@ -47,7 +47,7 @@
             v-bind="attrs"
             v-on="on"
           >
-            <img id = "userimg" src="@/assets/user_bear.png" alt=""> 
+            <img id = "userimg" :src="imgs[userInfo.profile].image" alt=""> 
           </v-btn>
         </template>
 
@@ -100,8 +100,7 @@
             v-bind="attrs"
             v-on="on"
           >
-            <img  id = "userimg" src="@/assets/user_bear.png" alt="">
-            <!-- <img id = "userimg" :src="imgs[this.$store.state.user.profile].image" >  -->
+            <img id = "userimg" :src="imgs[userInfo.profile].image" alt=""> 
           </v-btn>
         </template>
 
@@ -150,7 +149,7 @@
           <v-list-item @click="()=>$router.push('/').catch(()=>{})">
             <v-list-item-title>HOME</v-list-item-title>
           </v-list-item>
-          <v-list-item @click="()=>$router.push('/ShareStory').catch(()=>{})">
+          <v-list-item @click="()=>$router.push('/sharestorylist').catch(()=>{})">
             <v-list-item-title>SHARESTORY</v-list-item-title>
           </v-list-item>
           <v-list-item @click="()=>$router.push('/CreateStory').catch(()=>{})">
@@ -172,6 +171,7 @@
 import Login from '../components/Login.vue'
 import Mypage from '../components/Mypage.vue'
 import store  from '../store/index'
+import { mapGetters } from 'vuex'
 export default {
   name: 'Navbar',
   components:{
@@ -214,7 +214,12 @@ export default {
     closeMypage(){
       this.mypagedialog = false
     },
-  }
+  },
+  computed:{
+      ...mapGetters({
+          userInfo : 'user',
+      }),
+    },
 }
 </script>
 
