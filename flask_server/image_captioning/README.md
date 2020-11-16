@@ -1,11 +1,11 @@
-# StoryGenerationKoGPT2
+# Photory's Image Captioning
 
 ### 파일 구조
 
 ```sh
-ms_coco_eval.ipynb : 이미지에 대한 이미지 캡셔닝 수행
+ms_coco_eval.ipynb : 이미지에 대한 이미지 캡셔닝 수행(쥬피터 노트북)
+ms_coco_eval.py : 이미지에 대한 이미지 캡셔닝 수행(파이썬)
 mc_coco_modeling.ipynb : 이미지 캡셔닝 모델링 프로그램
-train_captions.pickle : 학습된 캡션을 담고 있는 파일
 ```
 
 ## 1. 소개
