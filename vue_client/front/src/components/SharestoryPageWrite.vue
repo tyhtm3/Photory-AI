@@ -175,7 +175,7 @@ export default {
       axios.get(`http://k3a205.p.ssafy.io:8000/storys/books/${this.selectedstoryid}/`)
       .then((res) => {
         this.storytitle = res.data.title;
-        this.storycover = res.data.content0;
+        this.storycover = "http://k3a205.p.ssafy.io:8000/media/" + res.data.content0;
       });
       this.dialogSelect = false
     },
