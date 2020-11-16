@@ -42,10 +42,7 @@ export default {
     storyId: "",
     storydata: "",
     pages: [
-      "https://img.ridicdn.net/cover/1227000018/xxlarge",
-      "https://image.aladin.co.kr/product/1520/39/cover500/8981404135_1.jpg",
-      "https://i.pinimg.com/564x/05/1f/f3/051ff3fb781ff83c9b0f8a32f9922fa6.jpg",
-      "/img/logo_name.334d3675.png",
+      
     ],
   }),
   methods: {},
