@@ -92,7 +92,7 @@ import { VueEditor } from "vue2-editor";
 import html2canvas from "html2canvas";
 // import jsPDF from "jspdf";
 
-const url = "http://127.0.0.1:8000/";
+const url = "http://k3a205.p.ssafy.io:8000/";
 
 export default {
   name: "storyEdit",
