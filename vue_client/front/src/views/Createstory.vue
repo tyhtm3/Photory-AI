@@ -227,7 +227,7 @@ export default {
                     Authorization: `JWT ${this.$store.state.token}`,
                   },
                 })
-                .then((res) => {
+                .then(() => {
                   // console.log(res.data);
                   this.tmpIdx++;
                   if (this.tmpIdx == 4) {
