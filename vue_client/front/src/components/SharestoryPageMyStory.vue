@@ -1,75 +1,105 @@
 <template>
-<v-container fluid >
-  <div class="back">
-    <img src="@/assets/loading/wave.png" style="max-width: -webkit-fill-available; position: absolute; bottom: 0;left: 0;">
-  </div>
-  <flipbook class="flipbook" :pages="pages"></flipbook>  
-  <div class="d-none d-md-block ani3">
-      <img src="@/assets/asset/bear.png" style="max-width:300px; width:30vw; position: absolute; bottom: 0;left: 0;">
-  </div>
-  <div class="d-none d-md-block ani4">
-      <img @click="()=>$router.push('/mystory').catch(()=>{})" src="@/assets/asset/raccoongolist.png" style="max-width:350px; width:30vw;">
-  </div>
-</v-container>
-  
+  <v-container fluid>
+    <div class="back">
+      <img
+        src="@/assets/loading/wave.png"
+        style="
+          max-width: -webkit-fill-available;
+          position: absolute;
+          bottom: 0;
+          left: 0;
+        "
+      />
+    </div>
+    <flipbook class="flipbook" :pages="pages"></flipbook>
+    <div class="d-none d-md-block ani3">
+      <img
+        src="@/assets/asset/bear.png"
+        style="
+          max-width: 300px;
+          width: 30vw;
+          position: absolute;
+          bottom: 0;
+          left: 0;
+        "
+      />
+    </div>
+    <div class="d-none d-md-block ani4">
+      <img
+        @click="() => $router.push('/mystory').catch(() => {})"
+        src="@/assets/asset/raccoongolist.png"
+        style="max-width: 350px; width: 30vw"
+      />
+    </div>
+  </v-container>
 </template>
 <script>
-import Flipbook from 'flipbook-vue';
-import axios from 'axios';
+import Flipbook from "flipbook-vue";
+import axios from "axios";
 export default {
   components: { Flipbook },
-  data :()=>({
-    storyId:'',
-    storydata:'',
-    pages:["https://img.ridicdn.net/cover/1227000018/xxlarge","https://image.aladin.co.kr/product/1520/39/cover500/8981404135_1.jpg","https://i.pinimg.com/564x/05/1f/f3/051ff3fb781ff83c9b0f8a32f9922fa6.jpg","/img/logo_name.334d3675.png",]
+  data: () => ({
+    storyId: "",
+    storydata: "",
+    pages: [
+      "https://img.ridicdn.net/cover/1227000018/xxlarge",
+      "https://image.aladin.co.kr/product/1520/39/cover500/8981404135_1.jpg",
+      "https://i.pinimg.com/564x/05/1f/f3/051ff3fb781ff83c9b0f8a32f9922fa6.jpg",
+      "/img/logo_name.334d3675.png",
+    ],
   }),
-  methods:{
-    
-  },
-  created(){
+  methods: {},
+  created() {
     this.storyId = this.$route.params.storyId;
-    axios.get(`http://k3a205.p.ssafy.io:8000/storys/books/${this.storyId}/`)
-    .then((res) => {
-      this.storydata = res.data;
-      this.pages[0]= res.data.content[0]
-      this.pages[1]= res.data.content[1]
-      this.pages[2]= res.data.content[2]
-      this.pages[3]= res.data.content[3]
-      this.pages[4]= res.data.content[4]
-    });
-  }
-}
+    axios
+      .get(`http://k3a205.p.ssafy.io:8000/storys/books/${this.storyId}/`)
+      .then((res) => {
+        this.storydata = res.data;
+        this.pages[0] =
+          "http://k3a205.p.ssafy.io:8000/media" +
+          res.data.content[0].split("media");
+        this.pages[1] =
+          "http://k3a205.p.ssafy.io:8000/media" + res.data.content[1];
+        this.pages[2] =
+          "http://k3a205.p.ssafy.io:8000/media" + res.data.content[2];
+        this.pages[3] =
+          "http://k3a205.p.ssafy.io:8000/media" + res.data.content[3];
+        this.pages[4] =
+          "http://k3a205.p.ssafy.io:8000/media" + res.data.content[4];
+      });
+  },
+};
 </script>
 <style>
 .flipbook {
   width: 90vw;
   height: 90vh;
 }
-.editimg{
-    position: absolute;
-    bottom: 0;
-    left: 3%;
+.editimg {
+  position: absolute;
+  bottom: 0;
+  left: 3%;
 }
-.ani3{
-    position: absolute;
-    bottom: 0;
-    left: 3%;
+.ani3 {
+  position: absolute;
+  bottom: 0;
+  left: 3%;
 }
-.ani4 img{
-    position: fixed;
-    bottom: 0;
-    right: 3%;
+.ani4 img {
+  position: fixed;
+  bottom: 0;
+  right: 3%;
 }
 
-#leftbtn{
+#leftbtn {
   position: absolute;
   top: 40%;
 }
-#rightbtn{
+#rightbtn {
   position: absolute;
   top: 40%;
 }
-img.page.fixed{
+img.page.fixed {
   border: 20px solid rgb(220, 247, 158);
   border-radius: 80px / 40px;
 }
