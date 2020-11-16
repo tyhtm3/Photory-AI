@@ -134,11 +134,11 @@ def bookdetail(request,bstory_pk):
         con['title']=bookStory.title
         con['writer']=bookStory.writer
         con['content']=[
-            bookStory.content0.image,
-            bookStory.content1.image,
-            bookStory.content2.image,
-            bookStory.content3.image,
-            bookStory.content4.image
+            bookStory.content0.path,
+            bookStory.content1.path,
+            bookStory.content2.path,
+            bookStory.content3.path,
+            bookStory.content4.path
         ]
         con['create_at']=bookStory.create_at
         return Response(con)
