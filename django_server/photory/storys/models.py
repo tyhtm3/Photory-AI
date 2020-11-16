@@ -25,11 +25,11 @@ class BookStory(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     writer = models.CharField(max_length=100)
-    content0 = models.ImageField()
-    content1 = models.ImageField()
-    content2 = models.ImageField()
-    content3 = models.ImageField()
-    content4 = models.ImageField()
+    content0 = models.ImageField(upload_to=bimg_path)
+    content1 = models.ImageField(upload_to=bimg_path)
+    content2 = models.ImageField(upload_to=bimg_path)
+    content3 = models.ImageField(upload_to=bimg_path)
+    content4 = models.ImageField(upload_to=bimg_path)
     create_at = models.DateTimeField(auto_now_add=True)
 
 # 이미지 모델
