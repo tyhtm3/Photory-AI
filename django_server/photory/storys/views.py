@@ -188,12 +188,13 @@ def images_create(request,story_pk):
         # 
         if len(story.images.all())==5:
             url = 'http://121.125.56.92:50740/tale'
+            url2 = 'http://121.125.56.92:50741/tale'
             data = {
                 'story_pk':story_pk,
                 'imagePaths': sorted([str(i.image) for i in story.images.all()])
             }
-            print(data)
             requests.post(url,data=json.dumps(data))
+            requests.post(url2,data=json.dumps(data))
             last = True
         con = {
             'status':True,
