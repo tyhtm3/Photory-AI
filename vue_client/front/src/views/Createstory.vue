@@ -228,6 +228,9 @@ export default {
                 })
                 .then((res) => {
                   console.log(res.data);
+                  if (res.data.err[2] == "ok") {
+                    this.$router.push("/MyStory");
+                  }
                   if (res.data.last) {
                     this.$router.push("/MyStory");
                   }
