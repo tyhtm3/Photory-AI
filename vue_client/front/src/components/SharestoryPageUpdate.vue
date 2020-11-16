@@ -158,7 +158,7 @@ export default {
       axios.get(`http://k3a205.p.ssafy.io:8000/storys/books/${this.selectedstoryid}/`)
       .then((res) => {
         this.storytitle = res.data.title;
-        this.storycover = res.data.content0;
+        this.storycover = "http://k3a205.p.ssafy.io:8000/media/"+ res.data.content0;
       });
       this.dialogSelect = false
     },
@@ -179,7 +179,7 @@ export default {
     axios.get(`http://k3a205.p.ssafy.io:8000/storys/books/`, config)
       .then((res) => {
         this.bookList = res.data;
-        this.Stories = res.data.title;
+        this.Stories = res.data[0].title;
         console.log(this.Stories)
       });
 
