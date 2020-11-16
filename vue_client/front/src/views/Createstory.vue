@@ -98,6 +98,7 @@ export default {
         file3Preview: 0,
         file4Preview: 0,
       },
+      tmpIdx: 0,
     };
   },
   created() {
@@ -227,11 +228,9 @@ export default {
                   },
                 })
                 .then((res) => {
-                  console.log(res.data);
-                  if (res.data.err[2] == "ok") {
-                    this.$router.push("/MyStory");
-                  }
-                  if (res.data.last) {
+                  // console.log(res.data);
+                  this.tmpIdx++;
+                  if (this.tmpIdx == 4) {
                     this.$router.push("/MyStory");
                   }
                 });
