@@ -31,15 +31,26 @@ export default {
   created(){
     this.boardNum = this.$route.params.boardNum;
     this.storyId = this.$route.params.storyId;
-    axios.get(`http://k3a205.p.ssafy.io:8000/storys/books/${this.storyId}/`)
-    .then((res) => {
-      this.storydata = res.data;
-      this.pages[0]= res.data.content[0]
-      this.pages[1]= res.data.content[1]
-      this.pages[2]= res.data.content[2]
-      this.pages[3]= res.data.content[3]
-      this.pages[4]= res.data.content[4]
-    });
+    axios
+      .get(`http://k3a205.p.ssafy.io:8000/storys/books/${this.storyId}/`)
+      .then((res) => {
+        this.storydata = res.data;
+        this.pages[0] =
+          "http://k3a205.p.ssafy.io:8000/media" +
+          res.data.content[0].split("media")[1];
+        this.pages[1] =
+          "http://k3a205.p.ssafy.io:8000/media" +
+          res.data.content[1].split("media")[1];
+        this.pages[2] =
+          "http://k3a205.p.ssafy.io:8000/media" +
+          res.data.content[2].split("media")[1];
+        this.pages[3] =
+          "http://k3a205.p.ssafy.io:8000/media" +
+          res.data.content[3].split("media")[1];
+        this.pages[4] =
+          "http://k3a205.p.ssafy.io:8000/media" +
+          res.data.content[4].split("media")[1];
+      });
   }
 }
 </script>
