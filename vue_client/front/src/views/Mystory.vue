@@ -143,7 +143,7 @@ export default {
       });
     },
     lookbook(id){
-      this.$router.push('/sharestorypagestory/0/'+id)
+      this.$router.push('/sharestorypagemystory/'+id)
     }
   },
 };
