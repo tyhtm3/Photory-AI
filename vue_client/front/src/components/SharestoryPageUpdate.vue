@@ -145,7 +145,7 @@ export default {
         'story' : this.selectedstoryid,
         'bookcover': null,
       }
-      axios.put(`http://127.0.0.1:8000/board/${this.boardNum}/ `, updateinfo, config, { "Content-Type": "application-json" })
+      axios.put(`http://k3a205.p.ssafy.io:8000/board/${this.boardNum}/ `, updateinfo, config, { "Content-Type": "application-json" })
           .then(res => {
               console.log(res.data);
               router.push('/sharestorylist').catch(()=>{})
@@ -155,7 +155,7 @@ export default {
           })
     },
     saveselectstory(){
-      axios.get(`http://127.0.0.1:8000/storys/books/${this.selectedstoryid}/`)
+      axios.get(`http://k3a205.p.ssafy.io:8000/storys/books/${this.selectedstoryid}/`)
       .then((res) => {
         this.storytitle = res.data.title;
         this.storycover = res.data.content0;
@@ -176,7 +176,7 @@ export default {
     const config = {
         headers: { 'Authorization': 'jwt ' + TOKEN }
     }
-    axios.get(`http://127.0.0.1:8000/storys/books/`, config)
+    axios.get(`http://k3a205.p.ssafy.io:8000/storys/books/`, config)
       .then((res) => {
         this.bookList = res.data;
         this.Stories = res.data.title;
@@ -184,7 +184,7 @@ export default {
       });
 
     this.boardNum = this.$route.params.boardNum;
-    axios.get(`http://127.0.0.1:8000/board/${this.boardNum}/detail/ `, { "Content-Type": "application-json" })
+    axios.get(`http://k3a205.p.ssafy.io:8000/board/${this.boardNum}/detail/ `, { "Content-Type": "application-json" })
       .then(res => {
           this.boardData = res.data
       })

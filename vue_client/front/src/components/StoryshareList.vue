@@ -121,7 +121,7 @@ export default {
   }),
   methods:{
       getList(){
-        axios.get(`http://127.0.0.1:8000/board/list/${this.pagenum}/ `, { "Content-Type": "application-json" })
+        axios.get(`http://k3a205.p.ssafy.io:8000/board/list/${this.pagenum}/ `, { "Content-Type": "application-json" })
             .then(res => {
                this.storyListData = res.data
             })
@@ -165,7 +165,7 @@ export default {
       }
   },
   created(){
-    axios.get(`http://127.0.0.1:8000/board/list/${this.pagenum}/ `, { "Content-Type": "application-json" })
+    axios.get(`http://k3a205.p.ssafy.io:8000/board/list/${this.pagenum}/ `, { "Content-Type": "application-json" })
         .then(res => {
             this.storyListData = res.data
             console.log(res.data)
@@ -174,7 +174,7 @@ export default {
             console.log(error.response.data);
         })
     
-    axios.get(`http://127.0.0.1:8000/board/count/ `, { "Content-Type": "application-json" })
+    axios.get(`http://k3a205.p.ssafy.io:8000/board/count/ `, { "Content-Type": "application-json" })
         .then(res => {
             this.storyListCount = res.data
             console.log(res.data)

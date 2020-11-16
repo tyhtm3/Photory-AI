@@ -30,7 +30,7 @@ export default {
   created(){
     this.boardNum = this.$route.params.boardNum;
     this.storyId = this.$route.params.storyId;
-    axios.get(`http://127.0.0.1:8000/storys/books/${this.storyId}/`)
+    axios.get(`http://k3a205.p.ssafy.io:8000/storys/books/${this.storyId}/`)
     .then((res) => {
       this.storydata = res.data;
     });
