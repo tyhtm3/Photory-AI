@@ -281,32 +281,32 @@ export default {
           if (Array.from(mI.classList).includes("normImg")) {
             mI.src = `http://121.125.56.92:50740/static/${this.storyNum}_${
               this.pageCurrent 
-            }_2.jpg`;
+            }_1.jpg`;
             mI.className = "img0";
           } else if (Array.from(mI.classList).includes("img0")) {
             mI.src = `http://121.125.56.92:50740/static/${this.storyNum}_${
               this.pageCurrent 
-            }_3.jpg`;
+            }_2.jpg`;
             mI.className = "img1";
           } else if (Array.from(mI.classList).includes("img1")) {
             mI.src = `http://121.125.56.92:50740/static/${this.storyNum}_${
               this.pageCurrent 
-            }_4.jpg`;
+            }_3.jpg`;
             mI.className = "img2";
           } else if (Array.from(mI.classList).includes("img2")) {
             mI.src = `http://121.125.56.92:50740/static/${this.storyNum}_${
               this.pageCurrent 
-            }_5.jpg`;
+            }_4.jpg`;
             mI.className = "img3";
           } else if (Array.from(mI.classList).includes("img3")) {
             mI.src = `http://121.125.56.92:50740/static/${this.storyNum}_${
               this.pageCurrent 
-            }_6.jpg`;
+            }_5.jpg`;
             mI.className = "img4";
           } else if (Array.from(mI.classList).includes("img4")) {
             mI.src = `http://121.125.56.92:50740/static/${this.storyNum}_${
               this.pageCurrent 
-            }_1.jpg`;
+            }_0.jpg`;
             mI.className = "normImg";
           }
           this.toolSelect(0);
