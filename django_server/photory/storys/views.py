@@ -196,15 +196,15 @@ def images_create(request,story_pk):
                     'imagePaths': sorted([str(i.image) for i in story.images.all()])
                 }
                 err+=[0]
-                requests.post(url,data=json.dumps(data))
-                err+=[1]
-                requests.post(url2,data=json.dumps(data))
-                err+=[2]
+                res = requests.post(url,data=json.dumps(data))
+                err+=[1, res]
+                res = requests.post(url2,data=json.dumps(data))
+                err+=[2,res ]
                 last = True
             except:
                 con = {
                     'status':False,
-                    'path':err,
+                    'err':err,
                     'last':last
                 }
                 return Response(con)
