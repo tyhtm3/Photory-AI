@@ -42,7 +42,10 @@ export default {
     storyId: "",
     storydata: "",
     pages: [
-      
+      "/img/logo_name.334d3675.png",
+      "/img/logo_name.334d3675.png",
+      "/img/logo_name.334d3675.png",
+      "/img/logo_name.334d3675.png",
     ],
   }),
   methods: {},

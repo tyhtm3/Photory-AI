@@ -23,8 +23,13 @@ export default {
     boardNum:'',
     storyId:'',
     storydata:'',
-    pages:[]
-  }),
+    pages: [
+      "/img/logo_name.334d3675.png",
+      "/img/logo_name.334d3675.png",
+      "/img/logo_name.334d3675.png",
+      "/img/logo_name.334d3675.png",
+    ],
+ }),
   methods:{
     
   },
