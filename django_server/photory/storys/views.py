@@ -187,15 +187,27 @@ def images_create(request,story_pk):
         last = False
         # 
         if len(story.images.all())==5:
-            url = 'http://121.125.56.92:50740/tale'
-            url2 = 'http://121.125.56.92:50741/tale'
-            data = {
-                'story_pk':story_pk,
-                'imagePaths': sorted([str(i.image) for i in story.images.all()])
-            }
-            requests.post(url,data=json.dumps(data))
-            requests.post(url2,data=json.dumps(data))
-            last = True
+            err=[]
+            try:    
+                url = 'http://121.125.56.92:50740/tale'
+                url2 = 'http://121.125.56.92:50741/tale'
+                data = {
+                    'story_pk':story_pk,
+                    'imagePaths': sorted([str(i.image) for i in story.images.all()])
+                }
+                err+=[0]
+                requests.post(url,data=json.dumps(data))
+                err+=[1]
+                requests.post(url2,data=json.dumps(data))
+                err+=[2]
+                last = True
+            except:
+                con = {
+                    'status':False,
+                    'path':err,
+                    'last':last
+                }
+                return Response(con)
         con = {
             'status':True,
             'path':images.image.path,
