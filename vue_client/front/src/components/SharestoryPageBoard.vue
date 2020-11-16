@@ -76,7 +76,8 @@ export default {
     boardNum :1,
     boardData:[],
     storydata:[],
-    isStroy:false
+    isStroy:false,
+    storyId:0,
   }),
   methods :{
     updateboard(){
@@ -108,7 +109,7 @@ export default {
     },
     goStory(){
       if(this.isStroy){
-        let data ={'storyid':this.storydata.id, 'boardid':this.boardNum}
+        let data ={'storyid':this.storyId, 'boardid':this.boardNum}
         router.push(`/sharestorypagestory/${data.boardid}/${data.storyid}`).catch(()=>{})
       }else{
         alert("등록된 스토리가 없습니다.")
@@ -123,24 +124,26 @@ export default {
           console.log(res.data)
           this.title = this.boardData.title
           this.description = this.boardData.content
+          this.storyId = res.data.story
+          if(res.data.story !== undefined ){
+            axios.get(`http://k3a205.p.ssafy.io:8000/storys/books/${res.data.story}/ `, { "Content-Type": "application-json" })
+          .then(res => {
+              this.storydata = res.data
+              console.log(res.data)
+              this.storytitle = this.storydata.title
+              this.isStroy = true;
+          })
+          .catch((error) => {
+              console.log(error.response.data);
+          })
+          }else{
+            this.storytitle = '등록된 스토리가 없습니다.'
+          }
       })
       .catch((error) => {
           console.log(error.response.data);
       })
-    if(this.boardData.story !== undefined ){
-      axios.get(`http://k3a205.p.ssafy.io:8000/storys/books/${this.boardData.story}/ `, { "Content-Type": "application-json" })
-     .then(res => {
-         this.storydata = res.data
-         console.log(res.data)
-         this.storytitle = this.storydata.title
-         this.isStroy = true;
-     })
-     .catch((error) => {
-         console.log(error.response.data);
-     })
-    }else{
-      this.storytitle = '등록된 스토리가 없습니다.'
-    }
+    
   },
 }
 </script>
