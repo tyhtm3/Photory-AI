@@ -1,5 +1,14 @@
 ## 실행법
 
+### environment
+
+```sh
+python == 3.7.5
+pip == 20.2.4
+cuda == 10.1 update2
+cudnn == 7.6.5 + 8.0.2  ## 우선 7.6.5버젼을 cuda 라이브러리에 넣은 후 8.0.2버젼을 다운받아서 cuda 라이브러리에 넣는다.
+```
+
 ### INSTALL
 
 ```sh
