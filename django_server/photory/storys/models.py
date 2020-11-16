@@ -20,7 +20,7 @@ class Story(models.Model):
 
 # 이미지 모델
 def bimg_path(instance, filename):
-    return "books/%s"%(filename)
+    return "books/%s.jpg"%(filename)
 class BookStory(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
