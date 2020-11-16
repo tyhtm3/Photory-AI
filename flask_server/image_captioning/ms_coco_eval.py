@@ -18,6 +18,19 @@ import pickle
 #tf.enable_eager_execution()
 #tf.executing_eagerly() 
 # pip install matplotlib sklearn 
+
+gpus = tf.config.experimental.list_physical_devices('GPU')
+if gpus:
+  try:
+    # Currently, memory growth needs to be the same across GPUs
+    for gpu in gpus:
+      tf.config.experimental.set_memory_growth(gpu, True)
+    logical_gpus = tf.config.experimental.list_logical_devices('GPU')
+    print(len(gpus), "Physical GPUs,", len(logical_gpus), "Logical GPUs")
+  except RuntimeError as e:
+    # Memory growth must be set before GPUs have been initialized
+    print(e)
+    
 class BahdanauAttention(tf.keras.Model):
   def __init__(self, units):
     super(BahdanauAttention, self).__init__()
@@ -26,24 +39,16 @@ class BahdanauAttention(tf.keras.Model):
     self.V = tf.keras.layers.Dense(1)
 
   def call(self, features, hidden):
-    # features(CNN_encoder output) shape == (batch_size, 64, embedding_dim)
-
-    # hidden shape == (batch_size, hidden_size)
-    # hidden_with_time_axis shape == (batch_size, 1, hidden_size)
     hidden_with_time_axis = tf.expand_dims(hidden, 1)
 
-    # attention_hidden_layer shape == (batch_size, 64, units)
     attention_hidden_layer = (tf.nn.tanh(self.W1(features) +
                                          self.W2(hidden_with_time_axis)))
 
-    # score shape == (batch_size, 64, 1)
-    # This gives you an unnormalized score for each image feature.
+    
     score = self.V(attention_hidden_layer)
 
-    # attention_weights shape == (batch_size, 64, 1)
     attention_weights = tf.nn.softmax(score, axis=1)
 
-    # context_vector shape after sum == (batch_size, hidden_size)
     context_vector = attention_weights * features
     context_vector = tf.reduce_sum(context_vector, axis=1)
 
@@ -51,11 +56,9 @@ class BahdanauAttention(tf.keras.Model):
 
 
 class CNN_Encoder(tf.keras.Model):
-    # Since you have already extracted the features and dumped it using pickle
-    # This encoder passes those features through a Fully connected layer
+ 
     def __init__(self, embedding_dim):
         super(CNN_Encoder, self).__init__()
-        # shape after fc == (batch_size, 64, embedding_dim)
         self.fc = tf.keras.layers.Dense(embedding_dim)
 
     def call(self, x):
@@ -80,25 +83,19 @@ class RNN_Decoder(tf.keras.Model):
     self.attention = BahdanauAttention(self.units)
 
   def call(self, x, features, hidden):
-    # defining attention as a separate model
+ 
     context_vector, attention_weights = self.attention(features, hidden)
 
-    # x shape after passing through embedding == (batch_size, 1, embedding_dim)
     x = self.embedding(x)
-
-    # x shape after concatenation == (batch_size, 1, embedding_dim + hidden_size)
+    
     x = tf.concat([tf.expand_dims(context_vector, 1), x], axis=-1)
     
-    # passing the concatenated vector to the GRU
     output, state = self.gru(x)
-
-    # shape == ()
+    
     x = self.fc1(output)
-
-    # x shape == (batch_size * max_length, hidden_size)
+    
     x = tf.reshape(x, (-1, x.shape[2]))
 
-    # output shape == (batch_size * max_length, vocab)
     x = self.fc2(x)
 
     return x, state, attention_weights
@@ -163,13 +160,13 @@ def load_image(image_path):
 
 
 
-with open('checkpoints/train3/train_captions.pickle','rb') as fr:
+with open('checkpoints/train/train_captions.pickle','rb') as fr:
     train_captions = pickle.load(fr)
     
-max_length = 24000 # 학습한 캡션의 갯수, 학습 이미지의 갯수랑 동일
+max_length = 616435 # 학습한 캡션의 갯수, 학습 이미지의 갯수랑 동일
 
-top_k = 8000
-embedding_dim = 256
+top_k = 30000
+embedding_dim = 512
 units = 512
 vocab_size = top_k + 1
 features_shape = 2048
@@ -181,7 +178,7 @@ decoder = RNN_Decoder(embedding_dim, units, vocab_size)
 optimizer = tf.keras.optimizers.Adam()
 
 
-checkpoint_path = "./checkpoints/train3"
+checkpoint_path = "./checkpoints/train"
 ckpt = tf.train.Checkpoint(encoder=encoder,
                            decoder=decoder,
                            optimizer = optimizer)
@@ -216,9 +213,8 @@ tokenizer.word_index['<pad>'] = 0
 tokenizer.index_word[0] = '<pad>'
 
 
-image_url = 'http://ecotopia.hani.co.kr/files/attach/images/69/406/492/d2.jpg'
-
-image_path = tf.keras.utils.get_file('image3.jpg',
+image_url = 'https://tensorflow.org/images/surf.jpg'
+image_path = tf.keras.utils.get_file('image4.jpg',
                                      origin=image_url)
 
 result, attention_plot = evaluate(image_path)

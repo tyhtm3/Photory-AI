@@ -6,6 +6,7 @@ import Mystory from '../views/Mystory'
 import SharestoryList from '../views/SharestoryList'
 import SharestoryPageBoard from '../views/SharestoryPageBoard'
 import SharestoryPageWrite from '../views/SharestoryPageWrite'
+import SharestoryPageUpdate from '../views/SharestoryPageUpdate'
 import SharestoryPageStory from '../views/SharestoryPageStory'
 import storyEdit from '../views/storyEdit'
 
@@ -38,7 +39,11 @@ const routes = [{
         name: 'SharestoryPageWrite',
         component: SharestoryPageWrite
     }, {
-        path: '/sharestorypagestory',
+        path: '/sharestoryupdate/:boardNum',
+        name: 'SharestoryPageUpdate',
+        component: SharestoryPageUpdate
+    }, {
+        path: '/sharestorypagestory/:boardNum/:storyId',
         name: 'SharestoryPageStory',
         component: SharestoryPageStory
     }, {

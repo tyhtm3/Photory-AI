@@ -150,12 +150,12 @@ export default {
           }
       },
       goLastpage(){
-          let pagecount = (this.storyListCount-1)%8;
+          let pagecount = Math.floor((this.storyListCount-1)/8);
           this.pagenum = pagecount;
           this.getList();
       },
       goNextPage(){
-          let pagecount = (this.storyListCount-1)%8;
+          let pagecount = Math.floor((this.storyListCount-1)/8);
           if(pagecount<=this.pagenum){
               alert("마지막 페이지입니다.")
           }else{

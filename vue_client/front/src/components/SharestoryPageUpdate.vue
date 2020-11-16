@@ -8,18 +8,17 @@
       </v-col>
     </v-row>
     <v-row justify="center" id="write" >
-      <v-col cols="6" id="title">
+      <v-col cols="6" id="data">
         <v-text-field
-            v-model="title"
+            v-model="boardData.title"
             counter="25"
           ></v-text-field>
       </v-col>
       <v-col cols="10" id="editor">
-      <!-- <EditorTipTap :description="description" :menubar="menubar" :readOnly="readOnly"/> -->
         <v-textarea
           clearable
           clear-icon="mdi-close-circle"
-          v-model="description"
+          v-model="boardData.content"
           no-resize
           solo
           flat
@@ -34,9 +33,9 @@
               color="#87c7c6"
               dark
               rounded
-              @click="write"
+              @click="update"
             >
-              등록하기 
+              수정하기 
               <v-icon>
                 mdi-arrow-right-thick
               </v-icon>
@@ -86,11 +85,6 @@
         <v-card-title>Select Story</v-card-title>
         <v-divider></v-divider>
         <v-card-text style="height: 100px;">
-           <!-- <v-select
-            :items="Stories"
-            label="Story"
-            v-model="selectedstory"
-          ></v-select> -->
           <v-select v-model="selectedstoryid" :items="bookList" item-value="id" item-text="title" >
             <template v-slot:item="{ item }">
             <span>{{ item.title }}</span>
@@ -122,15 +116,11 @@
 <script>
 import axios from 'axios'
 import router from '../router'
-// import EditorTipTap from '@/components/EditorTipTap.vue'
 export default {
-  components:{
-    // EditorTipTap,
-  },
   data: () => ({
+    boardNum:'',
+    boardData:[],
     description:"내용을 입력해주세요",
-    menubar:true,
-    readOnly:false,
     title:"제목",
     storytitle:"내 스토리 제목",
     dialogSelect:false,
@@ -141,28 +131,21 @@ export default {
     storycover:'',
   }),
   methods :{
-    write(){
+    update(){
       const TOKEN = this.$store.state.token
       const config = {
           headers: { 'Authorization': 'jwt ' + TOKEN }
       }
-      const writeinfo = {
-        // 'title' : this.title,
-        // 'writer' : this.$store.state.user.nickname,
-        // 'content' : this.description,
-        // 'category' :1,
-        // 'nickname' : this.$store.state.user.id,
-        // 'story' : this.selectedstoryid,
-        // 'bookcover':this.storycover,
-        'title' : this.title,
+      const updateinfo = {
+        'title' : this.boardData.title,
         'writer' : this.$store.state.user.nickname,
-        'content' : this.description,
+        'content' : this.boardData.content,
         'category' :1,
         'nickname' : this.$store.state.user.id,
         'story' : this.selectedstoryid,
-        // 'bookcover': null,
+        'bookcover': null,
       }
-      axios.post(`http://127.0.0.1:8000/board/create/ `, writeinfo, config, { "Content-Type": "application-json" })
+      axios.put(`http://127.0.0.1:8000/board/${this.boardNum}/ `, updateinfo, config, { "Content-Type": "application-json" })
           .then(res => {
               console.log(res.data);
               router.push('/sharestorylist').catch(()=>{})
@@ -199,6 +182,15 @@ export default {
         this.Stories = res.data.title;
         console.log(this.Stories)
       });
+
+    this.boardNum = this.$route.params.boardNum;
+    axios.get(`http://127.0.0.1:8000/board/${this.boardNum}/detail/ `, { "Content-Type": "application-json" })
+      .then(res => {
+          this.boardData = res.data
+      })
+      .catch((error) => {
+          console.log(error.response.data);
+      })
   },
 }
 </script>

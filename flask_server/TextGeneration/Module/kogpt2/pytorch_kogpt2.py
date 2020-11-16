@@ -20,7 +20,7 @@ import hashlib
 
 import torch
 
-from model.torch_gpt2 import GPT2Config, GPT2LMHeadModel
+from TextGeneration.Module.model.torch_gpt2 import GPT2Config, GPT2LMHeadModel
 import gluonnlp as nlp
 
 from .utils import download as _download
