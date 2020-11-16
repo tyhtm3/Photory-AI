@@ -153,7 +153,7 @@ export default {
         // 'category' :1,
         // 'nickname' : this.$store.state.user.id,
         // 'story' : this.selectedstoryid,
-        // 'bookcover':this.storycover,
+        'bookcover':this.storycover,
         'title' : this.title,
         'writer' : this.$store.state.user.nickname,
         'content' : this.description,

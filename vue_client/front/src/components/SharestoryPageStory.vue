@@ -10,6 +10,7 @@
   <div class="d-none d-md-block ani4">
       <img @click="()=>$router.push('/sharestorylist').catch(()=>{})" src="@/assets/asset/raccoongolist.png" style="max-width:350px; width:30vw;">
   </div>
+  {{}}
 </v-container>
   
 </template>
@@ -33,6 +34,11 @@ export default {
     axios.get(`http://k3a205.p.ssafy.io:8000/storys/books/${this.storyId}/`)
     .then((res) => {
       this.storydata = res.data;
+      this.pages[0]= res.data.content[0]
+      this.pages[1]= res.data.content[1]
+      this.pages[2]= res.data.content[2]
+      this.pages[3]= res.data.content[3]
+      this.pages[4]= res.data.content[4]
     });
   }
 }
