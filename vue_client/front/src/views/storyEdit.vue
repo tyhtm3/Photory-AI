@@ -650,6 +650,7 @@ export default {
           })
           .then((res) => {
             console.log(res.data);
+            alert('책이 생성되었습니다.')
           });
       }
     },
