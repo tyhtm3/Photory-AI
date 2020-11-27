@@ -6,3 +6,22 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+
+
+### Django ###
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media
+
+# Neural network model
+fast_neural_style/
+checkpoints/
+kogpt2/
+
+# static files
+static

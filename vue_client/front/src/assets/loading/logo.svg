@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" style="margin: auto; background: none; display: block; shape-rendering: auto;" width="535" height="517" preserveAspectRatio="xMidYMid">
+<style type="text/css">
+  text {
+    text-anchor: middle; font-size: 131px; opacity: 0;
+  }
+</style>
+<g style="transform-origin:267.5px 258.5px;transform:scale(1)">
+<g transform="translate(267.5,258.5) scale(2)">
+  <g>
+  <animateTransform attributeName="transform" type="rotate" values="0;90" keyTimes="0;1" dur="1s" repeatCount="indefinite"></animateTransform>
+  <g transform="translate(-50,-50)">
+  <line x1="50" y1="10" x2="50" y2="21.8" stroke-width="3" stroke="#00bcb4" stroke-linecap="round"></line>
+  <line x1="30" y1="15.4" x2="35.9" y2="25.6" stroke-width="3" stroke="#00bcb4" stroke-linecap="round"></line>
+  <line x1="15.4" y1="30" x2="25.6" y2="35.9" stroke-width="3" stroke="#00bcb4" stroke-linecap="round"></line>
+  <line x1="10" y1="50" x2="21.8" y2="50" stroke-width="3" stroke="#00bcb4" stroke-linecap="round"></line>
+  <line x1="15.4" y1="70" x2="25.6" y2="64.1" stroke-width="3" stroke="#00bcb4" stroke-linecap="round"></line>
+  <line x1="30" y1="84.6" x2="35.9" y2="74.4" stroke-width="3" stroke="#00bcb4" stroke-linecap="round"></line>
+  <line x1="50" y1="90" x2="50" y2="78.2" stroke-width="3" stroke="#00bcb4" stroke-linecap="round"></line>
+  <line x1="70" y1="84.6" x2="64.1" y2="74.4" stroke-width="3" stroke="#00bcb4" stroke-linecap="round"></line>
+  <line x1="84.6" y1="70" x2="74.4" y2="64.1" stroke-width="3" stroke="#00bcb4" stroke-linecap="round"></line>
+  <line x1="90" y1="50" x2="78.2" y2="50" stroke-width="3" stroke="#00bcb4" stroke-linecap="round"></line>
+  <line x1="84.6" y1="30" x2="74.4" y2="35.9" stroke-width="3" stroke="#00bcb4" stroke-linecap="round"></line>
+  <line x1="70" y1="15.4" x2="64.1" y2="25.6" stroke-width="3" stroke="#00bcb4" stroke-linecap="round"></line>
+</g>
+  </g>
+</g>
+
+<g transform="translate(267.5,258.5)">
+  <g transform="translate(0,0)"><g class="path" style="transform: matrix(1, 0, 0, 1, 0, 0); transform-origin: -112.79px -4.5004px; animation: 1s linear -0.231429s infinite normal forwards running bounce-e29cf5d5-93d9-4a83-907b-4b4f58f8e445;"><path d="M15.72-19.78L15.72-19.78L15.72-6.42L15.72-6.42Q15.72 0.52 11.13 0.52L11.13 0.52L11.13 0.52Q6.42 0.52 6.42-5.90L6.42-5.90L6.55-46.64L6.55-46.64Q6.55-56.20 17.16-56.20L17.16-56.20L39.69-56.20L39.69-56.20Q49.65-56.20 49.65-47.42L49.65-47.42L49.65-35.24L49.65-35.24Q49.65-25.94 39.43-25.94L39.43-25.94L23.06-25.94L23.06-25.94Q15.72-25.94 15.72-19.78zM32.49-51.09L32.49-51.09L23.58-51.09L23.58-51.09Q15.72-51.09 15.72-42.44L15.72-42.44L15.72-38.65L15.72-38.65Q15.72-31.05 23.45-31.05L23.45-31.05L32.62-31.05L32.62-31.05Q40.48-31.05 40.48-40.22L40.48-40.22L40.48-44.02L40.48-44.02Q40.48-51.09 32.49-51.09" fill="#c4e86b" stroke="none" stroke-width="none" transform="translate(-140.82499980926514,23.339599097115656)" style="fill: rgb(255, 71, 71);"></path></g><g class="path" style="transform: matrix(1, 0, 0, 1, 0, 0); transform-origin: -65.83px -5.4154px; animation: 1s linear -0.192857s infinite normal forwards running bounce-e29cf5d5-93d9-4a83-907b-4b4f58f8e445;"><path d="M81.48-6.16L81.48-28.69L81.48-28.69Q81.48-36.02 75.85-36.02L75.85-36.02L74.15-36.02L74.15-36.02Q68.91-36.02 68.91-28.17L68.91-28.17L68.91-6.16L68.91-6.16Q68.91 0.79 64.32 0.79L64.32 0.79L64.32 0.79Q59.34 0.79 59.34-5.63L59.34-5.63L59.34-52.14L59.34-52.14Q59.34-58.30 64.32-58.30L64.32-58.30L64.32-58.30Q68.91-58.30 68.91-51.48L68.91-51.48L68.91-46.77L68.91-46.77Q68.91-40.61 76.50-40.61L76.50-40.61L80.70-40.61L80.70-40.61Q85.67-40.61 88.16-38.25L88.16-38.25L88.16-38.25Q90.65-35.89 90.65-31.70L90.65-31.70L90.65-5.37L90.65-5.37Q90.65 0.79 86.07 0.79L86.07 0.79L86.07 0.79Q81.48 0.79 81.48-6.16L81.48-6.16" fill="#c4e86b" stroke="none" stroke-width="none" transform="translate(-140.82499980926514,23.339599097115656)" style="fill: rgb(0, 188, 180);"></path></g><g class="path" style="transform: matrix(1, 0, 0, 1, 0, 0); transform-origin: -21.81px 2.9046px; animation: 1s linear -0.154286s infinite normal forwards running bounce-e29cf5d5-93d9-4a83-907b-4b4f58f8e445;"><path d="M134.67-31.57L134.67-9.04L134.67-9.04Q134.67-4.19 132.11-2.10L132.11-2.10L132.11-2.10Q129.56 0 124.71 0L124.71 0L113.84 0L113.84 0Q103.36 0 103.36-9.04L103.36-9.04L103.36-31.70L103.36-31.70Q103.36-35.89 105.85-38.38L105.85-38.38L105.85-38.38Q108.34-40.87 113.58-40.87L113.58-40.87L124.71-40.87L124.71-40.87Q129.56-40.87 132.11-38.38L132.11-38.38L132.11-38.38Q134.67-35.89 134.67-31.57L134.67-31.57zM125.24-12.45L125.24-12.45L125.24-28.43L125.24-28.43Q125.24-36.16 119.73-36.16L119.73-36.16L118.03-36.16L118.03-36.16Q112.92-36.16 112.92-27.77L112.92-27.77L112.92-12.31L112.92-12.31Q112.92-4.45 118.16-4.45L118.16-4.45L120.13-4.45L120.13-4.45Q125.24-4.45 125.24-12.45" fill="#c4e86b" stroke="none" stroke-width="none" transform="translate(-140.82499980926514,23.339599097115656)" style="fill: rgb(196, 232, 107);"></path></g><g class="path" style="transform: matrix(1, 0, 0, 1, 0, 0); transform-origin: 18.865px -6.1354px; animation: 1s linear -0.115714s infinite normal forwards running bounce-e29cf5d5-93d9-4a83-907b-4b4f58f8e445;"><path d="M151.96-58.95L151.96-58.95L151.96-58.95Q156.55-58.95 156.55-52.14L156.55-52.14L156.55-47.82L156.55-47.82Q156.55-40.87 164.14-40.87L164.14-40.87L166.63-40.87L166.63-40.87Q171.87-40.87 171.87-38.65L171.87-38.65L171.87-38.65Q171.87-36.29 166.63-36.29L166.63-36.29L164.14-36.29L164.14-36.29Q156.55-36.29 156.55-27.12L156.55-27.12L156.55-12.71L156.55-12.71Q156.55-4.98 164.01-4.98L164.01-4.98L167.16-4.98L167.16-4.98Q172.27-4.98 172.27-2.49L172.27-2.49L172.27-2.49Q172.27 0 167.55 0L167.55 0L156.68 0L156.68 0Q147.11 0 147.11-9.56L147.11-9.56L147.11-52.79L147.11-52.79Q147.11-58.95 151.96-58.95" fill="#c4e86b" stroke="none" stroke-width="none" transform="translate(-140.82499980926514,23.339599097115656)" style="fill: rgb(255, 133, 71);"></path></g><g class="path" style="transform: matrix(1, 0, 0, 1, 0, 0); transform-origin: 54.82px 2.9046px; animation: 1s linear -0.0771429s infinite normal forwards running bounce-e29cf5d5-93d9-4a83-907b-4b4f58f8e445;"><path d="M211.30-31.57L211.30-9.04L211.30-9.04Q211.30-4.19 208.75-2.10L208.75-2.10L208.75-2.10Q206.19 0 201.35 0L201.35 0L190.47 0L190.47 0Q179.99 0 179.99-9.04L179.99-9.04L179.99-31.70L179.99-31.70Q179.99-35.89 182.48-38.38L182.48-38.38L182.48-38.38Q184.97-40.87 190.21-40.87L190.21-40.87L201.35-40.87L201.35-40.87Q206.19-40.87 208.75-38.38L208.75-38.38L208.75-38.38Q211.30-35.89 211.30-31.57L211.30-31.57zM201.87-12.45L201.87-12.45L201.87-28.43L201.87-28.43Q201.87-36.16 196.37-36.16L196.37-36.16L194.67-36.16L194.67-36.16Q189.56-36.16 189.56-27.77L189.56-27.77L189.56-12.31L189.56-12.31Q189.56-4.45 194.80-4.45L194.80-4.45L196.76-4.45L196.76-4.45Q201.87-4.45 201.87-12.45" fill="#c4e86b" stroke="none" stroke-width="none" transform="translate(-140.82499980926514,23.339599097115656)" style="fill: rgb(255, 71, 71);"></path></g><g class="path" style="transform: matrix(1, 0, 0, 1, 0, 0); transform-origin: 95.895px 3.1646px; animation: 1s linear -0.0385714s infinite normal forwards running bounce-e29cf5d5-93d9-4a83-907b-4b4f58f8e445;"><path d="M244.58-36.29L244.58-36.29L240.52-36.29L240.52-36.29Q233.31-36.29 233.31-29.48L233.31-29.48L233.31-6.29L233.31-6.29Q233.31 0.52 228.73 0.52L228.73 0.52L228.73 0.52Q223.75 0.52 223.75-5.50L223.75-5.50L223.75-31.83L223.75-31.83Q223.75-40.87 234.36-40.87L234.36-40.87L244.71-40.87L244.71-40.87Q249.69-40.87 249.69-38.51L249.69-38.51L249.69-38.51Q249.69-36.29 244.58-36.29" fill="#c4e86b" stroke="none" stroke-width="none" transform="translate(-140.82499980926514,23.339599097115656)" style="fill: rgb(0, 188, 180);"></path></g><g class="path" style="transform: matrix(1, 0, 0, 1, 0, 0); transform-origin: 131.525px 10.3046px; animation: 1s linear 0s infinite normal forwards running bounce-e29cf5d5-93d9-4a83-907b-4b4f58f8e445;"><path d="M278.64-12.18L278.64-12.18L278.64-34.85L278.64-34.85Q278.64-41.53 283.48-41.53L283.48-41.53L283.48-41.53Q288.07-41.53 288.07-34.98L288.07-34.98L288.07 6.29L288.07 6.29Q288.07 15.46 279.03 15.46L279.03 15.46L261.21 15.46L261.21 15.46Q259.38 15.46 258.53 15.00L258.53 15.00L258.53 15.00Q257.68 14.54 257.68 13.10L257.68 13.10L257.68 13.10Q257.68 10.74 261.87 10.74L261.87 10.74L275.36 10.74L275.36 10.74Q280.21 10.74 280.21 5.50L280.21 5.50L280.21 5.50Q280.21 0 274.71 0L274.71 0L266.85 0L265.54 0L265.54 0Q256.63 0 256.63-8.91L256.63-8.91L256.63-35.50L256.63-35.50Q256.63-41.53 261.21-41.53L261.21-41.53L261.21-41.53Q266.19-41.53 266.19-34.72L266.19-34.72L266.19-12.05L266.19-12.05Q266.19-4.58 271.56-4.58L271.56-4.58L273.40-4.58L273.40-4.58Q278.64-4.58 278.64-12.18" fill="#c4e86b" stroke="none" stroke-width="none" transform="translate(-140.82499980926514,23.339599097115656)" style="fill: rgb(196, 232, 107);"></path></g></g>
+</g>
+</g>
+<style id="bounce-e29cf5d5-93d9-4a83-907b-4b4f58f8e445" data-anikit="">@keyframes bounce-e29cf5d5-93d9-4a83-907b-4b4f58f8e445
+{
+  0% {
+    animation-timing-function: cubic-bezier(0.1361,0.2514,0.2175,0.8786);
+    transform: translate(0,0px) scaleY(1);
+  }
+  37% {
+    animation-timing-function: cubic-bezier(0.7674,0.1844,0.8382,0.7157);
+    transform: translate(0,-39.96px) scaleY(1);
+  }
+  72% {
+    animation-timing-function: cubic-bezier(0.1118,0.2149,0.2172,0.941);
+    transform: translate(0,0px) scaleY(1);
+  }
+  87% {
+    animation-timing-function: cubic-bezier(0.7494,0.2259,0.8209,0.6963);
+    transform: translate(0,19.900000000000002px) scaleY(0.602);
+  }
+  100% {
+    transform: translate(0,0px) scaleY(1);
+  }
+}</style></svg>
