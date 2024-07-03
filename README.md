@@ -114,7 +114,7 @@ python ai_server.py
 ## ERD
 
 - [ERD 클라우드 주소](https://www.erdcloud.com/d/XM57mdPw6JPgRRYFn)
-
+- <a href="산출물/ERD.png">ERD</a>
 <br>
 
 ## ✨주요 기능
@@ -243,5 +243,4 @@ gantt
 <br>
 
 ## 🎞 최종산출물
-
-추후 첨부
+- <a href="documentation/발표자료/1차발표자료.pdf">발표자료</a>
